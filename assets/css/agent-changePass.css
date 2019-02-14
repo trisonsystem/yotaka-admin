@@ -1,0 +1,165 @@
+/*
+ * Specific styles of signin component
+ */
+/*
+ * General styles
+ */
+body, html {
+    height: 100%;
+    background-repeat: no-repeat;
+    background: #14805e;
+    overflow:hidden;
+    color: #ffffff;
+}
+
+.card-container.card {
+    max-width: 350px;
+    padding: 40px 40px;
+     background-repeat: no-repeat;
+    background: #2d8e6f;
+    border-radius: 10px;
+}
+
+.btn {
+    font-weight: 700;
+    height: 36px;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.footer {
+	font-size: 11px;
+}
+.card {
+    background-color: #F7F7F7;
+    padding: 20px 25px 30px;
+    margin: 0 auto 25px;
+    margin-top: 50px;
+    -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    -moz-box-shadow: 0px 2px 2px rgba(239, 239, 239, 0.3);
+    -webkit-box-shadow: 0px 2px 2px rgba(239, 239, 239, 0.3);
+    box-shadow: 0px 2px 2px rgba(239, 239, 239, 0.3);
+}
+
+.profile-img-card {
+   /* width: 96px;
+    height: 96px;*/
+    margin: 0 auto 10px;
+    display: block;
+   /* -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;*/
+    /*border-radius: 50%;*/
+}
+
+/*
+ * Form styles
+ */
+.profile-name-card {
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    margin: 10px 0 0;
+    min-height: 1em;
+}
+
+.btn.btn-login {
+    /*background-color: #4d90fe; */
+    background-color: #ffffff;
+    /* background-color: linear-gradient(rgb(104, 145, 162), rgb(12, 97, 33));*/
+    color: #54cfa6;
+    padding: 0px;
+    font-weight: 700;
+    font-size: 14px;
+    height: 34px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    border: none;
+    -o-transition: all 0.218s;
+    -moz-transition: all 0.218s;
+    -webkit-transition: all 0.218s;
+    transition: all 0.218s;
+}
+
+.btn.btn-login:hover,
+.btn.btn-login:active,
+.btn.btn-login:focus {
+    background-color: #51b8a2;
+    color: #ffffff;
+}
+
+
+.input-group-addon {
+	background-color: #9cd1c4;
+	color: #ffffff;
+	/*border: 0;*/
+    border: 1px solid #53c9a5;
+    /*border-right: 0;*/
+    border-right: solid 1px #ffffff !important;
+}
+
+.form-control {
+	background-color: #52a18d;
+	color: #ffffff;
+ 	text-align: center;
+    border: 1px solid #53c9a5;
+    box-shadow: none;
+}
+
+#flogin > .form-control {
+    border-left: 0;
+}
+
+.form-control:focus {
+	border : 0;
+}
+
+
+.form-control::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+  	color:    #FFFFFF;
+}
+.form-control::-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+ 	color:    #FFFFFF;
+ 	opacity:  1;
+}
+.form-control::-moz-placeholder { /* Mozilla Firefox 19+ */
+ 	color:    #FFFFFF;
+ 	opacity:  1;
+}
+.form-control::-ms-input-placeholder { /* Internet Explorer 10-11 */
+ 	color:    #FFFFFF;
+}
+
+
+#capcha {
+    background-color: #9cd1c4;
+    border: 0;
+}
+
+.col-sm-4{
+    margin-bottom: 5px;
+}
+
+@media(min-width: 768px){
+
+    .left {
+        padding-right: 0;
+    }
+    .center {
+        padding-right: 5px;
+        padding-left: 5px;
+    }
+
+    .right {
+        padding-left: 0;
+    }
+
+    .container {
+        margin-top:40px;
+    }
+}
+
+

@@ -1,0 +1,51 @@
+.title_page{ border-bottom: 1px solid #DEDEDE; width: 100%; }
+.box-pd-list{ 
+	height: 100px;
+    width: 100px;
+    background: #ECECEC;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 16px;
+    display: table;
+    cursor: pointer;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.35), inset 1px 1px 4px -2px rgba(255,255,255,0.22);
+    margin-bottom: 20px;
+    padding: 10px;
+}
+.box-pd-list span{ vertical-align: middle; display: table-cell;}
+.box-pd-list:hover:not(.pd_active){ background: #f7f7f7;  }
+.pd_active{ background: #6db1d6; color: #FFF; }
+.box-pd-quotation{ border: 1px solid #999;  }
+
+.scrollbar
+{
+	min-height: 105px;
+	max-height: 360px;
+	overflow-y: scroll;
+	overflow-x: none;
+}
+
+
+#box-pd::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	background-color: #F5F5F5;
+}
+
+#box-pd::-webkit-scrollbar
+{
+	width: 6px;
+	background-color: #F5F5F5;
+}
+
+#box-pd::-webkit-scrollbar-thumb
+{
+	background-color: #000000;
+}
+
+.fa{ cursor: pointer; }
+.fa-edit{ color: green;}
+.fa-remove{ color: red; margin-left: 5px; }
+.fa-check-circle{ color: blue; }
+.fa-exclamation-circle{ color: #cc8b0d; }
