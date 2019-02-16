@@ -14,10 +14,13 @@
 		left: 0px;
 		float: left;
 	}
+	.fa-edit{ color: green; }
+	.fa{ cursor: pointer; }
 	.form-check-input{ cursor: pointer; }
 	.error-form{ 
 		border: 1px solid red !important;
 	}
+	.title_page{border-bottom: 1px solid #D9D9D9}
 </style>
 <div class="row title_page">
 	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
@@ -44,7 +47,7 @@
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<select id="slStatus_employee" name="slStatus_employee" class="form-control">
 					<option value=""> -- เลือกแผนก -- </option>
-					<?php 
+					<?php  
 						foreach ($status_employee as $key => $value) {
 							echo '<option value="'.$value["id"].'">'.$value["name"].'</option>';
 						}
@@ -71,7 +74,7 @@
 				<span>แผนก : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-				<select id="slEmployeeDivision" name="slEmployeeDivision" class="form-control">
+				<select id="slEmployeeDivision" name="slEmployeeDivision" class="form-control" onchange="change_division('slEmployeeDivision','slEmployeeDepartment','slEmployeePosition')">
 					<option value=""> -- เลือกแผนก -- </option>
 					<?php 
 						foreach ($division as $key => $value) {
@@ -84,7 +87,7 @@
 				<span>ฝ่าย : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-				<select id="slEmployeeDepartment" name="slEmployeeDepartment" class="form-control">
+				<select id="slEmployeeDepartment" name="slEmployeeDepartment" class="form-control" onchange="change_department('slEmployeeDivision','slEmployeeDepartment','slEmployeePosition')">
 					<option value=""> -- เลือกฝ่าย -- </option>
 					<?php 
 						foreach ($department as $key => $value) {
@@ -232,7 +235,7 @@
 				<span>แผนก : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-				<select id="slDivision" name="slDivision" class="form-control">
+				<select id="slDivision" name="slDivision" class="form-control" onchange="change_division('slDivision','slDepartment','slPosition')">
 					<option value=""> -- เลือกแผนก -- </option>
 					<?php 
 						foreach ($division as $key => $value) {
@@ -245,7 +248,7 @@
 				<span>ฝ่าย : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-				<select id="slDepartment" name="slDepartment" class="form-control">
+				<select id="slDepartment" name="slDepartment" class="form-control" onchange="change_department('slDivision','slDepartment','slPosition')">
 					<option value=""> -- เลือกฝ่าย -- </option>
 					<?php 
 						foreach ($department as $key => $value) {
@@ -324,7 +327,7 @@
 				
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-				<img id="img" width="300px" style="margin-bottom: 10px;"></div>
+				<img id="img" width="250px" style="margin-bottom: 10px;"></div>
 
 				<div style="display: none;">
 					<input type="text" id="txtEmployeeProfile" name="txtEmployeeProfile" value="0">
@@ -332,8 +335,8 @@
 					<input type="text" id="txtEmployee_code" name="txtEmployee_code" value="">
 				</div>
 		</div>
-		<hr>
-		<div class="row" style="margin-top: 20px">
+		<hr style="margin: 0px;">
+		<div class="row" style="margin-top: 5px">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
 				
 			</div>
@@ -351,13 +354,9 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="md-quotation-title"></h5>
+        <h5 class="modal-title" id="md-title"></h5>
       </div>
       <div class="modal-body">
-      		<div class="row">
-      			<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"></div>
-      			<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;">วันที่ : <span id="sp_datecreate"></span></div>
-      		</div>
          	<table class="table" id="tb-status-list">
          		<thead>
 				<tr>
@@ -396,7 +395,7 @@
 
 <script type="text/javascript">
 	var page = 1;
-	var no_page = true;
+	var no_page = false;
 	$(document).ready(function() {
 		get_data_list();
 	});
@@ -439,7 +438,7 @@
 				str_html += " </td>"; 	
 				str_html += " <td align='center'>";
 				str_html += " 	<i class='fa fa-edit' style='font-size:20px' onclick='to_add_data("+v.id+")'></i>";
-				str_html += " 	<i class='fa fa-exchange' style='font-size:20px' onclick='open_chang_status("+v.id+","+v.m_status_employee_id+")' title='เปลี่ยนสถานะพนักงาน'></i>";
+				str_html += " 	<i class='fa fa-exchange' style='font-size:20px' onclick='open_chang_status("+v.id+","+v.m_status_employee_id+",\""+v.code+" "+v.prefix+v.name+" "+v.last_name+"\")' title='เปลี่ยนสถานะพนักงาน'></i>";
 				str_html += " </td>"; 	
 				str_html += "</tr>"; 
 
@@ -458,36 +457,47 @@
 
 	function set_number_page( status ){ 
 		var str = "";
-		// if (no_page == true) {
+		if (no_page == false) {
 			for(var i=1; i <= page ; i++){
 				var css = (i == page) ? "default" : "link";
-				str += '<button type="button" class="btn btn-'+css+' btn-xs" onclick="next_page('+i+');">'+i+'</button>';
-
+				if (page != 1) {
+					str += '<button type="button" class="btn btn-'+css+' btn-xs" id="btn-to-page'+i+'" onclick="to_page('+i+');">'+i+'</button>';
+				}
 				if (status && i == page) { 
 					if(page != 1){ $("#bnt-Previous").show(); } else{ $("#bnt-Previous").hide(); }
 					$("#bnt-next").show(); 
-					str += '<button type="button" class="btn btn-link btn-xs" onclick="next_page('+(i+1)+')">'+(i+1)+'</button>';
+					str += '<button type="button" class="btn btn-link btn-xs" id="btn-to-page'+(i+1)+'" onclick="to_page('+(i+1)+')">'+(i+1)+'</button>';
 					no_page = true;
 				}else if (!status) {
 					$("#bnt-next").hide(); 
 				}
 			}
 			$("#div-page-number").html( str );
-		// }else{
-		// 	// str += '<button type="button" class="btn btn-'+css+' btn-xs" onclick="next_page('+page+')">'+page+'</button>';
-		// 	// $("#div-page-number").append( str );
-		// }
+		}else{
+			$("#div-page-number").find(".btn-default").each(function(){
+				$(this).removeClass("btn-default");
+				$(this).addClass("btn-link");
+			});
+
+			$("#btn-to-page"+page).removeClass("btn-link");
+			$("#btn-to-page"+page).addClass("btn-default");
+		}
 		
 	}
 
 	function next_page( number_page ){
-		// no_page = false;
+		no_page = false;
+		page 	= number_page;
+		get_data_list();
+	}
+
+	function to_page( number_page ){
+		no_page = true;
 		page 	= number_page;
 		get_data_list();
 	}
 
 	function previous( number_page ){
-		// no_page = false;
 		if (number_page == 0) { return; }
 		page = number_page;
 		if (page < 1) { page = 1; }
@@ -650,12 +660,13 @@
 		return status;
 	}
 
-	function open_chang_status( employee_id, status ){ console.log(status);
+	function open_chang_status( employee_id, status ,text_title ){
 		$("#txtStatus_employee_id").val( employee_id );
+		$("#md-title").html( text_title );
 		$("#modal-page").modal("show");
 		setTimeout(function(){
 			$('input:radio[name="rStatus"][value="'+status+'"]').prop('checked', true);
-		},100);
+		},300);
 		
 	}
 
@@ -680,4 +691,38 @@
 		}
 	}
 
+	function change_division( idObj_Division, idObj_Department, idObj_Position  ){ 
+		$("#"+idObj_Department+" option[value!='']").remove();
+		$("#"+idObj_Position+" option[value!='']").remove();
+		var division_id = $("#" + idObj_Division).val();
+		var option = {
+			division_id 	:  division_id
+		}
+		if (division_id != "") {
+			$.get("employee/search_departments", option,function( aData ){
+				aData = jQuery.parseJSON( aData );
+				$.each(aData, function(k ,v){
+					$("#"+idObj_Department).append("<option value='"+v.id+"'>"+v.name+"</option>");
+				});
+			});
+		}
+	}
+
+	function change_department( idObj_Division, idObj_Department, idObj_Position ){
+		$("#"+idObj_Position+" option[value!='']").remove();
+		var department_id = $("#" + idObj_Department).val();
+		var division_id = $("#" + idObj_Division).val();
+		var option = {
+			division_id 	:  division_id,
+			department_id 	:  department_id
+		}
+		if (division_id != "") {
+			$.get("employee/search_positions", option,function( aData ){
+				aData = jQuery.parseJSON( aData );
+				$.each(aData, function(k ,v){
+					$("#"+idObj_Position).append("<option value='"+v.id+"'>"+v.name+"</option>");
+				});
+			});
+		}
+	}
 </script>

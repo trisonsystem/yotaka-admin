@@ -7,7 +7,7 @@ class MEmployee extends CI_Model {
 	}
 
 	public function search_employee( $aData ){
-		$lm 	 = 4;
+		$lm = 15;
 		if ( !isset($aData["page"]) ) 		 	{ $aData["page"] 				= 1;}
 		if ( !isset($aData["employee_id"]) ) 	{ $aData["employee_id"] 		= "";}
 		if ( !isset($aData["employee_code"]) ) 	{ $aData["employee_code"] 		= "";}
@@ -77,7 +77,8 @@ class MEmployee extends CI_Model {
 	public function search_department( $aData ){
 		$WHERE  = "";
 		if ($aData != "") {
-			$WHERE  = ( $aData["department_id"] == "" ) ? "" : " AND DP.id='".$aData["department_id"]."'";
+			$WHERE  .= ( !isset($aData["department_id"]) ) ? "" : " AND DP.id='".$aData["department_id"]."'";
+			$WHERE  .= ( !isset($aData["division_id"]) )   ? "" : " AND DP.m_division_id='".$aData["division_id"]."'";
 		}
 		$sql 	= " SELECT  DP.*
 					FROM m_department AS DP
@@ -97,7 +98,9 @@ class MEmployee extends CI_Model {
 	public function search_position( $aData ){
 		$WHERE  = "";
 		if ($aData != "") {
-			$WHERE  = ( $aData["position_id"] == "" ) ? "" : " AND PS.id='".$aData["position_id"]."'";
+			$WHERE  .= ( !isset($aData["position_id"]) )   ? "" : " AND PS.id='".$aData["position_id"]."'";
+			$WHERE  .= ( !isset($aData["division_id"]) )   ? "" : " AND PS.m_division_id='".$aData["division_id"]."'";
+			$WHERE  .= ( !isset($aData["department_id"]) ) ? "" : " AND PS.m_department_id='".$aData["department_id"]."'";
 		}
 		$sql 	= " SELECT  PS.*
 					FROM m_position AS PS
@@ -162,7 +165,7 @@ class MEmployee extends CI_Model {
 		if ($aData["txtEmployee_id"] == "0") {
 			$aSave["code"] 					= $code;
 			$aSave["username"] 				= $code;//$aData["txtUsername"];
-			$aSave["password"] 				= $aData["txtPassWord"];
+			$aSave["password"] 				= md5($aData["txtPassWord"]);
 			$aSave["m_status_employee_id"] 	= "1";
 			$aSave["create_date"] 			= date("Y-m-d H:i:s");
 			$aSave["create_by"] 			= "zztop";

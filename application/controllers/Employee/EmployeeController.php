@@ -12,7 +12,7 @@ class EmployeeController extends CI_Controller {
         $this->load->model('MEmployee');
     }
 
-    public function index(){
+    public function index(){ 
         $this->load->model('MQuotation');
         $data = array();
         $data['adminlist']      = array();
@@ -45,10 +45,20 @@ class EmployeeController extends CI_Controller {
         return $arr_data;
     }
 
+     public function search_departments( $aData = "" ){
+        $aData = $this->search_department( $_GET );
+        print_r( json_encode($aData) );
+    }
+
     public function search_position( $aData = "" ){
         $aData    = ( isset($_GET['position_id']) ) ? $_GET : $aData ;
         $arr_data = $this->MEmployee->search_position( $aData );
         return $arr_data;
+    }
+
+    public function search_positions( $aData = "" ){
+        $aData = $this->search_position( $_GET );
+        print_r( json_encode($aData) );
     }
 
     public function search_status_employee( $aData = "" ){
