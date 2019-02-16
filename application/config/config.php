@@ -36,7 +36,7 @@ if ($_SERVER['SERVER_NAME'] != 'localhost') {
 	$config['base_url'] 	= '/';
 	
 }else{
-	$config['base_url'] 	= '/stock-management/';
+	$config['base_url'] 	= '/yotaka-admin/';
 }
 
 /*

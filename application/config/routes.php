@@ -78,5 +78,10 @@ $route['manage_quotation/(:any)/(:any)']  	= 'QuotationController/$1/$2';
 ##--
 
 
+## employee
+$route['employee/(:any)']  			= 'Employee/EmployeeController/$1';
+$route['employee/(:any)/(:any)']  	= 'Employee/EmployeeController/$1/$2';
+##--
+
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

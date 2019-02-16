@@ -95,7 +95,7 @@
                 <a href="" class="navbar-brand">
                     <small>
                         <!-- <i class="fa fa-money"></i> -->
-                        STOCK YOTAKA
+                        YOTAKA
                     </small>
                 </a>
             </div>                
@@ -248,6 +248,37 @@
                             <b class="arrow"></b>
                         </li>
                     </ul>
+                    <li class="">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="menu-icon glyphicon glyphicon-user"></i>
+                        <span class="menu-text">
+                            ข้อมูลพนักงาน
+                        </span>
+
+                        <b class="arrow fa fa-angle-down"></b>
+                    </a>
+
+                    <b class="arrow"></b>
+
+                    <ul class="submenu nav-hide" style="display: none;">
+                        <li id="employee_list">
+                            <a href="#" onclick="getMenu('employee/index')">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                จัดการข้อมูลพนักงาน
+                            </a>
+
+                            <b class="arrow"></b>
+                        </li>
+                        <li id="soccerSummaryStep">
+                            <a href="#" onclick="getMenu('soccerSummaryStep');">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                <?php echo $this->lang->line('sum_step'); ?>
+                            </a>
+
+                            <b class="arrow"></b>
+                        </li>
+                    </ul>
+            
                 </li>
             </ul>
             <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
