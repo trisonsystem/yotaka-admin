@@ -415,37 +415,44 @@
 		$.get("employee/search_employee", option,function( aData ){
 			aData = jQuery.parseJSON( aData );
 			var str_html  = ""; 
-			$.each(aData, function(k , v){
-			if (k=="limit") { return; }
-			var status = "";
-			switch (v.m_status_employee_id) {
-				case '1': status = '<span style="color:#000;">'+v.status_name+'</span>';break;
-				case '2': status = '<span style="color:blue;">'+v.status_name+'</span>';break;
-				case '3': status = '<span style="color:green;">'+v.status_name+'</span>';break;
-				case '4': status = '<span style="color:#cc8b0d;">'+v.status_name+'</span>';break;
-				case '5': status = '<span style="color:red;">'+v.status_name+'</span>';break;
-			}
-				str_html += "<tr>"; 
-				str_html += " <td>"+( parseInt(k)+1 )+"</td>"; 
-				str_html += " <td>"+v.code+"</td>"; 
-				str_html += " <td>"+v.division_name+"</td>"; 
-				str_html += " <td>"+v.department_name+"</td>";
-				str_html += " <td>"+v.position_name+"</td>";  
-				str_html += " <td>"+v.prefix+v.name+" "+v.last_name+"</td>"; 
-				str_html += " <td>"+v.tel+"</td>";  
-				str_html += " <td>"+v.email+"</td>";  
-				str_html += " <td>"+status+"</td>";  
-				str_html += " </td>"; 	
-				str_html += " <td align='center'>";
-				str_html += " 	<i class='fa fa-edit' style='font-size:20px' onclick='to_add_data("+v.id+")'></i>";
-				str_html += " 	<i class='fa fa-exchange' style='font-size:20px' onclick='open_chang_status("+v.id+","+v.m_status_employee_id+",\""+v.code+" "+v.prefix+v.name+" "+v.last_name+"\")' title='เปลี่ยนสถานะพนักงาน'></i>";
-				str_html += " </td>"; 	
-				str_html += "</tr>"; 
+			if ( Object.keys(aData).length > 1) {
+				$.each(aData, function(k , v){
+				if (k=="limit") { return; }
+				var status = "";
+				switch (v.m_status_employee_id) {
+					case '1': status = '<span style="color:#000;">'+v.status_name+'</span>';break;
+					case '2': status = '<span style="color:blue;">'+v.status_name+'</span>';break;
+					case '3': status = '<span style="color:green;">'+v.status_name+'</span>';break;
+					case '4': status = '<span style="color:#cc8b0d;">'+v.status_name+'</span>';break;
+					case '5': status = '<span style="color:red;">'+v.status_name+'</span>';break;
+				}
+					str_html += "<tr>"; 
+					str_html += " <td>"+( parseInt(k)+1 )+"</td>"; 
+					str_html += " <td>"+v.code+"</td>"; 
+					str_html += " <td>"+v.division_name+"</td>"; 
+					str_html += " <td>"+v.department_name+"</td>";
+					str_html += " <td>"+v.position_name+"</td>";  
+					str_html += " <td>"+v.prefix+v.name+" "+v.last_name+"</td>"; 
+					str_html += " <td>"+v.tel+"</td>";  
+					str_html += " <td>"+v.email+"</td>";  
+					str_html += " <td>"+status+"</td>";  
+					str_html += " </td>"; 	
+					str_html += " <td align='center'>";
+					str_html += " 	<i class='fa fa-edit' style='font-size:20px' onclick='to_add_data("+v.id+")'></i>";
+					str_html += " 	<i class='fa fa-exchange' style='font-size:20px' onclick='open_chang_status("+v.id+","+v.m_status_employee_id+",\""+v.code+" "+v.prefix+v.name+" "+v.last_name+"\")' title='เปลี่ยนสถานะพนักงาน'></i>";
+					str_html += " </td>"; 	
+					str_html += "</tr>"; 
 
-				$("#tb-quo-list tbody").html( str_html );
+					
+					
+				});
+
 				
-			});
+			}else{
+				str_html += "<td colspan='10' class='text-center' style='color:red;margin-top:15px;'> ไม่พบข้อมูล </td>";
+			}
 
+			$("#tb-quo-list tbody").html( str_html );
 			// if ( aData.length > 1) { 
 				var len = Object.keys(aData).length - 1;
 					len = ( aData.limit == len ) ? true : false;
