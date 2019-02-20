@@ -21,8 +21,7 @@ class HotelController extends CI_Controller {
         $data["province"]       = $this->search_province("");
         $data["amphur"]     	= $this->search_amphur("");
         $data["district"]     	= $this->search_district("");
-       
-        // $data["status_employee"]= $this->search_status_employee("");
+        $data["status_hotel"]   = $this->search_status_hotel("");
         
         $dataInfo['title']      = $data['title'];
         $dataInfo['sub_title']  = '';
@@ -80,8 +79,14 @@ class HotelController extends CI_Controller {
         $aData = $this->search_district( $_GET );
         print_r( json_encode($aData) );
     }
-
     
+    public function search_status_hotel( $aData = "" ){
+        $this->load->model("MHotel");
+        $aData    = ( isset($_GET['status_hotel_id']) ) ? $_GET : $aData ;
+        $arr_data = $this->MHotel->search_status_hotel( $aData );
+        return $arr_data;
+    }
+
     public function save_data(){
         $this->load->model("MHotel");
         $res = $this->MHotel->save_data( $_POST );

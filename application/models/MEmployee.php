@@ -157,6 +157,8 @@ class MEmployee extends CI_Model {
 		$aSave["address"] 			= $aData["txtAddress"];
 		$aSave["tel"] 				= $aData["txtTel"];
 		$aSave["email"] 			= $aData["txtEmail"];
+		$aSave["hotel_id"] 			= $aData["slHotel"];
+		$aSave["rights"] 			= $aData["slRights"];
 		$aSave["birthday"] 			= $this->convert_date_to_base( $aData["txtBirthday"] );
 		if ($aData["txtEmployeeProfile"] != "0") {
 			$aSave["profile_img"] 		= $n_path;

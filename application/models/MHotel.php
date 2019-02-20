@@ -23,9 +23,9 @@ class MHotel extends CI_Model {
 		$WHERE  .= ( $aData["hotel_id"] 		== "" ) ? "" : " AND HT.id='".$aData["hotel_id"]."'";
 		$WHERE  .= ( $aData["hotel_code"] 		== "" ) ? "" : " AND HT.code LIKE '%".$aData["hotel_code"]."%'";
 		$WHERE  .= ( $aData["hotel_name"] 		== "" ) ? "" : " AND HT.name LIKE '%".$aData["hotel_name"]."%'";
-		$WHERE  .= ( $aData["quarter_id"] 		== "" ) ? "" : " AND HT.id='".$aData["quarter_id"]."'";
-		$WHERE  .= ( $aData["province_id"] 		== "" ) ? "" : " AND HT.id='".$aData["province_id"]."'";
-		$WHERE  .= ( $aData["amphur_id"] 		== "" ) ? "" : " AND HT.id='".$aData["amphur_id"]."'";
+		$WHERE  .= ( $aData["quarter_id"] 		== "" ) ? "" : " AND HT.m_quarter_id ='".$aData["quarter_id"]."'";
+		$WHERE  .= ( $aData["province_id"] 		== "" ) ? "" : " AND HT.m_province_id ='".$aData["province_id"]."'";
+		$WHERE  .= ( $aData["amphur_id"] 		== "" ) ? "" : " AND HT.m_amphur_id='".$aData["amphur_id"]."'";
 
 		$sql 	= "SELECT  HT.*, 
 						QT.name_th AS quarter_name_th, 
@@ -65,7 +65,7 @@ class MHotel extends CI_Model {
 		$aSave["m_amphur_id"] 		= $aData["slAmphur"];
 		$aSave["m_district_id"] 	= $aData["slDistrict"];
 		$aSave["postcode"] 			= $aData["txtPostcode"];
-		$aSave["txt_number"] 		= $aData["txtNumberTax"];
+		$aSave["tax_number"] 		= $aData["txtNumberTax"];
 		$aSave["address"] 			= $aData["txtAddress"];
 		$aSave["tel"] 				= $aData["txtTel"];
 		$aSave["email"] 			= $aData["txtEmail"];
@@ -78,8 +78,6 @@ class MHotel extends CI_Model {
 		}
 		if ($aData["txtHotel_id"] == "0") {
 			$aSave["code"] 					= $code;
-			$aSave["username"] 				= $code;//$aData["txtUsername"];
-			$aSave["password"] 				= md5($aData["txtPassWord"]);
 			$aSave["status"] 				= "1";
 			$aSave["create_date"] 			= date("Y-m-d H:i:s");
 			$aSave["create_by"] 			= "zztop";
@@ -155,6 +153,24 @@ class MHotel extends CI_Model {
 		}
 	
 		return $code;
+	}
+
+
+	function search_status_hotel( $aData ){
+		$WHERE  = "";
+		if ($aData != "") {
+			$WHERE  = ( $aData["status_hotel_id"] == "" ) ? "" : " AND id='".$aData["status_hotel_id"]."'";
+		}
+		$sql 	= " SELECT  * FROM m_status_hotel WHERE 1 = 1  $WHERE ORDER BY id ASC";
+		$query 	= $this->db->query($sql);
+		
+		$arr = array();
+		foreach ($query->result_array() as $key => $value) {
+			$arr[] = $value;
+		}
+
+		// debug($arr);
+		return $arr;
 	}
 
 	function chang_status( $aData ){

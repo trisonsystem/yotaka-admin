@@ -202,4 +202,24 @@ class MMaster extends CI_Model {
 		// debug($arr);
 		return $arr;
 	}
+
+	public function search_hotel( $aData ){
+		$WHERE  = "";
+		if ($aData != "") {
+			$WHERE  .= ( !isset($aData["hotel_id"]) ) 		? "" : " AND id ='".$aData["hotel_id"]."'";
+			$WHERE  .= ( !isset($aData["hotel_code"]) )    	? "" : " AND code ='".$aData["hotel_code"]."'";
+		}
+		$sql 	= " SELECT * FROM hotel WHERE 1 = 1  $WHERE ORDER BY id ASC";
+		$query 	= $this->db->query($sql);
+		
+		$arr = array();
+		foreach ($query->result_array() as $key => $value) {
+			$arr[] = $value;
+		}
+
+		// debug($arr);
+		return $arr;
+	}
+
+	
 }

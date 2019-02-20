@@ -159,40 +159,6 @@
 	<form id="form-manage" name="form-manage" method="post" action="" enctype="multipart/form-data">
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<label class="" style="font-weight: bold; font-size: 16px;">ข้อมูลเข้าใช้ระบบ</label>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>ชื่อเข้าใช้ระบบ : </span>
-			</div>
-			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-				<input type="text" id="txtUsername" class="form-control" name="txtUsername" >
-			</div>
-			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				
-			</div>
-			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-				
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>รหัสผ่าน : </span>
-			</div>
-			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-				<input type="password" id="txtPassWord" class="form-control" name="txtPassWord">
-			</div>
-			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>ยืนยันรหัสผ่าน : </span>
-			</div>
-			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-				<input type="password" id="txtRePassWord" class="form-control" name="txtRePassWord">
-			</div>
-		</div>
-		<hr>
-		<div class="row">
-			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
 				<label class="" style="font-weight: bold;font-size: 16px;">ข้อมูลทั่วไป</label>
 			</div>
 		</div>
@@ -281,9 +247,9 @@
 				<select id="slProvince" name="slProvince" class="form-control" onchange="change_province('slQuarter','slProvince','slAmphur')">
 					<option value=""> -- เลือกจังหวัด -- </option>
 					<?php 
-						// foreach ($province as $key => $value) {
-						// 	echo '<option value="'.$value["id"].'">'.$value["name"].'</option>';
-						// }
+						foreach ($province as $key => $value) {
+							echo '<option value="'.$value["id"].'">'.$value["name"].'</option>';
+						}
 					?>
 				</select>
 			</div>
@@ -296,9 +262,9 @@
 				<select id="slAmphur" name="slAmphur" class="form-control"  onchange="change_amphur('slProvince','slAmphur','slDistrict')">
 					<option value=""> -- เลือกอำเภอ -- </option>
 					<?php 
-						// foreach ($amphur as $key => $value) {
-						// 	echo '<option value="'.$value["id"].'">'.$value["name"].'</option>';
-						// }
+						foreach ($amphur as $key => $value) {
+							echo '<option value="'.$value["id"].'">'.$value["name"].'</option>';
+						}
 					?>
 				</select>
 			</div>
@@ -309,9 +275,9 @@
 				<select id="slDistrict" name="slDistrict" class="form-control">
 					<option value=""> -- เลือกตำบล -- </option>
 					<?php 
-						// foreach ($district as $key => $value) {
-						// 	echo '<option value="'.$value["id"].'">'.$value["name"].'</option>';
-						// }
+						foreach ($district as $key => $value) {
+							echo '<option value="'.$value["id"].'">'.$value["name"].'</option>';
+						}
 					?>
 				</select>
 			</div>
@@ -391,7 +357,7 @@
 			<tbody>
 				<?php
 					$str_html = "";
-					foreach ($status_employee as $key => $value) {
+					foreach ($status_hotel as $key => $value) {
 						$str_html  .= "<tr>";
 						$str_html  .= "	<td class='text-center'>".($key+1)."</td>";
 						$str_html  .= "	<td><label style='cursor:pointer' onclick='chang_status(".$value['id'].")'><input type='radio' id='rStatus".$value["id"]."' name='rStatus' value='".$value['id']."' > &nbsp;".$value["name"]."</label></td>";
@@ -455,7 +421,7 @@
 					str_html += " </td>"; 	
 					str_html += " <td align='center'>";
 					str_html += " 	<i class='fa fa-edit' style='font-size:20px' onclick='to_add_data("+v.id+")'></i>";
-					str_html += " 	<i class='fa fa-exchange' style='font-size:20px' onclick='open_chang_status("+v.id+","+v.m_status_employee_id+",\""+v.code+" "+v.prefix+v.name+" "+v.last_name+"\")' title='เปลี่ยนสถานะพนักงาน'></i>";
+					str_html += " 	<i class='fa fa-exchange' style='font-size:20px' onclick='open_chang_status("+v.id+","+v.m_status_hotel_id+",\""+v.code+" "+v.name_th+"\")' title='เปลี่ยนสถานะพนักงาน'></i>";
 					str_html += " </td>"; 	
 					str_html += "</tr>"; 
 
@@ -547,56 +513,46 @@
 		$("#box-show-search").hide();
 		$("#btn-toadd_data").hide();
 		$("#btn-tomanage_data").show();
-		$("#box-manage").css("width","100%");
 
 		if (hotel_id != 0) {
-			$("#txtUsername").prop('disabled', true);
-			$("#txtPassWord").prop('disabled', true);
-			$("#txtRePassWord").prop('disabled', true);
 			$("#txtCode").prop('disabled', true);
-			$("#txtUsername").prop('disabled', true);
 
 			var option = {
 				hotel_id 	: hotel_id
 			}
-			$.get("employee/search_employee", option,function( aData ){
+			$.get("hotel/search_hotel", option,function( aData ){
 				aData = jQuery.parseJSON( aData );
 				if ( Object.keys(aData).length > 1) {
 					aData = aData[0];
-					$("#txtUsername").val(aData.username);
-					$("#txtPassWord").val(aData.password);
-					$("#txtRePassWord").val(aData.password);
-	
 					$("#txtHotel_code").val(aData.code);
 					$("#txtCode").val(aData.code);
-					$("#txtPrefix").val(aData.prefix);
-					$("#txtName").val(aData.name);
-					$("#txtLastName").val(aData.last_name);
-					$("#txtBirthday").val(aData.birthday);
-					$("#slDivision option[value='"+aData.m_division_id+"']").prop('selected', true);
-					$("#slDepartment option[value='"+aData.m_department_id+"']").prop('selected', true);
-					$("#slPosition option[value='"+aData.m_position_id+"']").prop('selected', true);
-					$("#txtCardNumber").val(aData.id_card);
+					$("#txtFullNameOwner").val(aData.fullname_owner);
+					$("#txtNameTH").val(aData.name_th);
+					$("#txtNameEN").val(aData.name_en);
+					$("#txtNumberTax").val(aData.tax_number);
+					$("#slQuarter option[value='"+aData.m_quarter_id+"']").prop('selected', true);
+					$("#slProvince option[value='"+aData.m_province_id+"']").prop('selected', true);
+					$("#slAmphur option[value='"+aData.m_amphur_id+"']").prop('selected', true);
+					$("#slDistrict option[value='"+aData.m_district_id+"']").prop('selected', true);
+					$("#txtPostcode").val(aData.postcode);
+					$("#txtContactOther").val(aData.contact_other);
 					$("#txtTel").val(aData.tel);
 					$("#txtEmail").val(aData.email);
 					$("#txtAddress").val(aData.address);
 					$('input:radio[name="rTypeCard"][value="'+aData.type_card+'"]').prop('checked', true);
 					
 					$("#img").attr("src", aData.profile_img);
-
+					$("#box-manage").css("width","100%");
 				}else{
 					alert( "no data" );
 				}
 			});
 		}else{
-			$("#txtUsername").prop('disabled', false);
-			$("#txtPassWord").prop('disabled', false);
-			$("#txtRePassWord").prop('disabled', false);
 			$("#txtCode").prop('disabled', true);
-			$("#txtUsername").prop('disabled', true);
 			$("#img").attr("src", "");
 			clear_data();
 			$("#txtHotel_id").val("0");
+			$("#box-manage").css("width","100%");
 		}
 
 		$('.datepicker').datepicker({format: 'dd-mm-yyyy'});
@@ -656,8 +612,8 @@
 
 	function validate(aData){
 		var status = true;
-		$.each(aData,function(k,v){ console.log(v.name + " >>>>> " + v.value);
-			if (v.name != "txtHotel_code") {
+		$.each(aData,function(k,v){
+			if (v.name != "txtHotel_code" && v.name != "txtContactOther") {
 				var obj = $("#"+v.name);
 				if (obj.val() == "") {
 					obj.addClass("error-form");
@@ -668,19 +624,6 @@
 				}
 			}
 		});
-
-		if ($("#txtPassWord").val() != $("#txtRePassWord").val()) {
-			$("#txtPassWord").addClass("error-form");
-			$("#txtRePassWord").addClass("error-form");
-			$("#txtPassWord").focus();
-			alert("!Password Not Match");
-			status = false;
-		}else{
-			if ($("#txtPassWord").val() != "") {
-				$("#txtPassWord").removeClass("error-form");
-				$("#txtRePassWord").removeClass("error-form");
-			}
-		}
 
 		return status;
 	}

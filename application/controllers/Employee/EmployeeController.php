@@ -14,7 +14,7 @@ class EmployeeController extends CI_Controller {
     }
 
     public function index(){ 
-        $this->load->model('MQuotation');
+        $this->load->model('MHotel');
         $data = array();
         $data['adminlist']      = array();
         $data['title']          = 'จัดการข้อมูลพนักงาน';
@@ -22,6 +22,7 @@ class EmployeeController extends CI_Controller {
         $data["department"]     = $this->search_department("");
         $data["position"]       = $this->search_position("");
         $data["status_employee"]= $this->search_status_employee("");
+        $data["hotel"]          = $this->MHotel->search_hotel("");
         
         $dataInfo['title']      = $data['title'];
         $dataInfo['sub_title']  = '';

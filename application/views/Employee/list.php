@@ -205,6 +205,32 @@
 		</div>
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<span>โรงแรม : </span>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
+				<select id="slHotel" name="slHotel" class="form-control">
+					<option value=""> -- เลือก -- </option>
+					<?php 
+						foreach ($hotel as $key => $value) {
+							echo '<option value="'.$value["id"].'">'.$value["name_th"].'</option>';
+						}
+					?>
+				</select>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<span>สิทธ์ : </span>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
+				<select id="slRights" name="slRights" class="form-control">
+					<option value=""> -- เลือก -- </option>
+					<option value="SA"> Super Admin </option>
+					<option value="A"> Admin </option>
+					<option value="EM"> Employee </option>
+				</select>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
 				<span>รหัสพนักงาน : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
@@ -561,12 +587,14 @@
 					$("#slDivision option[value='"+aData.m_division_id+"']").prop('selected', true);
 					$("#slDepartment option[value='"+aData.m_department_id+"']").prop('selected', true);
 					$("#slPosition option[value='"+aData.m_position_id+"']").prop('selected', true);
+					$("#slHotel option[value='"+aData.hotel_id+"']").prop('selected', true);
+					$("#slRights option[value='"+aData.rights+"']").prop('selected', true);
 					$("#txtCardNumber").val(aData.id_card);
 					$("#txtTel").val(aData.tel);
 					$("#txtEmail").val(aData.email);
 					$("#txtAddress").val(aData.address);
 					$('input:radio[name="rTypeCard"][value="'+aData.type_card+'"]').prop('checked', true);
-					
+					$("#txtEmployeeProfile").val(aData.profile_img);
 					$("#img").attr("src", aData.profile_img);
 
 				}else{
@@ -639,9 +667,9 @@
 		}
 	}
 
-	function validate(aData){
+	function validate(aData){ 
 		var status = true;
-		$.each(aData,function(k,v){
+		$.each(aData,function(k,v){ console.log(v.name + " >>>> " + v.value);
 			if (v.name != "txtEmployee_code") {
 				var obj = $("#"+v.name);
 				if (obj.val() == "") {
