@@ -35,6 +35,7 @@
 <div id="box-show-search">
 	<div class="box-search">
 		<div class="row">
+			<?php // debug($division); ?>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
 				<span>รหัสพนักงาน : </span>
 			</div>

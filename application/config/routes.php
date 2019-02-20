@@ -83,5 +83,10 @@ $route['employee/(:any)']  			= 'Employee/EmployeeController/$1';
 $route['employee/(:any)/(:any)']  	= 'Employee/EmployeeController/$1/$2';
 ##--
 
+## division
+$route['division/(:any)']  			= 'Mdivision/MdivisionController/$1';
+$route['division/(:any)/(:any)']  	= 'Mdivision/MdivisionController/$1/$2';
+##--
+
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

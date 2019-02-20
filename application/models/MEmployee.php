@@ -68,8 +68,7 @@ class MEmployee extends CI_Model {
 		$arr = array();
 		foreach ($query->result_array() as $key => $value) {
 			$arr[] = $value;
-		}
-
+		}		
 		// debug($arr);
 		return $arr;
 	}

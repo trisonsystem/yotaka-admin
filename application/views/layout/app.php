@@ -256,7 +256,7 @@
                         </span>
 
                         <b class="arrow fa fa-angle-down"></b>
-                    </a>
+                    </a>                    
 
                     <b class="arrow"></b>
 
@@ -279,6 +279,26 @@
                         </li>
                     </ul>
             
+                </li>
+                <li class="" id="lang">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="menu-icon fa fa-cogs"></i>
+                        <span class="menu-text">
+                            ข้อมูลแผนก
+                        </span>
+
+                        <b class="arrow fa fa-angle-down"></b>
+                    </a>
+                    <b class="arrow"></b>
+                    <ul class="submenu">
+                        <li id="manage_division">
+                            <a href="#" onclick="getMenu('division/index');">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                จัดการข้อมูลแผนก
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                    </ul>
                 </li>
             </ul>
             <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
