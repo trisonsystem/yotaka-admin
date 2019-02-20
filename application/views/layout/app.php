@@ -252,7 +252,7 @@
                     <a href="#" class="dropdown-toggle">
                         <i class="menu-icon glyphicon glyphicon-user"></i>
                         <span class="menu-text">
-                            ข้อมูลพนักงาน
+                            จัดการข้อมูลหลัก
                         </span>
 
                         <b class="arrow fa fa-angle-down"></b>
@@ -269,10 +269,10 @@
 
                             <b class="arrow"></b>
                         </li>
-                        <li id="soccerSummaryStep">
-                            <a href="#" onclick="getMenu('soccerSummaryStep');">
+                        <li id="employee_list">
+                            <a href="#" onclick="getMenu('hotel/index')">
                                 <i class="menu-icon fa fa-caret-right"></i>
-                                <?php echo $this->lang->line('sum_step'); ?>
+                                จัดการโรงแรม
                             </a>
 
                             <b class="arrow"></b>
