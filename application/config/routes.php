@@ -54,6 +54,7 @@ $route['login'] 				= 'LoginController';
 $route['chkLogin'] 				= 'LoginController/chkLogin';
 
 $route['main'] 					= 'MainController';
+$route['main/(:any)'] 			= 'MainController/$1';
 $route['mainPage'] 				= 'MainController/mainPage';
 
 $route['manage_quotation/(:any)']  			= 'QuotationController/$1';
@@ -81,6 +82,11 @@ $route['manage_quotation/(:any)/(:any)']  	= 'QuotationController/$1/$2';
 ## employee
 $route['employee/(:any)']  			= 'Employee/EmployeeController/$1';
 $route['employee/(:any)/(:any)']  	= 'Employee/EmployeeController/$1/$2';
+##--
+
+## employee
+$route['hotel/(:any)']  			= 'Hotel/HotelController/$1';
+$route['hotel/(:any)/(:any)']  		= 'Hotel/HotelController/$1/$2';
 ##--
 
 $route['404_override'] = '';
