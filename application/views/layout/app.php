@@ -43,9 +43,11 @@
     <script type="text/javascript" src="<?php echo $path_host ?>assets/js/jquery.countdown.min.js"></script>
     <script type="text/javascript" src="<?php echo $path_host ?>assets/js/bootbox.min.js"></script>
     <script type="text/javascript" src="<?php echo $path_host ?>assets/js/general.js?v=2018022001"></script>
+    <script type="text/javascript" src="<?php echo $path_host ?>assets/js/jquery.cookie.min.js?v=2018022001"></script>
 
     <script type="text/javascript">
         var baseUrl = '<?php echo $this->config->config['base_url']; ?>';
+        var keyword = '<?php echo $this->config->config['keyword']; ?>';
     </script>
 
     <!-- <link rel="stylesheet" href="<?php echo $path_host ?>assets/modules/autocomplete/autocomplete.css" /> -->
@@ -55,6 +57,7 @@
     <!-- <script type="text/javascript" src="<?php echo $path_host ?>assets/js/jquery.2.1.1.min.js"></script> -->
     <script type="text/javascript" src="<?php echo $path_host ?>assets/js/jquery-ui.min.js"></script>
 
+    <script type="text/javascript" src="<?php echo $path_host ?>assets/java/main.js"></script>
 </head>
 <body class="no-skin">
 	
@@ -125,8 +128,8 @@
                         <ul class="dropdown-menu">
                         	<?php if (!empty($glang)): ?>
                         		<?php foreach($glang as $key => $val):?>
-                                <li>
-	                                <a href="#" onclick="changeLang('<?php echo $val->lang; ?>');">
+                                <li onclick="changeLang('<?php echo $val->lang; ?>');">
+	                                <a href="#" >
 	                                    <i class="ace-icon fa fa-angle-double-right"></i>
 	                                    <font><?php echo $val->full_lang; ?></font>
 	                                </a>
@@ -171,7 +174,7 @@
                             <i class="ace-icon fa fa-caret-down"></i>
                         </a>
                         <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
-                            <li class="cur">
+                            <li class="cur" onclick="changeLang('th');">
                                 <a tabindex="-1" onclick="" class="pointer">
                                     <i class="ace-icon fa fa-angle-double-right"></i>
                                     <font>Thailand</font>

@@ -100,5 +100,7 @@ $route['department/(:any)']  			= 'Mdepartment/MdepartmentController/$1';
 $route['department/(:any)/(:any)']  	= 'Mdepartment/MdepartmentController/$1/$2';
 ##--
 
+$route['language/(:any)']  			= 'Language/LanguageController/$1';
+
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
