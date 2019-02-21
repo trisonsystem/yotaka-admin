@@ -9,7 +9,7 @@ class HotelController extends CI_Controller {
         $this->keyword  = $this->config->config['keyword'];
         $this->api_url  = $this->config->config['api_url'];
         $this->des_key  = $this->config->config['des_key'];
-        $this->arr_sent = array("time_now" => date("Y-m-d H:i:s"), "user_name" => "zztop");
+        $this->arr_sent = array("time_now" => date("Y-m-d H:i:s"));
     }
 
     public function index(){ 
@@ -41,6 +41,7 @@ class HotelController extends CI_Controller {
 
     public function search_hotel( $aData = "" ){
         $aData      = ( isset($_GET['hotel_code']) ) ? $_GET : $aData ;
+        $aData      = ( isset($_GET['hotel_id']) ) ? $_GET : $aData ;
         $json_data  = $this->sent_to_api( '/hotel/search_hotel', $aData );
         print_r($json_data);
     }
@@ -97,10 +98,35 @@ class HotelController extends CI_Controller {
     }
 
     public function save_data(){
-        echo $json_data  = $this->sent_to_api( '/hotel/save_data', $_POST );
+        $json_data  = $this->sent_to_api( '/hotel/save_data', $_POST );
+        $aData      = json_decode($json_data);
+        if ($aData->flag) {
+            $fodel    = "assets/upload/hotel_profile/";
+            $aFN      = explode(".", $_POST["txtHotelProfile"]);
+            $n_name   = $aFN[count($aFN)-1];
+            $n_path   = $fodel.$aData->code.".".$n_name;
+            if ( count( explode("temp", $_POST["txtHotelProfile"]) ) > 1 ) {
+                $this->copy_img($_POST["txtHotelProfile"], $n_path, $fodel);
+            }
+        }
+        echo $json_data;
     }
 
     public function chang_status(){
         echo $json_data  = $this->sent_to_api( '/hotel/chang_status', $_POST );
+    }
+
+    public function copy_img( $file_name,  $n_path , $n_foder){
+        if ( !file_exists($n_foder) ) {
+             mkdir ($n_foder, 0755);
+        }
+        
+       if(copy($file_name, $n_path)){ 
+          unlink($file_name);
+          return 1;
+       }else{
+          return 0;
+       }
+      
     }
 }

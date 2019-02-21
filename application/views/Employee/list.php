@@ -50,7 +50,7 @@
 					<option value=""> -- เลือกแผนก -- </option>
 					<?php  
 						foreach ($status_employee as $key => $value) {
-							echo '<option value="'.$value["id"].'">'.$value["name"].'</option>';
+							echo '<option value="'.$value->id.'">'.$value->name.'</option>';
 						}
 					?>
 				</select>
@@ -79,7 +79,7 @@
 					<option value=""> -- เลือกแผนก -- </option>
 					<?php 
 						foreach ($division as $key => $value) {
-							echo '<option value="'.$value["id"].'">'.$value["name"].'</option>';
+							echo '<option value="'.$value->id.'">'.$value->name.'</option>';
 						}
 					?>
 				</select>
@@ -92,7 +92,7 @@
 					<option value=""> -- เลือกฝ่าย -- </option>
 					<?php 
 						foreach ($department as $key => $value) {
-							echo '<option value="'.$value["id"].'">'.$value["name"].'</option>';
+							echo '<option value="'.$value->id.'">'.$value->name.'</option>';
 						}
 					?>
 				</select>
@@ -107,7 +107,7 @@
 					<option value=""> -- เลือกตำแหน่ง -- </option>
 					<?php 
 						foreach ($position as $key => $value) {
-							echo '<option value="'.$value["id"].'">'.$value["name"].'</option>';
+							echo '<option value="'.$value->id.'">'.$value->name.'</option>';
 						}
 					?>
 				</select>
@@ -212,7 +212,7 @@
 					<option value=""> -- เลือก -- </option>
 					<?php 
 						foreach ($hotel as $key => $value) {
-							echo '<option value="'.$value["id"].'">'.$value["name_th"].'</option>';
+							echo '<option value="'.$value->id.'">'.$value->name_th.'</option>';
 						}
 					?>
 				</select>
@@ -266,7 +266,7 @@
 					<option value=""> -- เลือกแผนก -- </option>
 					<?php 
 						foreach ($division as $key => $value) {
-							echo '<option value="'.$value["id"].'">'.$value["name"].'</option>';
+							echo '<option value="'.$value->id.'">'.$value->name.'</option>';
 						}
 					?>
 				</select>
@@ -279,7 +279,7 @@
 					<option value=""> -- เลือกฝ่าย -- </option>
 					<?php 
 						foreach ($department as $key => $value) {
-							echo '<option value="'.$value["id"].'">'.$value["name"].'</option>';
+							echo '<option value="'.$value->id.'">'.$value->name.'</option>';
 						}
 					?>
 				</select>
@@ -294,7 +294,7 @@
 					<option value=""> -- เลือกตำแหน่ง -- </option>
 					<?php 
 						foreach ($position as $key => $value) {
-							echo '<option value="'.$value["id"].'">'.$value["name"].'</option>';
+							echo '<option value="'.$value->id.'">'.$value->name.'</option>';
 						}
 					?>
 				</select>
@@ -397,7 +397,7 @@
 					foreach ($status_employee as $key => $value) {
 						$str_html  .= "<tr>";
 						$str_html  .= "	<td class='text-center'>".($key+1)."</td>";
-						$str_html  .= "	<td><label style='cursor:pointer' onclick='chang_status(".$value['id'].")'><input type='radio' id='rStatus".$value["id"]."' name='rStatus' value='".$value['id']."' > &nbsp;".$value["name"]."</label></td>";
+						$str_html  .= "	<td><label style='cursor:pointer' onclick='chang_status(".$value->id.")'><input type='radio' id='rStatus".$value->id."' name='rStatus' value='".$value->id."' > &nbsp;".$value->name."</label></td>";
 						$str_html  .= "</tr>";
 					}
 					echo $str_html;
@@ -669,7 +669,7 @@
 
 	function validate(aData){ 
 		var status = true;
-		$.each(aData,function(k,v){ console.log(v.name + " >>>> " + v.value);
+		$.each(aData,function(k,v){
 			if (v.name != "txtEmployee_code") {
 				var obj = $("#"+v.name);
 				if (obj.val() == "") {

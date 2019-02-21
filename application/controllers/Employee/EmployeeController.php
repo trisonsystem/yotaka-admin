@@ -9,12 +9,10 @@ class EmployeeController extends CI_Controller {
         $this->keyword  = $this->config->config['keyword'];
         $this->api_url  = $this->config->config['api_url'];
         $this->des_key  = $this->config->config['des_key'];
-        $this->load->model('MEmployee');
-        $this->load->model('MMaster');
+        $this->arr_sent = array("time_now" => date("Y-m-d H:i:s"));
     }
 
     public function index(){ 
-        $this->load->model('MHotel');
         $data = array();
         $data['adminlist']      = array();
         $data['title']          = 'จัดการข้อมูลพนักงาน';
@@ -22,29 +20,39 @@ class EmployeeController extends CI_Controller {
         $data["department"]     = $this->search_department("");
         $data["position"]       = $this->search_position("");
         $data["status_employee"]= $this->search_status_employee("");
-        $data["hotel"]          = $this->MHotel->search_hotel("");
-        
+        $data["hotel"]          = $this->search_hotel("");
+// debug($data);
         $dataInfo['title']      = $data['title'];
         $dataInfo['sub_title']  = '';
         $dataInfo['temp']       = $this->load->view('Employee/list',$data,true);
         $this->output->set_output(json_encode($dataInfo));
     }
 
+    public function sent_to_api( $path, $aData){
+        $aData      = ($aData == "") ?  $this->arr_sent : $aData;
+        $arrData    = json_encode($aData);
+        $dataInfo   = TripleDES::encryptText($arrData, $this->des_key);
+        $param      = http_build_query(array('data' => $dataInfo));
+        $apiUrl     = $this->api_url.$path;
+        $json_data  = cUrl($apiUrl,"post",$param);
+        return $json_data;
+    }
+
     public function search_employee(){
-        $pd = $this->MEmployee->search_employee( $_GET );
-        print_r( json_encode($pd) );
+        $json_data  = $this->sent_to_api( '/employee/search_employee', $_GET );
+        echo $json_data;
     }
 
     public function search_division( $aData = "" ){
-        $aData    = ( isset($_GET['division_id']) ) ? $_GET : $aData ;
-        $arr_data = $this->MMaster->search_division( $aData );
-        return $arr_data;
+        $aData      = ( isset($_GET['division_id']) ) ? $_GET : $aData ;
+        $json_data  = $this->sent_to_api( '/employee/search_division', $aData );
+        return json_decode($json_data);
     }
 
     public function search_department( $aData = "" ){
         $aData    = ( isset($_GET['department_id']) ) ? $_GET : $aData ;
-        $arr_data = $this->MMaster->search_department( $aData );
-        return $arr_data;
+        $json_data  = $this->sent_to_api( '/employee/search_department', $aData );
+        return json_decode($json_data);
     }
 
      public function search_departments( $aData = "" ){
@@ -53,9 +61,9 @@ class EmployeeController extends CI_Controller {
     }
 
     public function search_position( $aData = "" ){
-        $aData    = ( isset($_GET['position_id']) ) ? $_GET : $aData ;
-        $arr_data = $this->MMaster->search_position( $aData );
-        return $arr_data;
+        $aData      = ( isset($_GET['position_id']) ) ? $_GET : $aData ;
+        $json_data  = $this->sent_to_api( '/employee/search_position', $aData );
+        return json_decode($json_data);
     }
 
     public function search_positions( $aData = "" ){
@@ -65,17 +73,47 @@ class EmployeeController extends CI_Controller {
 
     public function search_status_employee( $aData = "" ){
         $aData    = ( isset($_GET['status_employee_id']) ) ? $_GET : $aData ;
-        $arr_data = $this->MMaster->search_status_employee( $aData );
-        return $arr_data;
+        $json_data  = $this->sent_to_api( '/employee/search_status_employee', $aData );
+       return json_decode($json_data);
+    }
+
+    public function search_hotel( $aData = "" ){
+        $aData      = ( isset($_GET['hotel_code']) ) ? $_GET : $aData ;
+        $json_data  = $this->sent_to_api( '/master/search_hotel_use', $aData );
+        return json_decode($json_data);
     }
 
     public function save_data(){
-        $res = $this->MEmployee->save_data( $_POST );
-        print_r( json_encode($res) );
+        $json_data  = $this->sent_to_api( '/employee/save_data', $_POST );
+        $aData      = json_decode($json_data);
+        if ($aData->flag) {
+            $fodel    = "assets/upload/employee_profile/";
+            $aFN      = explode(".", $_POST["txtEmployeeProfile"]);
+            $n_name   = $aFN[count($aFN)-1];
+            $n_path   = $fodel.$aData->code.".".$n_name;
+            if ( count( explode("temp", $_POST["txtEmployeeProfile"]) ) > 1 ) {
+            $this->copy_img($_POST["txtEmployeeProfile"], $n_path, $fodel);
+        }
+        }
+        echo $json_data;
     }
 
     public function chang_status(){
-        $res = $this->MEmployee->chang_status( $_POST );
-        print_r( json_encode($res) );
+        $json_data  = $this->sent_to_api( '/employee/chang_status', $_POST );
+        echo $json_data;
+    }
+
+    public function copy_img( $file_name,  $n_path , $n_foder){
+        if ( !file_exists($n_foder) ) {
+             mkdir ($n_foder, 0755);
+        }
+        
+       if(copy($file_name, $n_path)){ 
+          unlink($file_name);
+          return 1;
+       }else{
+          return 0;
+       }
+      
     }
 }
