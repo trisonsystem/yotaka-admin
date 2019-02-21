@@ -15,7 +15,7 @@ class MdivisionController extends CI_Controller {
     public function index(){
         $data = array();
         $data['adminlist']      = array();
-        $data['title']          = 'จัดการข้อมูลแผนก';
+        $data['title']          = 'จัดการข้อมูลฝ่าย';
         $data['divcode']        = $this->search_divcode("");
         $data['divname']        = $this->search_divname("");
         // $data['divstatus']        = '';
