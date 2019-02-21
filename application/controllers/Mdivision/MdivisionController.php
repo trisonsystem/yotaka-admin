@@ -15,10 +15,10 @@ class MdivisionController extends CI_Controller {
     public function index(){
         $data = array();
         $data['adminlist']      = array();
-        $data['title']          = 'จัดการข้อมูลแผนก';
+        $data['title']          = 'จัดการข้อมูลฝ่าย';
         $data['divcode']        = $this->search_divcode("");
         $data['divname']        = $this->search_divname("");
-        $data['divstatus']        = '';
+        // $data['divstatus']        = '';
 
         $dataInfo['title']      = $data['title'];
         $dataInfo['sub_title']  = '';
@@ -40,6 +40,16 @@ class MdivisionController extends CI_Controller {
 
     public function search_division(){
         $pd = $this->MMdivision->search_division( $_GET );
+        print_r( json_encode($pd) );
+    }
+
+    public function search_division_code(){
+        $pd = $this->MMdivision->search_divcode( "" );
+        print_r( json_encode($pd) );
+    }
+
+    public function search_division_name(){
+        $pd = $this->MMdivision->search_divname( "" );
         print_r( json_encode($pd) );
     }
 

@@ -79,6 +79,39 @@ class MMdivision extends CI_Model {
     public function save_data( $aData ){
         $aReturn = array();
         $aSave 	 = array();
-        debug($aData);
+        // debug($aData,true);
+        $aSave["code"] 	= $aData["txtDivisionCode"];
+		$aSave["name"] 	= $aData["txtDivisionName"];
+        $aSave["status"] 	= "1";
+        if ($aData['txtDivision_id'] == "0") {
+            
+            $aSave["create_date"] 	= date("Y-m-d H:i:s");
+            $aSave["create_by"] 	= "zztop";
+            $aSave["update_date"] 	= date("Y-m-d H:i:s");
+            $aSave["update_by"] 	= "zztop";
+
+            if ($this->db->replace('m_division', $aSave)) {
+				$aReturn["flag"] = true;
+				$aReturn["msg"] = "success";
+			}else{
+				$aReturn["flag"] = false;
+				$aReturn["msg"] = "Error SQL !!!";
+			}
+        } else {
+            
+            $aSave["update_date"] 			= date("Y-m-d H:i:s");
+            $aSave["update_by"] 			= "zztop";
+            $this->db->where("id", $aData["txtDivision_id"] );
+			if ($this->db->update('m_division', $aSave)) {
+				$aReturn["flag"] = true;
+				$aReturn["msg"] = "success";
+			}else{
+				$aReturn["flag"] = false;
+				$aReturn["msg"] = "Error SQL !!!";
+			}
+        }
+
+        return $aReturn;
+
     }
 }
