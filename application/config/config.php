@@ -28,8 +28,8 @@ date_default_timezone_set('Asia/Bangkok');
 // define("ADMIN_API_URL", "https://cashapi.sunmacau.com");
 
 $config['keyword'] 		= 'admin';
-$config['des_key'] 		= 'drXyH9ngm4gzGkSiCuTNEEyUKqzYnTaQ';
-$config['api_url'] 		= 'http://localhost/api-admin-yotaka/';
+$config['des_key'] 		= 'KsAsFUHSyl9bH3qUTxxHg1mZGRgwQpQ4';
+$config['api_url'] 		= 'http://localhost/api-yotaka/';
 
 if ($_SERVER['SERVER_NAME'] != 'localhost') {
 

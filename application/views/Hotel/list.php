@@ -63,7 +63,7 @@
 					<option value=""> -- เลือกภาค -- </option>
 					<?php 
 						foreach ($quarter as $key => $value) {
-							echo '<option value="'.$value["id"].'">'.$value["name_th"].'</option>';
+							echo '<option value="'.$value->id.'">'.$value->name_th.'</option>';
 						}
 					?>
 				</select>
@@ -78,7 +78,7 @@
 					<option value=""> -- เลือกจังหวัด -- </option>
 					<?php 
 						foreach ($province as $key => $value) {
-							echo '<option value="'.$value["id"].'">'.$value["name"].'</option>';
+							echo '<option value="'.$value->id.'">'.$value->name.'</option>';
 						}
 					?>
 				</select>
@@ -91,7 +91,7 @@
 					<option value=""> -- เลือกอำเภอ -- </option>
 					<?php 
 						foreach ($amphur as $key => $value) {
-							echo '<option value="'.$value["id"].'">'.$value["name"].'</option>';
+							echo '<option value="'.$value->id.'">'.$value->name.'</option>';
 						}
 					?>
 				</select>
@@ -235,7 +235,7 @@
 					<option value=""> -- เลือกภาค -- </option>
 					<?php 
 						foreach ($quarter as $key => $value) {
-							echo '<option value="'.$value["id"].'">'.$value["name_th"].'</option>';
+							echo '<option value="'.$value->id.'">'.$value->name_th.'</option>';
 						}
 					?>
 				</select>
@@ -248,7 +248,7 @@
 					<option value=""> -- เลือกจังหวัด -- </option>
 					<?php 
 						foreach ($province as $key => $value) {
-							echo '<option value="'.$value["id"].'">'.$value["name"].'</option>';
+							echo '<option value="'.$value->id.'">'.$value->name.'</option>';
 						}
 					?>
 				</select>
@@ -263,7 +263,7 @@
 					<option value=""> -- เลือกอำเภอ -- </option>
 					<?php 
 						foreach ($amphur as $key => $value) {
-							echo '<option value="'.$value["id"].'">'.$value["name"].'</option>';
+							echo '<option value="'.$value->id.'">'.$value->name.'</option>';
 						}
 					?>
 				</select>
@@ -276,7 +276,7 @@
 					<option value=""> -- เลือกตำบล -- </option>
 					<?php 
 						foreach ($district as $key => $value) {
-							echo '<option value="'.$value["id"].'">'.$value["name"].'</option>';
+							echo '<option value="'.$value->id.'">'.$value->name.'</option>';
 						}
 					?>
 				</select>
@@ -360,7 +360,7 @@
 					foreach ($status_hotel as $key => $value) {
 						$str_html  .= "<tr>";
 						$str_html  .= "	<td class='text-center'>".($key+1)."</td>";
-						$str_html  .= "	<td><label style='cursor:pointer' onclick='chang_status(".$value['id'].")'><input type='radio' id='rStatus".$value["id"]."' name='rStatus' value='".$value['id']."' > &nbsp;".$value["name"]."</label></td>";
+						$str_html  .= "	<td><label style='cursor:pointer' onclick='chang_status(".$value->id.")'><input type='radio' id='rStatus".$value->id."' name='rStatus' value='".$value->id."' > &nbsp;".$value->name."</label></td>";
 						$str_html  .= "</tr>";
 					}
 					echo $str_html;
@@ -368,7 +368,7 @@
 				<tr>
 					<td colspan="2">
 						<span style="display: none;">
-							<input type="text" name="txtStatus_employee_id" id="txtStatus_employee_id" value="0">
+							<input type="text" name="txtStatus_hotel_id" id="txtStatus_hotel_id" value="0">
 						</span>
 					</td>
 				</tr>
@@ -628,8 +628,8 @@
 		return status;
 	}
 
-	function open_chang_status( employee_id, status ,text_title ){
-		$("#txtStatus_employee_id").val( employee_id );
+	function open_chang_status( hotel_id, status ,text_title ){
+		$("#txtStatus_hotel_id").val( hotel_id );
 		$("#md-title").html( text_title );
 		$("#modal-page").modal("show");
 		setTimeout(function(){
@@ -642,8 +642,8 @@
 	function chang_status( status ){
 		if (c_status) {
 			c_status = false;
-			var id = $("#txtStatus_employee_id").val();
-			$.post("employee/chang_status",  { employee_id : id, status: status } ,function( res ){
+			var id = $("#txtStatus_hotel_id").val();
+			$.post("hotel/chang_status",  { hotel_id : id, status: status } ,function( res ){
 				res = jQuery.parseJSON( res ); 
 				if (res.flag) {
 					$("#modal-page").modal("hide");
