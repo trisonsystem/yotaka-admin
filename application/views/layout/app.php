@@ -186,7 +186,7 @@
                         <a href="<?php echo $path_host; ?>logout">
                             <div class="btn-group">
                                 <i class="ace-icon fa fa-power-off bigger-140 bg-icon-red"></i>
-                                &nbsp; logout
+                                &nbsp; <span class="lang_logout">logout</span> 
                             </div>
                         </a>                                               
                     </li>
@@ -254,7 +254,7 @@
                     <li class="">
                     <a href="#" class="dropdown-toggle">
                         <i class="menu-icon glyphicon glyphicon-user"></i>
-                        <span class="menu-text">
+                        <span class="menu-text lang_manage_main_data">
                             จัดการข้อมูลหลัก
                         </span>
 
@@ -267,7 +267,7 @@
                         <li id="employee_list">
                             <a href="#" onclick="getMenu('employee/index')">
                                 <i class="menu-icon fa fa-caret-right"></i>
-                                จัดการข้อมูลพนักงาน
+                                <span class="lang_manage_employee_data"> จัดการข้อมูลพนักงาน</span>
                             </a>
 
                             <b class="arrow"></b>
