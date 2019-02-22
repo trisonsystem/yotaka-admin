@@ -275,7 +275,7 @@
                         <li id="employee_list">
                             <a href="#" onclick="getMenu('hotel/index')">
                                 <i class="menu-icon fa fa-caret-right"></i>
-                                จัดการโรงแรม
+                                <span class="lang_manage_hotel_data">จัดการโรงแรม</span>
                             </a>
 
                             <b class="arrow"></b>

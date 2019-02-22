@@ -27,8 +27,8 @@
 		<h3 class="lang_manage_employee_data" style="font-weight: bold;"><?php echo $title;?></h3>
 	</div>
 	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-right">
-		<button type="button" class="btn btn-secondary" onclick="to_add_data( '0' )" id="btn-toadd_data" style="margin-top: 10px; width: 100px;">เพิ่ม</button>
-		<button type="button" class="btn btn-warning" onclick="to_manage_data()" id="btn-tomanage_data" style="margin-top: 10px; width: 100px; display: none;">ยกเลิก</button>
+		<button type="button" class="btn btn-secondary lang_add" onclick="to_add_data( '0' )" id="btn-toadd_data" style="margin-top: 10px; width: 100px;">เพิ่ม</button>
+		<button type="button" class="btn btn-warning lang_cancel" onclick="to_manage_data()" id="btn-tomanage_data" style="margin-top: 10px; width: 100px; display: none;">ยกเลิก</button>
 	</div>
 </div>
 <br>
@@ -37,17 +37,17 @@
 		<div class="row">
 			<?php // debug($division); ?>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>รหัสพนักงาน : </span>
+				<span class="lang_employee_code">รหัสพนักงาน : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<input type="text" id="txtEmployeeCode" class="form-control" name="txtEmployeeCode">
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>สถานะ : </span>
+				<span class="lang_status">สถานะ : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<select id="slStatus_employee" name="slStatus_employee" class="form-control">
-					<option value=""> -- เลือกแผนก -- </option>
+					<option value="" class="sl_select"> -- เลือกแผนก -- </option>
 					<?php  
 						foreach ($status_employee as $key => $value) {
 							echo '<option value="'.$value->id.'">'.$value->name.'</option>';
@@ -58,13 +58,13 @@
 		</div>
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>ชื่อ : </span>
+				<span class="lang_name">ชื่อ : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<input type="text" id="txtEmployeeName" class="form-control" name="txtEmployeeName">
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>นามสกุล : </span>
+				<span class="lang_last_name">นามสกุล : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<input type="text" id="txtEmployeeLastName" class="form-control" name="txtEmployeeLastName">
@@ -72,7 +72,7 @@
 		</div>
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>แผนก : </span>
+				<span class="lang_division">แผนก : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<select id="slEmployeeDivision" name="slEmployeeDivision" class="form-control" onchange="change_division('slEmployeeDivision','slEmployeeDepartment','slEmployeePosition')">
@@ -85,7 +85,7 @@
 				</select>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>ฝ่าย : </span>
+				<span class="lang_department">ฝ่าย : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<select id="slEmployeeDepartment" name="slEmployeeDepartment" class="form-control" onchange="change_department('slEmployeeDivision','slEmployeeDepartment','slEmployeePosition')">
@@ -100,7 +100,7 @@
 		</div>
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				ตำแหน่ง
+				<span class="lang_position">ตำแหน่ง</span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<select id="slEmployeePosition" name="slEmployeePosition" class="form-control">
@@ -124,8 +124,8 @@
 				
 			</div>
 			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-				<button type="button" class="btn btn-primary" onclick="get_data_list()">ค้นหา</button>
-				<button type="button" class="btn btn-warning" onclick="clear_data()">Clear</button>
+				<button type="button" class="btn btn-primary lang_save" onclick="get_data_list()">ค้นหา</button>
+				<button type="button" class="btn btn-warning lang_clear" onclick="clear_data()">Clear</button>
 			</div>
 		</div>
 	</div>

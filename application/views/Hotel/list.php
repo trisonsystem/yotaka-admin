@@ -24,7 +24,7 @@
 </style>
 <div class="row title_page">
 	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-		<h3 style="font-weight: bold;"><?php echo $title;?></h3>
+		<h3 style="font-weight: bold;" class="lang_manage_hotel_data"><?php echo $title;?></h3>
 	</div>
 	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-right">
 		<button type="button" class="btn btn-secondary" onclick="to_add_data( '0' )" id="btn-toadd_data" style="margin-top: 10px; width: 100px;">เพิ่ม</button>
@@ -32,6 +32,7 @@
 	</div>
 </div>
 <br>
+<?php debug( $this->lang->line('cancel') ); ?>
 <div id="box-show-search">
 	<div class="box-search">
 		<div class="row">
@@ -429,7 +430,7 @@
 					
 				});
 
-				
+				forLang();
 			}else{
 				str_html += "<td colspan='10' class='text-center' style='color:red;margin-top:15px;'> ไม่พบข้อมูล </td>";
 			}

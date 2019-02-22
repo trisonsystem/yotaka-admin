@@ -28,7 +28,17 @@ class LanguageController extends CI_Controller {
         return $json_data;
     }
     public function getLang( ){ 
-      $json_data  =  $this->get_language();
+        $cashName = "LangYotakaAdmin_".$_GET["lang"];
+        $this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file','key_prefix' => 'cache_'));
+
+        if (!$this->cache->get($cashName)){
+            $json_data  =  $this->get_language();
+
+            $this->cache->save($cashName, $json_data, 1440 * 365);
+        }else{
+            $json_data = $this->cache->get($cashName);
+        }
+     
         echo $json_data;
     }
     
