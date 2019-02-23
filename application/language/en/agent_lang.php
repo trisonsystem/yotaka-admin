@@ -2,10 +2,11 @@
 $ci = get_instance(); // CI_Loader instance
 $api_url  = $ci->config->config['api_url'];
 $des_key  = $ci->config->config['des_key'];
+$keyword  = $ci->config->config['keyword'];
 $ci->load->config('config');
 $ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file','key_prefix' => 'lang_'));
 
-$lang = 'en';
+$lang = $_COOKIE[$keyword."Lang"];
 $cashName = "LangYotakaAdmin_".$lang;
 
 if (!$result = $ci->cache->get($cashName))

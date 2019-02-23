@@ -15,7 +15,7 @@ class EmployeeController extends CI_Controller {
     public function index(){ 
         $data = array();
         $data['adminlist']      = array();
-        $data['title']          = 'จัดการข้อมูลพนักงาน';
+        $data['title']          = $this->lang->line('manage_employee_data');
         $data["division"]       = $this->search_division("");
         $data["department"]     = $this->search_department("");
         $data["position"]       = $this->search_position("");

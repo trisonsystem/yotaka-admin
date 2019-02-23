@@ -10,36 +10,35 @@ class MainController extends CI_Controller {
     	$this->apiUrl  = $this->config->config['api_url'];
         $this->token   = (isset($_COOKIE[$this->keyword.'token'])) ? $_COOKIE[$this->keyword.'token'] : '';
     	// $this->token   = '4ddfdgghrdfyjhtuoookgftyu';
-
+        
   	}
 
 	public function index(){
 
-        // $chkCookie  = true;
+        $chkCookie  = true;
         // $arrCookie  = array('token','lang');
-
-        // foreach ($arrCookie as $value) {
-        //   if(isset($_COOKIE[$this->keyword.$value])){
-        //     $chkCookie = false;
-        //   }else{
-        //     $chkCookie  = true;
-        //   }
-        // }
+        $arrCookie  = array('lang');
+        foreach ($arrCookie as $value) {
+          if(isset($_COOKIE[$this->keyword.$value])){
+            $chkCookie = false;
+          }else{
+            $chkCookie  = true;
+          }
+        }
 
         // // debug(444,true);
 
-        // if($chkCookie == false){
-        //     $data                   = array();
-        //     // $data['messageShow']    = messageRunning($this->token);
-        //     // $data['senior']         = seniorMessage($this->token);
-        //     $data['title']          = $this->lang->line('main_menu');
+        if($chkCookie == false){
+            $data                   = array();
+            // $data['messageShow']    = messageRunning($this->token);
+            // $data['senior']         = seniorMessage($this->token);
+            $data['title']          = $this->lang->line('main_menu');
 
-        //     $this->load->view('layout/app',$data);
-        // }else{
-        //     redirect('login','refresh');
-        // }
+            $this->load->view('layout/app',$data);
+        }else{
+            redirect('login','refresh');
+        }
         $data                   = array();
-        $this->load->view('layout/app',$data);
 
 	}
 

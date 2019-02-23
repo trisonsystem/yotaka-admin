@@ -164,20 +164,26 @@
                         <a role="menuitem" tabindex="-1" href="#">                            
                             <div class="btn-group">
                                 <i class="ace-icon fa fa-user bigger-140 bg-icon"></i>
-                                &nbsp; main_username
+                                <?php echo $_COOKIE[$keyword."user"]; ?>
                             </div>             
                         </a>                               
                     </li> 
                     <li class="grey" id="drop_lang">
                         <a data-toggle="dropdown" href="#" class="dropdown-toggle">
-                        	English
+                        	<span class="lang_<?php echo $_COOKIE[$keyword.'Lang']; ?>"></span>
                             <i class="ace-icon fa fa-caret-down"></i>
                         </a>
                         <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
                             <li class="cur" onclick="changeLang('th');">
                                 <a tabindex="-1" onclick="" class="pointer">
                                     <i class="ace-icon fa fa-angle-double-right"></i>
-                                    <font>Thailand</font>
+                                    <font class="lang_th">Thailand</font>
+                                </a>
+                            </li>
+                            <li class="cur" onclick="changeLang('en');">
+                                <a tabindex="-1" onclick="" class="pointer">
+                                    <i class="ace-icon fa fa-angle-double-right"></i>
+                                    <font class="lang_en">English</font>
                                 </a>
                             </li>
                         </ul>

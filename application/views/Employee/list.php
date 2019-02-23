@@ -27,8 +27,8 @@
 		<h3 class="lang_manage_employee_data" style="font-weight: bold;"><?php echo $title;?></h3>
 	</div>
 	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-right">
-		<button type="button" class="btn btn-secondary lang_add" onclick="to_add_data( '0' )" id="btn-toadd_data" style="margin-top: 10px; width: 100px;">เพิ่ม</button>
-		<button type="button" class="btn btn-warning lang_cancel" onclick="to_manage_data()" id="btn-tomanage_data" style="margin-top: 10px; width: 100px; display: none;">ยกเลิก</button>
+		<button type="button" class="btn btn-secondary lang_add" onclick="to_add_data( '0' )" id="btn-toadd_data" style="margin-top: 10px; width: 100px;"><?php echo $this->lang->line('add'); ?></button>
+		<button type="button" class="btn btn-warning lang_cancel" onclick="to_manage_data()" id="btn-tomanage_data" style="margin-top: 10px; width: 100px; display: none;"><?php echo $this->lang->line('cancel'); ?></button>
 	</div>
 </div>
 <br>
@@ -37,17 +37,17 @@
 		<div class="row">
 			<?php // debug($division); ?>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span class="lang_employee_code">รหัสพนักงาน : </span>
+				<span class="lang_employee_code"><?php echo $this->lang->line('employee_code'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<input type="text" id="txtEmployeeCode" class="form-control" name="txtEmployeeCode">
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span class="lang_status">สถานะ : </span>
+				<span class="lang_status"><?php echo $this->lang->line('status'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<select id="slStatus_employee" name="slStatus_employee" class="form-control">
-					<option value="" class="sl_select"> -- เลือกแผนก -- </option>
+					<option value=""> <?php echo $this->lang->line('sl_select'); ?> </option>
 					<?php  
 						foreach ($status_employee as $key => $value) {
 							echo '<option value="'.$value->id.'">'.$value->name.'</option>';
@@ -58,13 +58,13 @@
 		</div>
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span class="lang_name">ชื่อ : </span>
+				<span class="lang_name"><?php echo $this->lang->line('name'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<input type="text" id="txtEmployeeName" class="form-control" name="txtEmployeeName">
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span class="lang_last_name">นามสกุล : </span>
+				<span class="lang_last_name"><?php echo $this->lang->line('last_name'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<input type="text" id="txtEmployeeLastName" class="form-control" name="txtEmployeeLastName">
@@ -72,11 +72,11 @@
 		</div>
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span class="lang_division">แผนก : </span>
+				<span class="lang_division"><?php echo $this->lang->line('division'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<select id="slEmployeeDivision" name="slEmployeeDivision" class="form-control" onchange="change_division('slEmployeeDivision','slEmployeeDepartment','slEmployeePosition')">
-					<option value=""> -- เลือกแผนก -- </option>
+					<option value=""> <?php echo $this->lang->line('sl_select'); ?> </option>
 					<?php 
 						foreach ($division as $key => $value) {
 							echo '<option value="'.$value->id.'">'.$value->name.'</option>';
@@ -85,11 +85,11 @@
 				</select>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span class="lang_department">ฝ่าย : </span>
+				<span class="lang_department"><?php echo $this->lang->line('department'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<select id="slEmployeeDepartment" name="slEmployeeDepartment" class="form-control" onchange="change_department('slEmployeeDivision','slEmployeeDepartment','slEmployeePosition')">
-					<option value=""> -- เลือกฝ่าย -- </option>
+					<option value=""> <?php echo $this->lang->line('sl_select'); ?> </option>
 					<?php 
 						foreach ($department as $key => $value) {
 							echo '<option value="'.$value->id.'">'.$value->name.'</option>';
@@ -100,11 +100,11 @@
 		</div>
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span class="lang_position">ตำแหน่ง</span>
+				<span class="lang_position"><?php echo $this->lang->line('position'); ?></span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<select id="slEmployeePosition" name="slEmployeePosition" class="form-control">
-					<option value=""> -- เลือกตำแหน่ง -- </option>
+					<option value=""> <?php echo $this->lang->line('sl_select'); ?> </option>
 					<?php 
 						foreach ($position as $key => $value) {
 							echo '<option value="'.$value->id.'">'.$value->name.'</option>';
@@ -124,8 +124,8 @@
 				
 			</div>
 			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-				<button type="button" class="btn btn-primary lang_save" onclick="get_data_list()">ค้นหา</button>
-				<button type="button" class="btn btn-warning lang_clear" onclick="clear_data()">Clear</button>
+				<button type="button" class="btn btn-primary lang_save" onclick="get_data_list()"><?php echo $this->lang->line('search'); ?></button>
+				<button type="button" class="btn btn-warning lang_clear" onclick="clear_data()"><?php echo $this->lang->line('clear'); ?></button>
 			</div>
 		</div>
 	</div>
@@ -135,16 +135,16 @@
 			<table class="table" id="tb-quo-list">
 				<thead>
 					<tr>
-						<th class="text-center">ลำดับ</th>
-						<th class="text-center">รหัสพนักงาน</th>
-						<th class="text-center">แผนก</th>
-						<th class="text-center">ฝ่าย</th>
-						<th class="text-center">ตำแหน่ง</th>
-						<th class="text-center">ชื่อ-นามสกุล</th>
-						<th class="text-center">เบอร์โทรศัพท์</th>
-						<th class="text-center">อีเมล์</th>
-						<th class="text-center">สถานะ</th>
-						<th class="text-center">จัดการ</th>
+						<th class="text-center"><?php echo $this->lang->line('no'); ?></th>
+						<th class="text-center"><?php echo $this->lang->line('code'); ?></th>
+						<th class="text-center"><?php echo $this->lang->line('division'); ?></th>
+						<th class="text-center"><?php echo $this->lang->line('department'); ?></th>
+						<th class="text-center"><?php echo $this->lang->line('position'); ?></th>
+						<th class="text-center"><?php echo $this->lang->line('full_name'); ?></th>
+						<th class="text-center"><?php echo $this->lang->line('tel'); ?></th>
+						<th class="text-center"><?php echo $this->lang->line('email'); ?></th>
+						<th class="text-center"><?php echo $this->lang->line('status'); ?></th>
+						<th class="text-center"><?php echo $this->lang->line('action'); ?></th>
 					</tr>
 				</thead>
 				<tbody></tbody>
@@ -166,12 +166,12 @@
 	<form id="form-manage" name="form-manage" method="post" action="" enctype="multipart/form-data">
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<label class="" style="font-weight: bold; font-size: 16px;">ข้อมูลเข้าใช้ระบบ</label>
+				<label class="" style="font-weight: bold; font-size: 16px;"><?php echo $this->lang->line('data_system'); ?></label>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>ชื่อเข้าใช้ระบบ : </span>
+				<span><?php echo $this->lang->line('username'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<input type="text" id="txtUsername" class="form-control" name="txtUsername" >
@@ -185,13 +185,13 @@
 		</div>
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>รหัสผ่าน : </span>
+				<span><?php echo $this->lang->line('password'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<input type="password" id="txtPassWord" class="form-control" name="txtPassWord">
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>ยืนยันรหัสผ่าน : </span>
+				<span><?php echo $this->lang->line('confirm_password'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<input type="password" id="txtRePassWord" class="form-control" name="txtRePassWord">
@@ -200,16 +200,16 @@
 		<hr>
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<label class="" style="font-weight: bold;font-size: 16px;">ข้อมูลทั่วไป</label>
+				<label class="" style="font-weight: bold;font-size: 16px;"><?php echo $this->lang->line('data_detail'); ?></label>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>โรงแรม : </span>
+				<span><?php echo $this->lang->line('hotel'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<select id="slHotel" name="slHotel" class="form-control">
-					<option value=""> -- เลือก -- </option>
+					<option value=""> <?php echo $this->lang->line('sl_select'); ?> </option>
 					<?php 
 						foreach ($hotel as $key => $value) {
 							echo '<option value="'.$value->id.'">'.$value->name_th.'</option>';
@@ -218,11 +218,11 @@
 				</select>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>สิทธ์ : </span>
+				<span><?php echo $this->lang->line('rights'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<select id="slRights" name="slRights" class="form-control">
-					<option value=""> -- เลือก -- </option>
+					<option value=""> <?php echo $this->lang->line('sl_select'); ?> </option>
 					<option value="SA"> Super Admin </option>
 					<option value="A"> Admin </option>
 					<option value="EM"> Employee </option>
@@ -231,13 +231,13 @@
 		</div>
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>รหัสพนักงาน : </span>
+				<span><?php echo $this->lang->line('employee_code'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<input type="text" id="txtCode" class="form-control" name="txtCode" disabled>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>คำนำหน้า : </span>
+				<span><?php echo $this->lang->line('prefix'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<input type="text" id="txtPrefix" class="form-control" name="txtPrefix">
@@ -245,13 +245,13 @@
 		</div>
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>ชื่อ : </span>
+				<span><?php echo $this->lang->line('name'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<input type="text" id="txtName" class="form-control" name="txtName">
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>นามสกุล : </span>
+				<span><?php echo $this->lang->line('last_name'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<input type="text" id="txtLastName" class="form-control" name="txtLastName">
@@ -259,11 +259,11 @@
 		</div>
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>แผนก : </span>
+				<span><?php echo $this->lang->line('division'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<select id="slDivision" name="slDivision" class="form-control" onchange="change_division('slDivision','slDepartment','slPosition')">
-					<option value=""> -- เลือกแผนก -- </option>
+					<option value=""> <?php echo $this->lang->line('sl_select'); ?> </option>
 					<?php 
 						foreach ($division as $key => $value) {
 							echo '<option value="'.$value->id.'">'.$value->name.'</option>';
@@ -272,11 +272,11 @@
 				</select>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>ฝ่าย : </span>
+				<span><?php echo $this->lang->line('department'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<select id="slDepartment" name="slDepartment" class="form-control" onchange="change_department('slDivision','slDepartment','slPosition')">
-					<option value=""> -- เลือกฝ่าย -- </option>
+					<option value=""> <?php echo $this->lang->line('sl_select'); ?> </option>
 					<?php 
 						foreach ($department as $key => $value) {
 							echo '<option value="'.$value->id.'">'.$value->name.'</option>';
@@ -287,11 +287,11 @@
 		</div>
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				ตำแหน่ง
+				<?php echo $this->lang->line('position'); ?>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<select id="slPosition" name="slPosition" class="form-control">
-					<option value=""> -- เลือกตำแหน่ง -- </option>
+					<option value=""> <?php echo $this->lang->line('sl_select'); ?> </option>
 					<?php 
 						foreach ($position as $key => $value) {
 							echo '<option value="'.$value->id.'">'.$value->name.'</option>';
@@ -300,7 +300,7 @@
 				</select>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>วันเดือนปีเกิด</span>
+				<span><?php echo $this->lang->line('birthday'); ?></span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<input type="text" id="txtBirthday" class="form-control datepicker" name="txtBirthday">
@@ -308,12 +308,12 @@
 		</div>
 		<div class="row">
 			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-10 text-right">
-				<label class="form-check-label"><input type="radio" class="form-check-input" id="rTypeCard1" name="rTypeCard" value="1" checked="checked"> บัตรประชาชน</label>
+				<label class="form-check-label"><input type="radio" class="form-check-input" id="rTypeCard1" name="rTypeCard" value="1" checked="checked"> <?php echo $this->lang->line('identification_card'); ?></label>
 				&nbsp;&nbsp;
-				<label class="form-check-label"> <input type="radio" class="form-check-input" id="rTypeCard2" name="rTypeCard" value="2"> พาสปอร์ต</label>
+				<label class="form-check-label"> <input type="radio" class="form-check-input" id="rTypeCard2" name="rTypeCard" value="2"> <?php echo $this->lang->line('passport'); ?></label>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>เลขที่บัตร : </span>
+				<span><?php echo $this->lang->line('number_card'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<input type="text" id="txtCardNumber" class="form-control" name="txtCardNumber">
@@ -321,13 +321,13 @@
 		</div>
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>เบอร์โทร : </span>
+				<span><?php echo $this->lang->line('tel'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<input type="text" id="txtTel" class="form-control" name="txtTel">
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>อีเมล์ : </span>
+				<span><?php echo $this->lang->line('email'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<input type="text" id="txtEmail" class="form-control" name="txtEmail">
@@ -335,7 +335,7 @@
 		</div>
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>ที่อยู่ : </span>
+				<span><?php echo $this->lang->line('address'); ?> : </span>
 			</div>
 			<div class="col-lg-6 col-md-6 col-sm-9 col-xs-5">
 				<textarea id="txtAddress" name="txtAddress" style="width: 100%;height: 70px;"></textarea>
@@ -343,7 +343,7 @@
 		</div>
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>รูปโปรไฟล์ : </span>
+				<span><?php echo $this->lang->line('profile_image'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<input type="file" name="fProfile" id="fProfile" onchange="change_img()">
@@ -368,8 +368,8 @@
 				
 			</div>
 			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-				<button type="button" class="btn btn-primary" onclick="save_data()">บันทึก</button>
-				<button type="button" class="btn btn-warning" onclick="clear_data()">ล้าง</button>
+				<button type="button" class="btn btn-primary" onclick="save_data()"><?php echo $this->lang->line('save'); ?></button>
+				<button type="button" class="btn btn-warning" onclick="clear_data()"><?php echo $this->lang->line('clear'); ?></button>
 			</div>
 		</div>
 	</form>
@@ -387,8 +387,8 @@
          	<table class="table" id="tb-status-list">
          		<thead>
 				<tr>
-					<th>ลำดับ</th>
-					<th>สถานะ</th>
+					<th><?php echo $this->lang->line('no'); ?></th>
+					<th><?php echo $this->lang->line('status'); ?></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -414,7 +414,7 @@
       </div>
       <div class="modal-footer">
       	<!-- <button type="button" class="btn btn-success" id="btn-save-noapprove" onclick="save_noapprove()">บันทึก</button> -->
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"><?php echo $this->lang->line('close'); ?></button>
       </div>
     </div>
   </div>
@@ -466,7 +466,7 @@
 					str_html += " </td>"; 	
 					str_html += " <td align='center'>";
 					str_html += " 	<i class='fa fa-edit' style='font-size:20px' onclick='to_add_data("+v.id+")'></i>";
-					str_html += " 	<i class='fa fa-exchange' style='font-size:20px' onclick='open_chang_status("+v.id+","+v.m_status_employee_id+",\""+v.code+" "+v.prefix+v.name+" "+v.last_name+"\")' title='เปลี่ยนสถานะพนักงาน'></i>";
+					str_html += " 	<i class='fa fa-exchange' style='font-size:20px' onclick='open_chang_status("+v.id+","+v.m_status_employee_id+",\""+v.code+" "+v.prefix+v.name+" "+v.last_name+"\")' title='<?php echo $this->lang->line('change_status'); ?>'></i>";
 					str_html += " </td>"; 	
 					str_html += "</tr>"; 
 
@@ -474,9 +474,9 @@
 					
 				});
 
-				forLang();
+				// forLang();
 			}else{
-				str_html += "<td colspan='10' class='text-center' style='color:red;margin-top:15px;'> ไม่พบข้อมูล </td>";
+				str_html += "<td colspan='10' class='text-center' style='color:red;margin-top:15px;'> <?php echo $this->lang->line('no_data'); ?> </td>";
 			}
 
 			$("#tb-quo-list tbody").html( str_html );

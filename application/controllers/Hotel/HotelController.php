@@ -16,7 +16,7 @@ class HotelController extends CI_Controller {
         $this->load->model('MQuotation');
         $data = array();
         $data['adminlist']      = array();
-        $data['title']          = 'จัดการข้อมูลโรงแรม';
+        $data['title']          = $this->lang->line('manage_hotel_data');
         $data["quarter"]        = $this->search_quarter(""); 
         $data["province"]       = $this->search_province("");
         $data["amphur"]     	= $this->search_amphur("");

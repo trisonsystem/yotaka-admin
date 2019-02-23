@@ -1,8 +1,11 @@
 var languages = [];
 
 $( document ).ready(function() {
-  $.cookie(keyword+"Lang", "en");
+  // $.cookie(keyword+"Lang", "en");
+  
+  update_login();
   SetLeague();
+  
 });
 
 
@@ -30,4 +33,20 @@ function changeLang(lang){
       $.cookie(keyword+"Lang", lang);
       location.reload();
     // });
+}
+
+var si_update_login;
+function update_login(){
+  
+      $.get( "login/update_login", { }, function( arrData ) {
+        var aData     = jQuery.parseJSON(arrData);
+        console.log( aData.status_flag );
+        if (aData.status_flag == "false") { 
+           location = "login";
+        }
+      });
+  setInterval(function(){ 
+      update_login();
+  }, 10000);
+    
 }

@@ -2,6 +2,7 @@
 $ci = get_instance(); // CI_Loader instance
 $api_url  = $ci->config->config['api_url'];
 $des_key  = $ci->config->config['des_key'];
+$keyword  = $ci->config->config['keyword'];
 $ci->load->config('config');
 $ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file','key_prefix' => 'lang_'));
 
@@ -26,9 +27,6 @@ if(!empty($decode)){
 		$lang[$k] = $v;			
 	}
 }
-
-
-
 
 
         

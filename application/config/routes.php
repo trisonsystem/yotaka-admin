@@ -51,7 +51,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $route['default_controller'] 	= 'LoginController';
 $route['login'] 				= 'LoginController';
+$route['login/update_login'] 	= 'LoginController/update_login';
+$route['logout'] 				= 'LoginController/logout';
 $route['chkLogin'] 				= 'LoginController/chkLogin';
+$route['maintenance'] 			= 'LoginController/maintenance';
+
 
 $route['main'] 					= 'MainController';
 $route['main/(:any)'] 			= 'MainController/$1';

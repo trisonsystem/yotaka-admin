@@ -24,11 +24,11 @@ class LoginController extends CI_Controller {
             }
         }
 
-        if($chkCookie == false){
-            redirect('main', 'refresh');
-        }else{
+        // if($chkCookie == false){
+        //     redirect('main', 'refresh');
+        // }else{
             $this->load->view('login/login');
-        }
+        // }
     }
 
     public function chkLogin(){
@@ -43,7 +43,7 @@ class LoginController extends CI_Controller {
             redirect('login', 'refresh');
         }
 
-        $vdata  = array("u_username"=>$usr,"u_password"=>$pwd,"u_ip"=>$ip);
+        $data  = array("u_username"=>$usr,"u_password"=>$pwd,"u_ip"=>$ip);
         // $code   = encode(json_encode($vdata));
         // $json   = cUrl($this->apiUrl.'/admin/admin_login',"post","vdata=".$code);
         // $data   = json_decode($json,true);
@@ -51,24 +51,30 @@ class LoginController extends CI_Controller {
         // $param = http_build_query(array('data' => $dataInfo));
         // echo cUrl(CASH_API_URL.'/bank',"post",$param);
 
-        // debug($vdata,true);
-        $data['status'] = 1;
+        $arrData    = json_encode($data);
+        $dataInfo   = TripleDES::encryptText($arrData, $this->des_key);
+        $param      = http_build_query(array('data' => $dataInfo));
+        $apiUrl     = $this->api_url.'/login/admin_login';
+        $result     = cUrl($apiUrl,"post",$param);
+        $data       = json_decode($result,true);
+        // debug($result,true);
 
-        if($data['status'] == 1){
+        if($data['status_flag'] == 1){
           
             $arrToken = array( 
-                    'user'    => 'chate',
+                    'user'    => $usr,
                     'date'    => date('Y-m-d H:i:s'),
                     'ip'      => $ip,
                     'lang'    => 'en',
-                    'rndkey'  => 'KsAsFUHSyl9bH3qUTxxHg1mZGRgwQpQ4',
+                    'rndkey'  => $data['key_token'],
                 );
 
             $token = encode($arrToken);
 
             setcookie($this->keyword."token",'');
+            setcookie($this->keyword."user",$usr);
             setcookie($this->keyword."lang",'');
-            
+
             setcookie($this->keyword."token",$token);
             setcookie($this->keyword."lang",$lang);
 
@@ -80,13 +86,42 @@ class LoginController extends CI_Controller {
         }
     }
 
+    public function update_login(){
+        if (isset($_COOKIE[$this->keyword."token"])) {
+            $token = decode($_COOKIE[$this->keyword."token"]);
+
+            // debug($token, 1);
+            $data       = array("u_username"=>$token["user"],"key_token"=>$token["rndkey"]);
+            $arrData    = json_encode($data);
+            $dataInfo   = TripleDES::encryptText($arrData, $this->des_key);
+            $param      = http_build_query(array('data' => $dataInfo));
+            $apiUrl     = $this->api_url.'/login/update_login';
+            $result     = cUrl($apiUrl,"post",$param);
+            $data       = json_decode($result,true);
+            if(!$data['status_flag'] == 1){
+                $this->logout();
+            }
+        }else{
+            setcookie($this->keyword."user",'');
+            setcookie($this->keyword."token",'');
+           
+           $arr = array(
+                "status_flag" => "false",
+                "msg"  => "log out"
+           );
+           print_r( json_encode($arr) );
+        }
+// debug($result, 1);
+    }
     
     public function logout(){
-
-        // setcookie($this->keyword."user",'');
-        setcookie($this->keyword."token",'');
-        setcookie($this->keyword."lang",'');
-        // setcookie($this->keyword."authorization",'');
+        if (isset($_COOKIE[$this->keyword."token"])) {
+            setcookie($this->keyword."user",'');
+            setcookie($this->keyword."token",'');
+            // setcookie($this->keyword."Lang",'');
+            // setcookie($this->keyword."authorization",'');
+        }
+        
 
         redirect('login', 'refresh');
     }
