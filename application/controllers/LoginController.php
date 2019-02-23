@@ -36,10 +36,16 @@ class LoginController extends CI_Controller {
         $usr   = (!empty($_POST['usr']))? $_POST['usr'] : '';
         $pwd   = (!empty($_POST['pwd']))? $_POST['pwd'] : '';
         $lang  = (!empty($_POST['lang']))? $_POST['lang'] : 'en';
+        $captcha        = (!empty($_POST['captcha']))? $_POST['captcha'] : '';
+        $CaptchaCode    = (!empty($_POST['CaptchaCode']))? $_POST['CaptchaCode'] : '';
+
         $ip    = (isset($_SERVER['HTTP_CF_CONNECTING_IP']))? $_SERVER['HTTP_CF_CONNECTING_IP'] : $_SERVER['REMOTE_ADDR'];
 
         if($usr == '' || $pwd == ''){
             setcookie($this->keyword."error",'No Username Or Password');
+            redirect('login', 'refresh');
+        }else if($captcha != $CaptchaCode){
+            setcookie($this->keyword."error",'Captcha Number Not Macth!');
             redirect('login', 'refresh');
         }
 
