@@ -1,4 +1,8 @@
-<?php $path_assets = base_url()."assets/"; ?>
+<?php 
+	$path_assets = base_url()."assets/"; 
+	$path_host  = $this->config->config['base_url'];
+	$keyword    = $this->config->config['keyword'];
+?>
 <style type="text/css">
 	.row{ margin-top: 5px; }
 	#box-manage{
@@ -27,12 +31,14 @@
 		<h3 style="font-weight: bold;" class="lang_manage_hotel_data"><?php echo $title;?></h3>
 	</div>
 	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-right">
-		<button type="button" class="btn btn-secondary" onclick="to_add_data( '0' )" id="btn-toadd_data" style="margin-top: 10px; width: 100px;"><?php echo $this->lang->line('add'); ?></button>
-		<button type="button" class="btn btn-warning" onclick="to_manage_data()" id="btn-tomanage_data" style="margin-top: 10px; width: 100px; display: none;"><?php echo $this->lang->line('cancel'); ?></button>
+		<?php if ($_COOKIE[$keyword."level"] == "SA") { ?>
+			<button type="button" class="btn btn-secondary" onclick="to_add_data( '0' )" id="btn-toadd_data" style="margin-top: 10px; width: 100px;"><?php echo $this->lang->line('add'); ?></button>
+			<button type="button" class="btn btn-warning" onclick="to_manage_data()" id="btn-tomanage_data" style="margin-top: 10px; width: 100px; display: none;"><?php echo $this->lang->line('cancel'); ?></button>
+		<?php } ?>
 	</div>
 </div>
 <br>
-<div id="box-show-search">
+<div id="box-show-search" <?php if ($_COOKIE[$keyword."level"] != "SA") { echo "style='display:none;'"; } ?> >
 	<div class="box-search">
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
@@ -357,11 +363,17 @@
 			<tbody>
 				<?php
 					$str_html = "";
-					foreach ($status_hotel as $key => $value) {
+					if (count($status_hotel) > 0) {
+						foreach ($status_hotel as $key => $value) {
+							$str_html  .= "<tr>";
+							$str_html  .= "	<td class='text-center'>".($key+1)."</td>";
+							$str_html  .= "	<td><label style='cursor:pointer' onclick='chang_status(".$value->id.")'><input type='radio' id='rStatus".$value->id."' name='rStatus' value='".$value->id."' > &nbsp;".$value->name."</label></td>";
+							$str_html  .= "</tr>";
+						}
+					}else{
 						$str_html  .= "<tr>";
-						$str_html  .= "	<td class='text-center'>".($key+1)."</td>";
-						$str_html  .= "	<td><label style='cursor:pointer' onclick='chang_status(".$value->id.")'><input type='radio' id='rStatus".$value->id."' name='rStatus' value='".$value->id."' > &nbsp;".$value->name."</label></td>";
-						$str_html  .= "</tr>";
+							$str_html  .= "	<td class='text-center' colspan='2'>".$this->lang->line("no_data")."</td>";
+							$str_html  .= "</tr>";
 					}
 					echo $str_html;
 				?>
@@ -388,6 +400,7 @@
 	var no_page = false;
 	$(document).ready(function() {
 		get_data_list();
+		
 	});
 
 	function get_data_list(){
@@ -424,10 +437,10 @@
 					str_html += " 	<i class='fa fa-exchange' style='font-size:20px' onclick='open_chang_status("+v.id+","+v.m_status_hotel_id+",\""+v.code+" "+v.name_th+"\")' title='เปลี่ยนสถานะพนักงาน'></i>";
 					str_html += " </td>"; 	
 					str_html += "</tr>"; 
-
-					
 					
 				});
+
+				if ($.cookie(keyword+"level") != "SA") { to_add_data(aData[0]["id"]);  }	
 			}else{
 				str_html += "<td colspan='10' class='text-center' style='color:red;margin-top:15px;'> ไม่พบข้อมูล </td>";
 			}

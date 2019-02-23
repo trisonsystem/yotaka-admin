@@ -60,7 +60,6 @@
     <script type="text/javascript" src="<?php echo $path_host ?>assets/java/main.js"></script>
 </head>
 <body class="no-skin">
-	
     <div id="navbar" class="navbar navbar-default navbar-fixed-top">
 
         <script type="text/javascript">
@@ -160,7 +159,7 @@
     
             <div class="navbar-buttons navbar-header pull-right responsive" role="navigation" id="info">
                 <ul class="nav ace-nav">
-                    <?php if( $_COOKIE[$keyword."user"] == "admin" ){ ?>
+                    <?php if( $_COOKIE[$keyword."level"] == "SA" ){ ?>
                     <li class="green" id="drop_lang">
                         <a data-toggle="dropdown" href="#" class="dropdown-toggle">
                            <?php 

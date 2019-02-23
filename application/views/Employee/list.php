@@ -1,4 +1,8 @@
-<?php $path_assets = base_url()."assets/"; ?>
+<?php 
+	$path_assets = base_url()."assets/"; 
+	$path_host  = $this->config->config['base_url'];
+	$keyword    = $this->config->config['keyword'];
+?>
 <style type="text/css">
 	.row{ margin-top: 5px; }
 	#box-manage{
@@ -205,25 +209,12 @@
 		</div>
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span><?php echo $this->lang->line('hotel'); ?> : </span>
-			</div>
-			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-				<select id="slHotel" name="slHotel" class="form-control">
-					<option value=""> <?php echo $this->lang->line('sl_select'); ?> </option>
-					<?php 
-						foreach ($hotel as $key => $value) {
-							echo '<option value="'.$value->id.'">'.$value->name_th.'</option>';
-						}
-					?>
-				</select>
-			</div>
-			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
 				<span><?php echo $this->lang->line('rights'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<select id="slRights" name="slRights" class="form-control">
 					<option value=""> <?php echo $this->lang->line('sl_select'); ?> </option>
-					<option value="SA"> Super Admin </option>
+					<?php if($_COOKIE[$keyword."level"] == "SA" ){ ?><option value="SA"> Super Admin </option> <?php } ?>
 					<option value="A"> Admin </option>
 					<option value="EM"> Employee </option>
 				</select>
@@ -587,7 +578,6 @@
 					$("#slDivision option[value='"+aData.m_division_id+"']").prop('selected', true);
 					$("#slDepartment option[value='"+aData.m_department_id+"']").prop('selected', true);
 					$("#slPosition option[value='"+aData.m_position_id+"']").prop('selected', true);
-					$("#slHotel option[value='"+aData.hotel_id+"']").prop('selected', true);
 					$("#slRights option[value='"+aData.rights+"']").prop('selected', true);
 					$("#txtCardNumber").val(aData.id_card);
 					$("#txtTel").val(aData.tel);

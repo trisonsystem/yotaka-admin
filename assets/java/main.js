@@ -42,7 +42,10 @@ var si_update_login;
 function update_login(){
     $.get( "login/update_login", { }, function( arrData ) {
       var aData     = jQuery.parseJSON(arrData);
-      if (aData.status_flag == "false") { 
+      if (aData.status_flag == "false" || aData.status_flag == false) { 
+
+        $.get( "login/logout", { }, function( arrData ) {  console.log("logout");    });
+
          location = "login";
       }
     });

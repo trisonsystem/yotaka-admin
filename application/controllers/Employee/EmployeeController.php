@@ -29,6 +29,8 @@ class EmployeeController extends CI_Controller {
     }
 
     public function sent_to_api( $path, $aData){
+        $aData["hotel_id"]  = $_COOKIE[$this->keyword."hotel_id"];
+        $aData["user"]      = $_COOKIE[$this->keyword."user"];
         $aData      = ($aData == "") ?  $this->arr_sent : $aData;
         $arrData    = json_encode($aData);
         $dataInfo   = TripleDES::encryptText($arrData, $this->des_key);
@@ -39,8 +41,6 @@ class EmployeeController extends CI_Controller {
     }
 
     public function search_employee(){
-        $_GET["user"]  = $_COOKIE[$this->keyword."user"];
-        $aData["user"] = $_COOKIE[$this->keyword."user"];
         $json_data  = $this->sent_to_api( '/employee/search_employee', $_GET );
         echo $json_data;
     }
@@ -74,16 +74,12 @@ class EmployeeController extends CI_Controller {
     }
 
     public function search_status_employee( $aData = "" ){
-        $_GET["user"]  = $_COOKIE[$this->keyword."user"];
-        $aData["user"] = $_COOKIE[$this->keyword."user"];
         $aData    = ( isset($_GET['status_employee_id']) ) ? $_GET : $aData ;
         $json_data  = $this->sent_to_api( '/employee/search_status_employee', $aData );
        return json_decode($json_data);
     }
 
     public function search_hotel( $aData = "" ){
-        $_GET["user"]  = $_COOKIE[$this->keyword."user"];
-        $aData["user"] = $_COOKIE[$this->keyword."user"];
         $aData      = ( isset($_GET['hotel_code']) ) ? $_GET : $aData ;
         $json_data  = $this->sent_to_api( '/master/search_hotel_use', $aData );
         return json_decode($json_data);
@@ -91,7 +87,6 @@ class EmployeeController extends CI_Controller {
 
     public function save_data(){
         $_POST["user"] = $_COOKIE[$this->keyword."user"];
-        $_POST["hotel_id"] = $_COOKIE[$this->keyword."hotel_id"];
         $json_data  = $this->sent_to_api( '/employee/save_data', $_POST );
         $aData      = json_decode($json_data);
         if ($aData->flag) {
@@ -108,8 +103,7 @@ class EmployeeController extends CI_Controller {
 
     public function chang_status(){
         $_POST["user"] = $_COOKIE[$this->keyword."user"];
-        $_POST["hotel_id"] = $_COOKIE[$this->keyword."hotel_id"];
-        $json_data  = $this->sent_to_api( '/employee/chang_status', $_POST );
+        $json_data     = $this->sent_to_api( '/employee/chang_status', $_POST );
         echo $json_data;
     }
 

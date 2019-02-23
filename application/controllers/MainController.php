@@ -43,6 +43,8 @@ class MainController extends CI_Controller {
 	}
 
     public function sent_to_api( $path, $aData){
+        $aData["hotel_id"]  = $_COOKIE[$this->keyword."hotel_id"];
+        $aData["user"]      = $_COOKIE[$this->keyword."user"];
         $aData      = ($aData == "") ?  $this->arr_sent : $aData;
         $arrData    = json_encode($aData);
         $dataInfo   = TripleDES::encryptText($arrData, $this->des_key);

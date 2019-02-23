@@ -80,7 +80,7 @@ class LoginController extends CI_Controller {
             setcookie($this->keyword."user",$usr);
             setcookie($this->keyword."lang",'');
             setcookie($this->keyword."hotel_id", $data["hotel_id"]);
-            setcookie($this->keyword."level", $data["hotel_id"]);
+            setcookie($this->keyword."level", $data["level"]);
 
             setcookie($this->keyword."token",$token);
             setcookie($this->keyword."lang",$lang);
@@ -109,9 +109,10 @@ class LoginController extends CI_Controller {
             echo $result;
             
         }else{
-            setcookie($this->keyword."user",'');
+            ssetcookie($this->keyword."user",'');
             setcookie($this->keyword."token",'');
-           
+            setcookie($this->keyword."hotel_id", "");
+            setcookie($this->keyword."level", "");
         }
 
         // print_r( json_encode($arr) );
@@ -121,6 +122,8 @@ class LoginController extends CI_Controller {
         if (isset($_COOKIE[$this->keyword."token"])) {
             setcookie($this->keyword."user",'');
             setcookie($this->keyword."token",'');
+            setcookie($this->keyword."hotel_id", "");
+            setcookie($this->keyword."level", "");
             // setcookie($this->keyword."Lang",'');
             // setcookie($this->keyword."authorization",'');
         }
