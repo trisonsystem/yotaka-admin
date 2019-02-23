@@ -215,6 +215,7 @@
 			division_status : $("#divisionStatus").val(),
 			page : page
 		}
+
 		$.get("division/search_division", option,function( aData ){
 			aData = jQuery.parseJSON( aData );
 			// console.log(aData);
@@ -249,170 +250,170 @@
 		});
     }
 
-	function get_select_divcode(){
-		$.get("division/search_division_code", function( aData ){
-			aData = jQuery.parseJSON( aData );
-			var str_option  = "";			
-			str_option += "<option value=''> -- เลือกรหัสแผนก -- </option>";
-			$.each(aData, function(k , v){
-				str_option += "<option value='"+v.code+"'>"+v.code+"</option>";				
-			});
-			$("#divisionCode").html( str_option );
-		});
-	}
+	// function get_select_divcode(){
+	// 	$.get("division/search_division_code", function( aData ){
+	// 		aData = jQuery.parseJSON( aData );
+	// 		var str_option  = "";			
+	// 		str_option += "<option value=''> -- เลือกรหัสแผนก -- </option>";
+	// 		$.each(aData, function(k , v){
+	// 			str_option += "<option value='"+v.code+"'>"+v.code+"</option>";				
+	// 		});
+	// 		$("#divisionCode").html( str_option );
+	// 	});
+	// }
 
-	function get_select_divname(){
-		$.get("division/search_division_name", function( aData ){
-			aData = jQuery.parseJSON( aData );
-			// console.log(aData);
+	// function get_select_divname(){
+	// 	$.get("division/search_division_name", function( aData ){
+	// 		aData = jQuery.parseJSON( aData );
+	// 		// console.log(aData);
 			
-			var str_option  = "";			
-			str_option += "<option value=''> -- เลือกแผนก -- </option>";
-			$.each(aData, function(k , v){
-				str_option += "<option value='"+v.name+"'>"+v.name+"</option>";				
-			});
-			$("#divisionName").html( str_option );
-		});
-	}
+	// 		var str_option  = "";			
+	// 		str_option += "<option value=''> -- เลือกแผนก -- </option>";
+	// 		$.each(aData, function(k , v){
+	// 			str_option += "<option value='"+v.name+"'>"+v.name+"</option>";				
+	// 		});
+	// 		$("#divisionName").html( str_option );
+	// 	});
+	// }
 
-	function set_number_page( status ){ 
-		var str = "";
-		if (no_page == false) {
-			for(var i=1; i <= page ; i++){
-				var css = (i == page) ? "default" : "link";
-				if (page != 1) {
-					str += '<button type="button" class="btn btn-'+css+' btn-xs" id="btn-to-page'+i+'" onclick="to_page('+i+');">'+i+'</button>';
-				}
-				if (status && i == page) { 
-					if(page != 1){ $("#bnt-Previous").show(); } else{ $("#bnt-Previous").hide(); }
-					$("#bnt-next").show(); 
-					str += '<button type="button" class="btn btn-link btn-xs" id="btn-to-page'+(i+1)+'" onclick="to_page('+(i+1)+')">'+(i+1)+'</button>';
-					no_page = true;
-				}else if (!status) {
-					$("#bnt-next").hide(); 
-				}
-			}
-			$("#div-page-number").html( str );
-		}else{
-			$("#div-page-number").find(".btn-default").each(function(){
-				$(this).removeClass("btn-default");
-				$(this).addClass("btn-link");
-			});
+	// function set_number_page( status ){ 
+	// 	var str = "";
+	// 	if (no_page == false) {
+	// 		for(var i=1; i <= page ; i++){
+	// 			var css = (i == page) ? "default" : "link";
+	// 			if (page != 1) {
+	// 				str += '<button type="button" class="btn btn-'+css+' btn-xs" id="btn-to-page'+i+'" onclick="to_page('+i+');">'+i+'</button>';
+	// 			}
+	// 			if (status && i == page) { 
+	// 				if(page != 1){ $("#bnt-Previous").show(); } else{ $("#bnt-Previous").hide(); }
+	// 				$("#bnt-next").show(); 
+	// 				str += '<button type="button" class="btn btn-link btn-xs" id="btn-to-page'+(i+1)+'" onclick="to_page('+(i+1)+')">'+(i+1)+'</button>';
+	// 				no_page = true;
+	// 			}else if (!status) {
+	// 				$("#bnt-next").hide(); 
+	// 			}
+	// 		}
+	// 		$("#div-page-number").html( str );
+	// 	}else{
+	// 		$("#div-page-number").find(".btn-default").each(function(){
+	// 			$(this).removeClass("btn-default");
+	// 			$(this).addClass("btn-link");
+	// 		});
 
-			$("#btn-to-page"+page).removeClass("btn-link");
-			$("#btn-to-page"+page).addClass("btn-default");
-		}
+	// 		$("#btn-to-page"+page).removeClass("btn-link");
+	// 		$("#btn-to-page"+page).addClass("btn-default");
+	// 	}
 		
-	}
+	// }
 
-	function next_page( number_page ){
-		no_page = false;
-		page 	= number_page;
-		get_data_list();
-	}
+	// function next_page( number_page ){
+	// 	no_page = false;
+	// 	page 	= number_page;
+	// 	get_data_list();
+	// }
 
-	function to_page( number_page ){
-		no_page = true;
-		page 	= number_page;
-		get_data_list();
-	}
+	// function to_page( number_page ){
+	// 	no_page = true;
+	// 	page 	= number_page;
+	// 	get_data_list();
+	// }
 
-	function previous( number_page ){
-		if (number_page == 0) { return; }
-		page = number_page;
-		if (page < 1) { page = 1; }
-		get_data_list();
-	}
+	// function previous( number_page ){
+	// 	if (number_page == 0) { return; }
+	// 	page = number_page;
+	// 	if (page < 1) { page = 1; }
+	// 	get_data_list();
+	// }
 
-	function clear_data(){
-		$("input").val("");
-		$("select").val("");
-		$("textarea").val("");
-	}
+	// function clear_data(){
+	// 	$("input").val("");
+	// 	$("select").val("");
+	// 	$("textarea").val("");
+	// }
 
-	function to_manage_data(){ //หน้า listdata
-		$("#box-manage").hide();
-		$("#box-show-search").show();
-		$("#btn-toadd_data").show();
-		$("#btn-tomanage_data").hide();
-		$("#box-manage").css("width","0");
-	}
+	// function to_manage_data(){ //หน้า listdata
+	// 	$("#box-manage").hide();
+	// 	$("#box-show-search").show();
+	// 	$("#btn-toadd_data").show();
+	// 	$("#btn-tomanage_data").hide();
+	// 	$("#box-manage").css("width","0");
+	// }
 
-	function to_add_data( division_id = 0 ){
-		$("#txtDivision_id").val( division_id );
-		$("#box-manage").show();
-		$("#box-show-search").hide();
-		$("#btn-toadd_data").hide();
-		$("#btn-tomanage_data").show();
-		$("#box-manage").css("width","100%");
+	// function to_add_data( division_id = 0 ){
+	// 	$("#txtDivision_id").val( division_id );
+	// 	$("#box-manage").show();
+	// 	$("#box-show-search").hide();
+	// 	$("#btn-toadd_data").hide();
+	// 	$("#btn-tomanage_data").show();
+	// 	$("#box-manage").css("width","100%");
 
-		if (division_id !=0) {
-			var option = {
-				division_id 	: division_id
-			}
-			$.get("division/search_division", option,function( aData ){
-				aData = jQuery.parseJSON( aData );
-				if ( Object.keys(aData).length > 1) {
-					aData = aData[0];
-					$("#txtDivisionCode").val(aData.code);
-					$("#txtDivisionName").val(aData.name);
-					// $("#txtDivisionStatus").val(aData.status);
-					$("#txtDivisionStatus option[value='"+aData.status+"']").prop('selected', true);
-				} else {
-					alert( "no data" );
-				}
-			});
-		} else {
-			alert("0");
-			clear_data();
-			$("#txtDivision_id").val("0");
-		}
-	}
+	// 	if (division_id !=0) {
+	// 		var option = {
+	// 			division_id 	: division_id
+	// 		}
+	// 		$.get("division/search_division", option,function( aData ){
+	// 			aData = jQuery.parseJSON( aData );
+	// 			if ( Object.keys(aData).length > 1) {
+	// 				aData = aData[0];
+	// 				$("#txtDivisionCode").val(aData.code);
+	// 				$("#txtDivisionName").val(aData.name);
+	// 				// $("#txtDivisionStatus").val(aData.status);
+	// 				$("#txtDivisionStatus option[value='"+aData.status+"']").prop('selected', true);
+	// 			} else {
+	// 				alert( "no data" );
+	// 			}
+	// 		});
+	// 	} else {
+	// 		alert("0");
+	// 		clear_data();
+	// 		$("#txtDivision_id").val("0");
+	// 	}
+	// }
 
-	function save_data(){
-		var aData = JSON.stringify( $("#form-manage").serializeArray() );
-			aData = jQuery.parseJSON( aData );
-		if (validate(aData)) {
-			$.post("division/save_data",  aData  ,function( res ){
-				res = jQuery.parseJSON( res ); 
-				if (res.flag) {
-					alert( res.msg );
-					get_data_list();					
-					to_manage_data();
-					get_select_divcode();
-					get_select_divname();
-				}else{
-					alert( res.msg );
-				}
-			});
-		}
-	}
+	// function save_data(){
+	// 	var aData = JSON.stringify( $("#form-manage").serializeArray() );
+	// 		aData = jQuery.parseJSON( aData );
+	// 	if (validate(aData)) {
+	// 		$.post("division/save_data",  aData  ,function( res ){
+	// 			res = jQuery.parseJSON( res ); 
+	// 			if (res.flag) {
+	// 				alert( res.msg );
+	// 				get_data_list();					
+	// 				to_manage_data();
+	// 				get_select_divcode();
+	// 				get_select_divname();
+	// 			}else{
+	// 				alert( res.msg );
+	// 			}
+	// 		});
+	// 	}
+	// }
 
-	function validate(aData){
-		var status = true;
-		$.each(aData,function(k,v){
-			if (v.name != "txtDivision_id" && v.name != "txtDivision_code") {
-				var obj = $("#"+v.name);				
-				if (obj.val() == "") {
-					obj.addClass("error-form");
-					obj.focus();
-					status = false;			
-				}else{
-					obj.removeClass("error-form");
-				}
-			}			
-		});		
+	// function validate(aData){
+	// 	var status = true;
+	// 	$.each(aData,function(k,v){
+	// 		if (v.name != "txtDivision_id" && v.name != "txtDivision_code") {
+	// 			var obj = $("#"+v.name);				
+	// 			if (obj.val() == "") {
+	// 				obj.addClass("error-form");
+	// 				obj.focus();
+	// 				status = false;			
+	// 			}else{
+	// 				obj.removeClass("error-form");
+	// 			}
+	// 		}			
+	// 	});		
 
-		return status;
-	}
+	// 	return status;
+	// }
 
-	function open_chang_status( division_id, status, text_title ){
-		$("#txtStatus_division_id").val( division_id );
-		$("#md-title").html( text_title );		
-		$("#modal-page").modal("show");
-		setTimeout(function(){
-			$('input:radio[name="rStatus"][value="'+status+'"]').prop('checked', true);
-		},300);
-	}
+	// function open_chang_status( division_id, status, text_title ){
+	// 	$("#txtStatus_division_id").val( division_id );
+	// 	$("#md-title").html( text_title );		
+	// 	$("#modal-page").modal("show");
+	// 	setTimeout(function(){
+	// 		$('input:radio[name="rStatus"][value="'+status+'"]').prop('checked', true);
+	// 	},300);
+	// }
 
 </script>
