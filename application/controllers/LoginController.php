@@ -93,6 +93,7 @@ class LoginController extends CI_Controller {
     }
 
     public function update_login(){
+        $arr = array("status_flag" => "false", "msg"  => "log out" );
         if (isset($_COOKIE[$this->keyword."token"])) {
             $token = decode($_COOKIE[$this->keyword."token"]);
 
@@ -103,21 +104,14 @@ class LoginController extends CI_Controller {
             $param      = http_build_query(array('data' => $dataInfo));
             $apiUrl     = $this->api_url.'/login/update_login';
             $result     = cUrl($apiUrl,"post",$param);
-            $data       = json_decode($result,true);
-            if(!$data['status_flag'] == 1){
-                $this->logout();
-            }
+            $arr        = json_decode($result,true);
+            
         }else{
             setcookie($this->keyword."user",'');
             setcookie($this->keyword."token",'');
            
-           $arr = array(
-                "status_flag" => "false",
-                "msg"  => "log out"
-           );
-           print_r( json_encode($arr) );
         }
-// debug($result, 1);
+        print_r( json_encode($arr) );
     }
     
     public function logout(){

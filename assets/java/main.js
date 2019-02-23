@@ -40,7 +40,6 @@ function update_login(){
   
       $.get( "login/update_login", { }, function( arrData ) {
         var aData     = jQuery.parseJSON(arrData);
-        console.log( aData.status_flag );
         if (aData.status_flag == "false") { 
            location = "login";
         }
