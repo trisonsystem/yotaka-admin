@@ -12,7 +12,6 @@ class LoginController extends CI_Controller {
     }
 
     public function index(){
-
         $chkCookie  = true;
         $arrCookie  = array('token','lang');
 
@@ -63,7 +62,7 @@ class LoginController extends CI_Controller {
         $apiUrl     = $this->api_url.'/login/admin_login';
         $result     = cUrl($apiUrl,"post",$param);
         $data       = json_decode($result,true);
-        // debug($result,true);
+       
 
         if($data['status_flag'] == 1){
           
@@ -80,6 +79,8 @@ class LoginController extends CI_Controller {
             setcookie($this->keyword."token",'');
             setcookie($this->keyword."user",$usr);
             setcookie($this->keyword."lang",'');
+            setcookie($this->keyword."hotel_id", $data["hotel_id"]);
+            setcookie($this->keyword."level", $data["hotel_id"]);
 
             setcookie($this->keyword."token",$token);
             setcookie($this->keyword."lang",$lang);
@@ -104,14 +105,16 @@ class LoginController extends CI_Controller {
             $param      = http_build_query(array('data' => $dataInfo));
             $apiUrl     = $this->api_url.'/login/update_login';
             $result     = cUrl($apiUrl,"post",$param);
-            $arr        = json_decode($result,true);
+            // $arr        = json_decode($result,true);
+            echo $result;
             
         }else{
             setcookie($this->keyword."user",'');
             setcookie($this->keyword."token",'');
            
         }
-        print_r( json_encode($arr) );
+
+        // print_r( json_encode($arr) );
     }
     
     public function logout(){

@@ -10,14 +10,14 @@ class MainController extends CI_Controller {
     	$this->apiUrl  = $this->config->config['api_url'];
         $this->token   = (isset($_COOKIE[$this->keyword.'token'])) ? $_COOKIE[$this->keyword.'token'] : '';
     	// $this->token   = '4ddfdgghrdfyjhtuoookgftyu';
+        $this->des_key  = $this->config->config['des_key'];
         
   	}
 
 	public function index(){
 
         $chkCookie  = true;
-        // $arrCookie  = array('token','lang');
-        $arrCookie  = array('lang');
+        $arrCookie  = array('token','lang');
         foreach ($arrCookie as $value) {
           if(isset($_COOKIE[$this->keyword.$value])){
             $chkCookie = false;
@@ -33,7 +33,7 @@ class MainController extends CI_Controller {
             // $data['messageShow']    = messageRunning($this->token);
             // $data['senior']         = seniorMessage($this->token);
             $data['title']          = $this->lang->line('main_menu');
-
+            $data["hotel"]          = $this->search_hotel("");
             $this->load->view('layout/app',$data);
         }else{
             redirect('login','refresh');
@@ -41,6 +41,24 @@ class MainController extends CI_Controller {
         $data                   = array();
 
 	}
+
+    public function sent_to_api( $path, $aData){
+        $aData      = ($aData == "") ?  $this->arr_sent : $aData;
+        $arrData    = json_encode($aData);
+        $dataInfo   = TripleDES::encryptText($arrData, $this->des_key);
+        $param      = http_build_query(array('data' => $dataInfo));
+        $apiUrl     = $this->apiUrl.$path;
+        $json_data  = cUrl($apiUrl,"post",$param);
+        return $json_data;
+    }
+
+    public function search_hotel( $aData = "" ){
+        $_GET["user"]  = $_COOKIE[$this->keyword."user"];
+        $aData["user"] = $_COOKIE[$this->keyword."user"];
+        $aData      = ( isset($_GET['hotel_code']) ) ? $_GET : $aData ;
+        $json_data  = $this->sent_to_api( '/master/search_hotel_use', $aData );
+        return $json_data;
+    }
 
 	public function adminList(){
 

@@ -3,9 +3,12 @@ var languages = [];
 $( document ).ready(function() {
   // $.cookie(keyword+"Lang", "en");
   
-  update_login();
-  SetLeague();
   
+  SetLeague();
+  update_login();
+  setInterval(function(){ 
+      update_login();
+  }, 10 * 60 * 1000);
 });
 
 
@@ -37,15 +40,10 @@ function changeLang(lang){
 
 var si_update_login;
 function update_login(){
-  
-      $.get( "login/update_login", { }, function( arrData ) {
-        var aData     = jQuery.parseJSON(arrData);
-        if (aData.status_flag == "false") { 
-           location = "login";
-        }
-      });
-  setInterval(function(){ 
-      update_login();
-  }, 10000);
-    
+    $.get( "login/update_login", { }, function( arrData ) {
+      var aData     = jQuery.parseJSON(arrData);
+      if (aData.status_flag == "false") { 
+         location = "login";
+      }
+    });
 }

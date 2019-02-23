@@ -160,6 +160,31 @@
     
             <div class="navbar-buttons navbar-header pull-right responsive" role="navigation" id="info">
                 <ul class="nav ace-nav">
+                    <?php if( $_COOKIE[$keyword."user"] == "admin" ){ ?>
+                    <li class="green" id="drop_lang">
+                        <a data-toggle="dropdown" href="#" class="dropdown-toggle">
+                           <?php 
+                                $hotel = json_decode($hotel);
+                                foreach ($hotel as $k => $v) { 
+                                    if ($_COOKIE[$keyword."hotel_id"] == $v->id) {
+                                        echo $v->name_th;
+                                    }
+                                } 
+                            ?>
+                            <i class="ace-icon fa fa-caret-down"></i>
+                        </a>
+                        <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+                            <?php  foreach ($hotel as $k => $v) { ?>
+                                <li class="cur" onclick="change_hotel(<?php echo $v->id; ?>);">
+                                    <a tabindex="-1" onclick="" class="pointer">
+                                        <i class="ace-icon fa fa-angle-double-right"></i>
+                                        <font><?php echo $v->name_th; ?></font>
+                                    </a>
+                                </li>
+                            <?php } ?>
+                        </ul>
+                    </li>
+                   <?php  } ?>
                     <li class="purple" >
                         <a role="menuitem" tabindex="-1" href="#">                            
                             <div class="btn-group">
@@ -528,7 +553,10 @@
             //--
         });
 
-
+        function change_hotel( hotel_id ){
+            $.cookie(keyword + "hotel_id", hotel_id);
+            location.reload();
+        }
     </script>    
 </body>
 </html>

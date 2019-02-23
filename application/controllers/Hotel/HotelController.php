@@ -98,6 +98,8 @@ class HotelController extends CI_Controller {
     }
 
     public function save_data(){
+        $_POST["user"] = $_COOKIE[$this->keyword."user"];
+        $_POST["hotel_id"] = $_COOKIE[$this->keyword."hotel_id"];
         $json_data  = $this->sent_to_api( '/hotel/save_data', $_POST );
         $aData      = json_decode($json_data);
         if ($aData->flag) {
@@ -113,6 +115,8 @@ class HotelController extends CI_Controller {
     }
 
     public function chang_status(){
+        $_POST["user"] = $_COOKIE[$this->keyword."user"];
+        $_POST["hotel_id"] = $_COOKIE[$this->keyword."hotel_id"];
         echo $json_data  = $this->sent_to_api( '/hotel/chang_status', $_POST );
     }
 
