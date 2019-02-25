@@ -310,6 +310,14 @@
 
                             <b class="arrow"></b>
                         </li>
+                        <li id="employee_list">
+                            <a href="#" onclick="getMenu('room/index')">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                <span class="lang_manage_main_room">จัดการข้อมูลห้อง</span>
+                            </a>
+
+                            <b class="arrow"></b>
+                        </li>
                         <li id="manage_division">
                             <a href="#" onclick="getMenu('division/index');">
                                 <i class="menu-icon fa fa-caret-right"></i>
