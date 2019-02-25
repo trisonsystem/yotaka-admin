@@ -16,7 +16,8 @@ class MdivisionController extends CI_Controller {
         $data = array();
         $data['adminlist']      = array();
         $data['title']          = 'จัดการข้อมูลฝ่าย';
-        $data['divcode']        = $this->search_divcode("");
+        // $data['divcode']        = $this->search_divcode("");
+        // debug($data);
         // $data['divname']        = $this->search_divname("");
         // $data['divstatus']        = '';
 
@@ -36,17 +37,17 @@ class MdivisionController extends CI_Controller {
         return $json_data;
     }
 
-    public function search_divcode( $aData = "" ){
-        // $aData    = ( isset($_GET['division_code']) ) ? $_GET : $aData ;
-        // $arr_data = $this->MMdivision->search_divcode( $aData );
-        // return $arr_data;
+    // public function search_divcode( $aData = "" ){
+    //     // $aData    = ( isset($_GET['division_code']) ) ? $_GET : $aData ;
+    //     // $arr_data = $this->MMdivision->search_divcode( $aData );
+    //     // return $arr_data;
 
-        // debug($_GET);
+    //     // debug($_GET);
 
-        $json_data  = $this->sent_to_api( '/division/search_divcode', $_GET );
-        // debug($json_data, true);
-        echo $json_data;
-    }
+    //     $aData      = ( isset($_GET['division_code']) ) ? $_GET : $aData ;
+    //     $json_data  = $this->sent_to_api( '/division/search_divcode', $aData );
+    //     return json_decode($json_data);
+    // }
 
     // public function search_divname( $aData = "" ){
     //     $aData    = ( isset($_GET['division_name']) ) ? $_GET : $aData ;
@@ -54,10 +55,10 @@ class MdivisionController extends CI_Controller {
     //     return $arr_data;
     // }
 
-    // public function search_division(){
-    //     $pd = $this->MMdivision->search_division( $_GET );
-    //     print_r( json_encode($pd) );
-    // }
+    public function search_division( $aData = "" ){        
+        $json_data  = $this->sent_to_api( '/division/search_division', $_GET );
+        echo $json_data;
+    }
 
     // public function search_division_code(){
     //     $pd = $this->MMdivision->search_divcode( "" );
@@ -69,8 +70,18 @@ class MdivisionController extends CI_Controller {
     //     print_r( json_encode($pd) );
     // }
 
-    // public function save_data(){
-    //     $res = $this->MMdivision->save_data( $_POST );
-    //     print_r( json_encode($res) );
-    // }
+    public function save_data(){
+        // $res = $this->MMdivision->save_data( $_POST );
+        // print_r( json_encode($res) );
+        $_POST["user"] = $_COOKIE[$this->keyword."user"];
+        $_POST["hotel_id"] = $_COOKIE[$this->keyword."hotel_id"];
+        $json_data  = $this->sent_to_api( '/division/save_data', $_POST );        
+        echo $json_data;
+    }
+
+    public function chang_status(){
+        $_POST["user"] = $_COOKIE[$this->keyword."user"];
+        $json_data     = $this->sent_to_api( '/division/chang_status', $_POST );
+        echo $json_data;
+    }
 }
