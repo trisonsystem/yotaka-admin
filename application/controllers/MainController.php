@@ -55,8 +55,6 @@ class MainController extends CI_Controller {
     }
 
     public function search_hotel( $aData = "" ){
-        $_GET["user"]  = $_COOKIE[$this->keyword."user"];
-        $aData["user"] = $_COOKIE[$this->keyword."user"];
         $aData      = ( isset($_GET['hotel_code']) ) ? $_GET : $aData ;
         $json_data  = $this->sent_to_api( '/master/search_hotel_use', $aData );
         return $json_data;

@@ -8,7 +8,7 @@ $( document ).ready(function() {
   update_login();
   setInterval(function(){ 
       update_login();
-  }, 10 * 60 * 1000);
+  }, 2 * 60 * 1000);
 });
 
 
