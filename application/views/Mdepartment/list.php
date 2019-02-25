@@ -96,33 +96,32 @@
 				<button type="button" class="btn btn-warning" onclick="clear_data()">Clear</button>
 			</div>
 		</div>
-
-        
-	<hr>
-	<div class="row">
-		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-			<table class="table" id="tb-quo-list">
-				<thead>
-					<tr>
-						<th class="text-center">ลำดับ</th>
-						<th class="text-center">รหัสแผนก</th>
-						<th class="text-center">แผนก</th>
-						<th class="text-center">ฝ่าย</th>
-						<th class="text-center">สถานะ</th>
-						<th class="text-center">จัดการ</th>
-					</tr>
-				</thead>
-				<tbody></tbody>
-			</table>
+		<hr>
+		<div class="row">
+			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+				<table class="table" id="tb-div-list">
+					<thead>
+						<tr>
+							<th class="text-center">ลำดับ</th>
+							<th class="text-center">รหัสแผนก</th>
+							<th class="text-center">แผนก</th>
+							<th class="text-center">ฝ่าย</th>
+							<th class="text-center">สถานะ</th>
+							<th class="text-center">จัดการ</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+			</div>
 		</div>
-	</div>
-	<div class="row">
+		<div class="row">
 			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
 					<button type="button" class="btn btn-link btn-xs" id="bnt-Previous" onclick="previous(page - 1)" style="display: none;"><< Previous</button>
 					<span id="div-page-number" class="div-page-number"></span>
 					<button type="button" class="btn btn-link btn-xs" id="bnt-next" onclick="next_page(page + 1)" style="display: none;">Next >></button>
 			</div>
 		</div>
+	</div>
 </div>
 
 <!-- ###################################### Manage  ######################################-->
@@ -144,53 +143,100 @@
         }
         $.get("department/search_department", option,function( aData ){
             aData = jQuery.parseJSON( aData );
-            // var str_html  = "";
-            // if ( Object.keys(aData).length > 1) {
-            //     $.each(aData, function(k , v){
-            //         if (k=="limit") { return; }
-			// 		var status = "";
-			// 		switch (v.status) {
-			// 			case '1': status = '<span style="color:#000;">ใช้งาน</span>';break;
-			// 			case '9': status = '<span style="color:red;">ไม่ใช้งาน</span>';break;
-            //         }
-            //         str_html += "<tr>";
-			// 		str_html += " <td>"+( parseInt(k)+1 )+"</td>";
-			// 		str_html += " <td>"+v.code+"</td>";
-            //         str_html += " <td>"+v.name+"</td>";
-            //         str_html += " <td>"+v.division_name+"</td>";
-			// 		str_html += " <td>"+status+"</td>";	
-			// 		str_html += " <td align='center'>";
-			// 		str_html += " 	<i class='fa fa-edit' style='font-size:20px' onclick='to_add_data("+v.id+")'></i>";
-			// 		str_html += " 	<i class='fa fa-exchange' style='font-size:20px' onclick='open_chang_status("+v.id+","+v.status+",\""+v.code+" "+v.name+"\")' title='เปลี่ยนสถานะพนักงาน'></i>";
-			// 		str_html += " </td>"; 	
-			// 		str_html += "</tr>";
-            //     });
-            // }else{
-            //     str_html += "<td colspan='10' class='text-center' style='color:red;margin-top:15px;'> ไม่พบข้อมูล </td>";
-            // }
+            // console.log(aData);
+            var str_html  = "";
+            if ( Object.keys(aData).length > 1) {
+                $.each(aData, function(k , v){
+                    if (k=="limit") { return; }
+					var status = "";
+					switch (v.status) {
+						case '1': status = '<span style="color:#000;">ใช้งาน</span>';break;
+						case '9': status = '<span style="color:red;">ไม่ใช้งาน</span>';break;
+                    }
+                    str_html += "<tr>";
+					str_html += " <td>"+( parseInt(k)+1 )+"</td>";
+					str_html += " <td>"+v.code+"</td>";
+                    str_html += " <td>"+v.name+"</td>";
+                    str_html += " <td>"+v.division_name+"</td>";
+					str_html += " <td>"+status+"</td>";	
+					str_html += " <td align='center'>";
+					str_html += " 	<i class='fa fa-edit' style='font-size:20px' onclick='to_add_data("+v.id+")'></i>";
+					str_html += " 	<i class='fa fa-exchange' style='font-size:20px' onclick='open_chang_status("+v.id+","+v.status+",\""+v.code+" "+v.name+"\")' title='เปลี่ยนสถานะพนักงาน'></i>";
+					str_html += " </td>"; 	
+					str_html += "</tr>";
+                });
+            }else{
+                str_html += "<td colspan='10' class='text-center' style='color:red;margin-top:15px;'> ไม่พบข้อมูล </td>";
+            }
 
-            // $("#tb-div-list tbody").html( str_html );
-			// var len = Object.keys(aData).length - 1;
-			// len = ( aData.limit == len ) ? true : false;
-			// set_number_page( len );
+            $("#tb-div-list tbody").html( str_html );
+			var len = Object.keys(aData).length - 1;
+			len = ( aData.limit == len ) ? true : false;
+			set_number_page( len );
         });
     }
-    // onchange="change_division('slName_Division','slCode_department','slName_department')"
-    function change_division( idObj_Division, idObj_Code_Department, idObj_Name_Department ){
-        $("#"+idObj_Code_Department+" option[value!='']").remove();
-        $("#"+idObj_Name_Department+" option[value!='']").remove();
-        var division_id = $("#" + idObj_Division).val();
-        var option = {
-			division_id 	:  division_id
-        }
-        if (division_id != "") {
-			$.get("department/search_departments", option,function( aData ){
-				aData = jQuery.parseJSON( aData );
-				$.each(aData, function(k ,v){
-                    $("#"+idObj_Code_Department).append("<option value='"+v.code+"'>"+v.code+"</option>");
-                    $("#"+idObj_Name_Department).append("<option value='"+v.name+"'>"+v.name+"</option>");
-				});
+
+    function set_number_page( status ){ 
+		var str = "";
+		if (no_page == false) {
+			for(var i=1; i <= page ; i++){
+				var css = (i == page) ? "default" : "link";
+				if (page != 1) {
+					str += '<button type="button" class="btn btn-'+css+' btn-xs" id="btn-to-page'+i+'" onclick="to_page('+i+');">'+i+'</button>';
+				}
+				if (status && i == page) { 
+					if(page != 1){ $("#bnt-Previous").show(); } else{ $("#bnt-Previous").hide(); }
+					$("#bnt-next").show(); 
+					str += '<button type="button" class="btn btn-link btn-xs" id="btn-to-page'+(i+1)+'" onclick="to_page('+(i+1)+')">'+(i+1)+'</button>';
+					no_page = true;
+				}else if (!status) {
+					$("#bnt-next").hide(); 
+				}
+			}
+			$("#div-page-number").html( str );
+		}else{
+			$("#div-page-number").find(".btn-default").each(function(){
+				$(this).removeClass("btn-default");
+				$(this).addClass("btn-link");
 			});
+
+			$("#btn-to-page"+page).removeClass("btn-link");
+			$("#btn-to-page"+page).addClass("btn-default");
 		}
-    }
+		
+	}
+
+	function next_page( number_page ){
+		no_page = false;
+		page 	= number_page;
+		get_data_list();
+	}
+
+	function to_page( number_page ){
+		no_page = true;
+		page 	= number_page;
+		get_data_list();
+	}
+
+	function previous( number_page ){
+		if (number_page == 0) { return; }
+		page = number_page;
+		if (page < 1) { page = 1; }
+		get_data_list();
+	}
+
+	function clear_data(){
+		$("input").val("");
+		$("select").val("");
+		$("textarea").val("");
+	}
+
+	function to_manage_data(){ //หน้า listdata
+		$("#box-manage").hide();
+		$("#box-show-search").show();
+		$("#btn-toadd_data").show();
+		$("#btn-tomanage_data").hide();
+		$("#box-manage").css("width","0");
+	}
+
 </script>
