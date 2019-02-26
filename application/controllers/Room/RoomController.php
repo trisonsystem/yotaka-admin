@@ -39,6 +39,7 @@ class RoomController extends CI_Controller {
 
     public function search_room( $aData = "" ){
         $aData      = ( isset($_GET['room_id']) ) ? $_GET : $aData ;
+        $aData      = ( isset($_GET['room_code']) ) ? $_GET : $aData ;
         $json_data  = $this->sent_to_api( '/room/search_room', $aData );
         print_r($json_data);
     }
@@ -52,10 +53,9 @@ class RoomController extends CI_Controller {
 
     public function search_status_room(  ){
     	$arr = array();
-    	$arr[0] 		= array( "id" => 'blank', "name" => $this->lang->line('blank') );
-        $arr[1] 		= array( "id" => 'book', "name" => $this->lang->line('book') );
-        $arr[2] 		= array( "id" => 'stay', "name" => $this->lang->line('stay') );
-        $arr[3] 		= array( "id" => 'close_status', "name" => $this->lang->line('close_status') );
+    	$arr[0] 		= array( "id" => 'open_status', "name" => $this->lang->line('open_status') );
+        $arr[1] 		= array( "id" => 'repair_status', "name" => $this->lang->line('repair_status') );
+        $arr[2] 		= array( "id" => 'close_status', "name" => $this->lang->line('close_status') );
         $json_data = json_encode($arr);
         return json_decode($json_data);
     }
@@ -81,6 +81,10 @@ class RoomController extends CI_Controller {
 
     public function save_data(){
        echo $json_data  = $this->sent_to_api( '/room/save_data', $_POST );
+    }
+
+    public function chang_status(){
+        echo $json_data  = $this->sent_to_api( '/room/chang_status', $_GET );
     }
 }
 ?>

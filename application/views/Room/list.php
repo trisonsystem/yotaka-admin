@@ -73,7 +73,7 @@
 				<span><?php echo $this->lang->line('type_room'); ?>  : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-				<select id="slRoomStatus" name="slRoomStatus" class="form-control">
+				<select id="slRoomType" name="slRoomType" class="form-control">
 					<option value=""> <?php echo $this->lang->line('sl_select'); ?> </option>
 					<?php 
 						foreach ($type_room as $key => $value) {
@@ -220,11 +220,11 @@
 			<tbody>
 				<?php
 					$str_html = "";
-					if (count($status_hotel) > 0) {
-						foreach ($status_hotel as $key => $value) {
+					if (count($status) > 0) {
+						foreach ($status as $key => $value) {
 							$str_html  .= "<tr>";
 							$str_html  .= "	<td class='text-center'>".($key+1)."</td>";
-							$str_html  .= "	<td><label style='cursor:pointer' onclick='chang_status(".$value->id.")'><input type='radio' id='rStatus".$value->id."' name='rStatus' value='".$value->id."' > &nbsp;".$value->name."</label></td>";
+							$str_html  .= "	<td><label style='cursor:pointer' onclick='chang_status(\"".$value->id."\")'><input type='radio' id='rStatus".$value->id."' name='rStatus' value='".$value->id."' > &nbsp;".$value->name."</label></td>";
 							$str_html  .= "</tr>";
 						}
 					}else{
@@ -237,7 +237,7 @@
 				<tr>
 					<td colspan="2">
 						<span style="display: none;">
-							<input type="text" name="txtStatus_hotel_id" id="txtStatus_hotel_id" value="0">
+							<input type="text" name="txtStatus_room_id" id="txtStatus_room_id" value="0">
 						</span>
 					</td>
 				</tr>
@@ -262,12 +262,10 @@
 
 	function get_data_list(){
 		var option = {
-				hotel_code 	: $("#txtHotelCode").val(),
-				hotel_name 	: $("#txtHotelName").val(),
-				hotel_owner : $("#txtHotelOwner").val(),
-				quarter_id 	: $("#slHotelQuarter").val(),
-				province_id : $("#slHotelProvince").val(),
-				amphur_id 	: $("#slHotelAmphur").val(),
+				room_code 	: $("#txtRoomCode").val(),
+				room_name 	: $("#txtRoomName").val(),
+				status 		: $("#slRoomStatus").val(),
+				room_type_id : $("#slRoomType").val(),
 				page 			: page
 			}
 		$.get("room/search_room", option,function( aData ){
@@ -287,7 +285,7 @@
 					str_html += " </td>"; 	
 					str_html += " <td align='center'>";
 					str_html += " 	<i class='fa fa-edit' style='font-size:20px' onclick='to_add_data("+v.id+")'></i>";
-					str_html += " 	<i class='fa fa-exchange' style='font-size:20px' onclick='open_chang_status("+v.id+","+v.m_status_hotel_id+",\""+v.code+" "+v.name_th+"\")' title='เปลี่ยนสถานะพนักงาน'></i>";
+					str_html += " 	<i class='fa fa-exchange' style='font-size:20px' onclick='open_chang_status("+v.id+",\""+v.status+"\",\""+v.code+" "+v.name+" "+v.type_room_name+"\")' title='เปลี่ยนสถานะพนักงาน'></i>";
 					str_html += " </td>"; 	
 					str_html += "</tr>"; 
 					
@@ -299,12 +297,10 @@
 			}
 
 			$("#tb-quo-list tbody").html( str_html );
-			// if ( aData.length > 1) { 
-				var len = Object.keys(aData).length - 1;
-					len = ( aData.limit == len ) ? true : false;
+			var len = Object.keys(aData).length - 1;
+				len = ( aData.limit == len ) ? true : false;
 				set_number_page( len ); 
-			// }
-
+			
 		});
 	}
 
@@ -434,30 +430,6 @@
 		get_data_list();
 	}
 
-
-	function change_img(){
-        var fd = new FormData();
-        var files = $('#fProfile')[0].files[0];
-        fd.append('file',files);
-
-        $.ajax({
-            url: 'main/upload',
-            type: 'post',
-            data: fd,
-            contentType: false,
-            processData: false,
-            success: function(response){
-                if(response != 0){
-                    $("#img").attr("src",response); 
-                    $("#txtHotelProfile").val( response );
-                    // $(".preview img").show(); // Display image element
-                }else{
-                    alert('file not uploaded');
-                }
-            },
-        });
-	}
-
 	function save_data(){
 		var aData = JSON.stringify( $("#form-manage").serializeArray() );
 			aData = jQuery.parseJSON( aData );
@@ -502,8 +474,8 @@
 		return status;
 	}
 
-	function open_chang_status( hotel_id, status ,text_title ){
-		$("#txtStatus_hotel_id").val( hotel_id );
+	function open_chang_status( room_id, status ,text_title ){
+		$("#txtStatus_room_id").val( room_id );
 		$("#md-title").html( text_title );
 		$("#modal-page").modal("show");
 		setTimeout(function(){
@@ -516,8 +488,8 @@
 	function chang_status( status ){
 		if (c_status) {
 			c_status = false;
-			var id = $("#txtStatus_hotel_id").val();
-			$.post("hotel/chang_status",  { hotel_id : id, status: status } ,function( res ){
+			var id = $("#txtStatus_room_id").val();
+			$.post("room/chang_status",  { room_id : id, status: status } ,function( res ){
 				res = jQuery.parseJSON( res ); 
 				if (res.flag) {
 					$("#modal-page").modal("hide");
