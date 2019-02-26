@@ -46,7 +46,6 @@ class MdepartmentController extends CI_Controller {
     public function search_division( $aData = "" ){
         $aData      = ( isset($_GET['division_id']) ) ? $_GET : $aData ;
         $json_data  = $this->sent_to_api( '/department/search_division', $aData );
-        // debug($json_data);
         return json_decode($json_data);
     }
 

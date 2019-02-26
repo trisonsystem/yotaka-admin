@@ -16,7 +16,7 @@ class MpositionController extends CI_Controller {
     	$data = array();
         $data['adminlist']      = array();
         $data['title']          = "จัดการข้อมูลตำแหน่ง";
-        // $data["division"]       = $this->search_division("");
+        $data["division"]       = $this->search_division("");
         // $data["department"]     = $this->search_department("");
         
 // debug($data);
@@ -41,5 +41,11 @@ class MpositionController extends CI_Controller {
     public function search_position(){
 		$json_data  = $this->sent_to_api( '/position/search_position', $_GET );
         echo $json_data;
+    }
+
+    public function search_division( $aData = "" ){
+    	$aData      = ( isset($_GET['division_id']) ) ? $_GET : $aData ;
+        $json_data  = $this->sent_to_api( '/position/search_division', $aData );
+        return json_decode($json_data);
     }
 }

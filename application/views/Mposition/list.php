@@ -35,19 +35,19 @@
 <br>
 <div id="box-show-search">
 	<div class="box-search">
-				
+		<?php // debug($division); ?>		
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
 				<span>ฝ่าย : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-                <select id="slPositionDivision" name="slPositionDivision" class="form-control">
-					<option value=""> -- เลือกรหัสแผนก -- </option>
+                <select id="slPositionDivision" name="slPositionDivision" class="form-control" onchange="change_division('slEmployeeDivision','slEmployeeDepartment','slEmployeePosition')">
+					<option value=""> <?php echo $this->lang->line('sl_select'); ?> </option>
 					<?php 
-				foreach ($divcode as $key => $value) {
-					echo '<option value="' . $value["code"] . '">' . $value["code"] . '</option>';
-				}
-				?>
+						foreach ($division as $key => $value) {
+							echo '<option value="'.$value->id.'">'.$value->name.'</option>';
+						}
+					?>
 				</select>
 			</div>			
             <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
