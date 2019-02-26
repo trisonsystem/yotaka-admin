@@ -35,36 +35,7 @@
 <br>
 <div id="box-show-search">
 	<div class="box-search">
-		<div class="row">
-			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>รหัสแผนก : </span>
-			</div>
-			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-                <select id="divisionCode" name="divisionCode" class="form-control">
-					<option value=""> -- เลือกรหัสแผนก -- </option>
-					<?php 
-				foreach ($divcode as $key => $value) {
-					echo '<option value="' . $value["code"] . '">' . $value["code"] . '</option>';
-				}
-				?>
-				</select>
-			</div>			
-            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-                แผนก
-			</div>
-			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-				<select id="divisionName" name="divisionName" class="form-control">
-					<option value=""> -- เลือกแผนก -- </option>
-					<?php 
-				foreach ($divname as $key => $value) {
-					echo '<option value="' . $value["name"] . '">' . $value["name"] . '</option>';
-				}
-				?>
-				</select>
-			</div>
-		</div>
-
-		
+				
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
 				<span>รหัสแผนก : </span>

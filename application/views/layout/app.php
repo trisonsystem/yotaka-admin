@@ -117,7 +117,7 @@
                     <li role="presentation" class="dropdown-mobileuser">
                         <a class="a_mobileuser" tabindex="-1" href="#">
                             <i class="ace-icon fa fa-language"></i>
-                            <?php if ($_COOKIE[$keyword.'lang']): ?>
+                            <?php if ($_COOKIE[$keyword.'Lang']): ?>
                                 <?php echo (!empty($gfulllang))? $gfulllang->full_lang : '' ; ?>
                             <?php else: ?>
                                 English
@@ -194,7 +194,7 @@
                     </li> 
                     <li class="grey" id="drop_lang">
                         <a data-toggle="dropdown" href="#" class="dropdown-toggle">
-                        	<span class="lang_<?php echo $_COOKIE[$keyword.'Lang']; ?>"></span>
+                        	<span class="lang_<?php echo $_COOKIE[$keyword.'Lang']; ?>"><?php echo $this->lang->line($_COOKIE[$keyword.'Lang']); ?></span>
                             <i class="ace-icon fa fa-caret-down"></i>
                         </a>
                         <ul class="user-menu dropdown-menu-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
