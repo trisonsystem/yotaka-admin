@@ -29,6 +29,7 @@ class LanguageController extends CI_Controller {
     }
     public function getLang( ){ 
         $cashName = "LangYotakaAdmin_".$_GET["lang"];
+        debug($cashName);
         $this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file','key_prefix' => 'cache_'));
 
         if (!$this->cache->get($cashName)){

@@ -18,8 +18,7 @@ class MdepartmentController extends CI_Controller {
         $data = array();
         $data['adminlist']      = array();
         $data['title']          = 'จัดการข้อมูลแผนก';
-        // $data["department"]     = $this->search_department("");
-        // $data["division"]       = $this->search_division("");
+        $data["division"]       = $this->search_division("");
 
         $dataInfo['title']      = $data['title'];
         $dataInfo['sub_title']  = '';
@@ -42,5 +41,11 @@ class MdepartmentController extends CI_Controller {
     public function search_department(){
         $json_data  = $this->sent_to_api( '/department/search_department', $_GET );
         echo $json_data;
+    }
+
+    public function search_division( $aData = "" ){
+        $aData      = ( isset($_GET['division_id']) ) ? $_GET : $aData ;
+        $json_data  = $this->sent_to_api( '/employee/search_division', $aData );
+        return json_decode($json_data);
     }
 }

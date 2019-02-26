@@ -143,7 +143,7 @@
         }
         $.get("department/search_department", option,function( aData ){
             aData = jQuery.parseJSON( aData );
-            // console.log(aData);
+            console.log(aData);
             var str_html  = "";
             if ( Object.keys(aData).length > 1) {
                 $.each(aData, function(k , v){
