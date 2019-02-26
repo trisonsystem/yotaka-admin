@@ -17,9 +17,9 @@ function SetLeague(){
   $.get( "language/getLang", { lang: lang }, function( arrData ) {
     var aData     = jQuery.parseJSON(arrData);
     languages     = aData;
-    $.each(aData,function(key ,row){
-        $('.lang_' + key).html( row );
-    });
+    // $.each(aData,function(key ,row){
+    //     $('.lang_' + key).html( row );
+    // });
   });
 }
 

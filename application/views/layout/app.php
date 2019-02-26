@@ -285,7 +285,7 @@
                     <a href="#" class="dropdown-toggle">
                         <i class="menu-icon glyphicon glyphicon-user"></i>
                         <span class="menu-text lang_manage_main_data">
-                            จัดการข้อมูลหลัก
+                             <?php echo $this->lang->line('manage_main_data'); ?>
                         </span>
 
                         <b class="arrow fa fa-angle-down"></b>
@@ -297,7 +297,7 @@
                         <li id="employee_list">
                             <a href="#" onclick="getMenu('employee/index')">
                                 <i class="menu-icon fa fa-caret-right"></i>
-                                <span class="lang_manage_employee_data"> จัดการข้อมูลพนักงาน</span>
+                                <span class="lang_manage_employee_data"> <?php echo $this->lang->line('manage_employee_data'); ?></span>
                             </a>
 
                             <b class="arrow"></b>
@@ -305,7 +305,7 @@
                         <li id="employee_list">
                             <a href="#" onclick="getMenu('hotel/index')">
                                 <i class="menu-icon fa fa-caret-right"></i>
-                                <span class="lang_manage_hotel_data">จัดการโรงแรม</span>
+                                <span class="lang_manage_hotel_data"><?php echo $this->lang->line('manage_hotel_data'); ?></span>
                             </a>
 
                             <b class="arrow"></b>
@@ -313,7 +313,7 @@
                         <li id="employee_list">
                             <a href="#" onclick="getMenu('room/index')">
                                 <i class="menu-icon fa fa-caret-right"></i>
-                                <span class="lang_manage_main_room">จัดการข้อมูลห้อง</span>
+                                <span class="lang_manage_main_room"><?php echo $this->lang->line('manage_main_room'); ?></span>
                             </a>
 
                             <b class="arrow"></b>

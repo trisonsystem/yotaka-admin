@@ -102,6 +102,8 @@
 						<th class="text-center"><?php echo $this->lang->line('no'); ?></th>
 						<th class="text-center"><?php echo $this->lang->line('code'); ?></th>
 						<th class="text-center"><?php echo $this->lang->line('name'); ?></th>
+						<th class="text-center"><?php echo $this->lang->line('type_room'); ?></th>
+						<th class="text-center"><?php echo $this->lang->line('price'); ?></th>
 						<th class="text-center"><?php echo $this->lang->line('status'); ?></th>
 						<th class="text-center"><?php echo $this->lang->line('action'); ?></th>
 					</tr>
@@ -145,13 +147,13 @@
 		
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span><?php echo $this->lang->line('status'); ?> : </span>
+				<span><?php echo $this->lang->line('type_room'); ?>  : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-				<select id="slStatus" name="slStatus" class="form-control">
+				<select id="slRoomType" name="slRoomType" class="form-control">
 					<option value=""> <?php echo $this->lang->line('sl_select'); ?> </option>
 					<?php 
-						foreach ($status as $key => $value) {
+						foreach ($type_room as $key => $value) {
 							echo '<option value="'.$value->id.'">'.$value->name.'</option>';
 						}
 					?>
@@ -162,21 +164,6 @@
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<input type="text" id="txtPrice" class="form-control number" name="txtPrice">
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span><?php echo $this->lang->line('type_room'); ?>  : </span>
-			</div>
-			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-				<select id="slRoomStatus" name="slRoomStatus" class="form-control">
-					<option value=""> <?php echo $this->lang->line('sl_select'); ?> </option>
-					<?php 
-						foreach ($type_room as $key => $value) {
-							echo '<option value="'.$value->id.'">'.$value->name.'</option>';
-						}
-					?>
-				</select>
 			</div>
 		</div>
 		<div class="row">
@@ -193,19 +180,17 @@
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-9 col-xs-7">
 				<button type="button" class="btn btn-default btn-xs" onclick="add_item()" id="btn-add_item" style="width: 100px;" ><?php echo $this->lang->line('add'); ?></button>
-				<span style="display: none;"><input type="text" id="txtCountItem" value="0"></span>
+				<span style="display: none;"><input type="text" id="txtCountItem" name="txtCountItem" value="0"></span>
 			</div>
 		</div>
 		<div class="row" id="box-item-room">
 			
 		</div>
-		<hr style="margin: 0px;">
+		<hr style="margin: 5px;">
 		<div class="row" style="margin-top: 5px">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
 				<div style="display: none;">
-					<input type="text" id="txtHotelProfile" name="txtHotelProfile" value="0">
-					<input type="text" id="txtHotel_id" name="txtHotel_id" value="0">
-					<input type="text" id="txtHotel_code" name="txtHotel_code" value="">
+					<input type="text" id="txtRoom_id" name="txtRoom_id" value="0">
 				</div>
 			</div>
 			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
@@ -298,7 +283,7 @@
 					str_html += " <td>"+v.name+"</td>"; 
 					str_html += " <td>"+v.type_room_name+"</td>";
 					str_html += " <td>"+v.price+"</td>"; 
-					str_html += " <td>"+v.status+"</td>";  
+					str_html += " <td>"+languages[v.status]+"</td>";  
 					str_html += " </td>"; 	
 					str_html += " <td align='center'>";
 					str_html += " 	<i class='fa fa-edit' style='font-size:20px' onclick='to_add_data("+v.id+")'></i>";
@@ -376,6 +361,7 @@
 		$("input").val("");
 		$("select").val("");
 		$("textarea").val("");
+		$("#txtCountItem").val(0);
 	}
 
 	function to_manage_data(){ //หน้า listdata
@@ -386,53 +372,56 @@
 		$("#box-manage").css("width","0");
 	}
 
-	function to_add_data( hotel_id = 0 ){ // เพิ่ม แก้ไข
-		$("#txtHotel_id").val( hotel_id );
+	function to_add_data( room_id = 0 ){ // เพิ่ม แก้ไข
+		$("#txtRoom_id").val( room_id );
 		$("#box-manage").show();
 		$("#box-show-search").hide();
 		$("#btn-toadd_data").hide();
 		$("#btn-tomanage_data").show();
+		$("#form-manage").find(".error-form").removeClass("error-form");
 
-		if (hotel_id != 0) {
+		$("#txtCountItem").val(0);
+		$("#box-item-room").html('');
+
+		if (room_id != 0) {
 
 			var option = {
-				hotel_id 	: hotel_id
+				room_id 	: room_id
 			}
-			$.get("hotel/search_hotel", option,function( aData ){
-				aData = jQuery.parseJSON( aData );
-				if ( Object.keys(aData).length > 1) {
-					aData = aData[0];
-					$("#txtHotel_code").val(aData.code);
+			$.get("room/search_room_edit", option,function( res ){
+				res = jQuery.parseJSON( res );
+				var rm = jQuery.parseJSON( res.room );
+				var it = jQuery.parseJSON( res.item );
+				if ( Object.keys(rm).length > 0) {
+					var aData = rm[0];
 					$("#txtCode").val(aData.code);
-					$("#txtFullNameOwner").val(aData.fullname_owner);
-					$("#txtNameTH").val(aData.name_th);
-					$("#txtNameEN").val(aData.name_en);
-					$("#txtNumberTax").val(aData.tax_number);
-					$("#slQuarter option[value='"+aData.m_quarter_id+"']").prop('selected', true);
-					$("#slProvince option[value='"+aData.m_province_id+"']").prop('selected', true);
-					$("#slAmphur option[value='"+aData.m_amphur_id+"']").prop('selected', true);
-					$("#slDistrict option[value='"+aData.m_district_id+"']").prop('selected', true);
-					$("#txtPostcode").val(aData.postcode);
-					$("#txtContactOther").val(aData.contact_other);
-					$("#txtTel").val(aData.tel);
-					$("#txtEmail").val(aData.email);
-					$("#txtAddress").val(aData.address);
-					$('input:radio[name="rTypeCard"][value="'+aData.type_card+'"]').prop('checked', true);
-					
-					$("#img").attr("src", aData.profile_img);
+					$("#txtName").val(aData.name);
+					$("#slRoomType option[value='"+aData.m_type_room_id+"']").prop('selected', true);
+					$("#txtPrice").val(aData.price);
+
+					if ( Object.keys(it).length > 0) {
+						$.each(it, function(k, v){
+							add_item();
+							var c_item = $("#txtCountItem").val();
+							$("#slItem_"+c_item+" option[value='"+v.m_room_item_id+"']").prop('selected', true);
+							$("#txtQty_"+c_item).val(v.qty);
+						});
+					}
+
 					$("#box-manage").css("width","100%");
 				}else{
 					alert( "no data" );
 				}
 			});
+			
 		}else{
 			$("#img").attr("src", "");
 			clear_data();
-			$("#txtHotel_id").val("0");
+			$("#txtRoom_id").val("0");
 			$("#box-manage").css("width","100%");
 		}
 
-		$('.datepicker').datepicker({format: 'dd-mm-yyyy'});
+		$(".number").FullnumOnly();
 	}
 
 	function select_photo(){
@@ -473,7 +462,7 @@
 		var aData = JSON.stringify( $("#form-manage").serializeArray() );
 			aData = jQuery.parseJSON( aData );
 		if (validate(aData)) {
-			$.post("hotel/save_data",  aData  ,function( res ){
+			$.post("room/save_data",  aData  ,function( res ){
 				res = jQuery.parseJSON( res ); 
 				if (res.flag) {
 					alert( res.msg );
@@ -490,7 +479,7 @@
 	function validate(aData){
 		var status = true;
 		$.each(aData,function(k,v){
-			if (v.name != "txtHotel_code" && v.name != "txtContactOther") {
+			if (v.name != "txtRemark") {
 				var obj = $("#"+v.name);
 				if (obj.val() == "") {
 					obj.addClass("error-form");
@@ -502,6 +491,14 @@
 			}
 		});
 
+		$(".txtQty").each(function(k, v){
+			var obj = $(this);
+			if (obj.val() < 1) {
+				obj.addClass("error-form");
+			}else{
+				obj.removeClass("error-form");
+			}
+		});
 		return status;
 	}
 
@@ -544,11 +541,13 @@
 		var str_html  = '<div class="row" id="item_'+c_item+'">';
 			str_html  += '<div class="col-lg-2 col-md-2 col-sm-3 col-xs-1 text-right"></div>';	
 			str_html  += '<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">';
-			str_html  += '	<select id="slItem_'+c_item+'" name="slItem[]" class="form-control">';
+			str_html  += '	<select id="slItem_'+c_item+'" name="slItem_'+c_item+'" class="form-control">';
 			str_html  += '		<option value=""> <?php echo $this->lang->line('sl_select'); ?> </option>';
 					<?php 
-						foreach ($item_room as $key => $value) {
-							echo 'str_html  += "<option value=\''.$value->id.'\'>'.$value->name.'</option>";';
+						if (count($item_room) > 0) {
+							foreach ($item_room as $key => $value) {
+								echo 'str_html  += "<option value=\''.$value->id.'\'>'.$value->name.'</option>";';
+							}
 						}
 					?>
 			str_html  += '	</select>';
@@ -557,7 +556,7 @@
 			str_html  += '	<span><?php echo $this->lang->line('qty'); ?> : </span>';
 			str_html  += '</div>';
 			str_html  += '<div class="col-lg-2 col-md-2 col-sm-3 col-xs-2">';
-			str_html  += '	<input type="text" id="txtQty_'+c_item+'" class="form-control number" name="txtQty_'+c_item+'">';
+			str_html  += '	<input type="text" id="txtQty_'+c_item+'" class="form-control number txtQty" name="txtQty_'+c_item+'" value="1">';
 			str_html  += '</div>';
 			str_html  += '<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">';
 			str_html += " 	<i class='fa fa-times-circle' style='font-size:20px' onclick='$(\""+'#item_'+c_item+"\").remove()'></i>";

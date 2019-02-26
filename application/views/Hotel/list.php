@@ -416,7 +416,7 @@
 		$.get("hotel/search_hotel", option,function( aData ){
 			aData = jQuery.parseJSON( aData );
 			var str_html  = ""; 
-			if ( Object.keys(aData).length > 1) {
+			if ( Object.keys(aData).length > 0) {
 				$.each(aData, function(k , v){
 				if (k=="limit") { return; }
 				var status = "";
@@ -524,7 +524,8 @@
 		$("#box-show-search").hide();
 		$("#btn-toadd_data").hide();
 		$("#btn-tomanage_data").show();
-
+		$("#form-manage").find(".error-form").removeClass("error-form");
+		
 		if (hotel_id != 0) {
 			$("#txtCode").prop('disabled', true);
 
