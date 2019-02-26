@@ -45,7 +45,21 @@ class MdepartmentController extends CI_Controller {
 
     public function search_division( $aData = "" ){
         $aData      = ( isset($_GET['division_id']) ) ? $_GET : $aData ;
-        $json_data  = $this->sent_to_api( '/employee/search_division', $aData );
+        $json_data  = $this->sent_to_api( '/department/search_division', $aData );
+        // debug($json_data);
         return json_decode($json_data);
+    }
+
+    public function save_data(){
+        $_POST["user"] = $_COOKIE[$this->keyword."user"];
+        $_POST["hotel_id"] = $_COOKIE[$this->keyword."hotel_id"];        
+        $json_data  = $this->sent_to_api( '/department/save_data', $_POST );        
+        echo $json_data;
+    }
+
+    public function chang_status(){
+        $_POST["user"] = $_COOKIE[$this->keyword."user"];        
+        $json_data     = $this->sent_to_api( '/department/chang_status', $_POST );
+        echo $json_data;
     }
 }
