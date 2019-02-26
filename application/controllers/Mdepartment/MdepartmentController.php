@@ -10,8 +10,8 @@ class MdepartmentController extends CI_Controller {
         $this->keyword  = $this->config->config['keyword'];
         $this->api_url  = $this->config->config['api_url'];
         $this->des_key  = $this->config->config['des_key'];
-        $this->load->model('MDepartment');
-        $this->load->model('MMaster');
+        // $this->load->model('MDepartment');
+        // $this->load->model('MMaster');
     }
 
     public function index(){

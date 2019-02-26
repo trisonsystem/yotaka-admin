@@ -16,12 +16,8 @@ class RoomController extends CI_Controller {
         $this->load->model('MQuotation');
         $data = array();
         $data['title']          = $this->lang->line('manage_main_room');
-        $data['status'] 		= array();
-        $data['status'][0] 		= array( "id" => 'blank', "name" => $this->lang->line('blank') );
-        $data['status'][1] 		= array( "id" => 'book', "name" => $this->lang->line('book') );
-        $data['status'][2] 		= array( "id" => 'stay', "name" => $this->lang->line('stay') );
-        $data['status'][3] 		= array( "id" => 'close_status', "name" => $this->lang->line('close_status') );
-
+        $data['status'] 		= $this->search_status_room("");
+        $data['type_room'] 		= $this->search_type_room("");
         $data['item_room']  	= $data['status'];
         $dataInfo['title']      = $data['title'];
         $dataInfo['sub_title']  = '';
@@ -39,6 +35,29 @@ class RoomController extends CI_Controller {
         $apiUrl     = $this->api_url.$path;
         $json_data  = cUrl($apiUrl,"post",$param);
         return $json_data;
+    }
+
+    public function search_room( $aData = "" ){
+        $aData      = ( isset($_GET['room_id']) ) ? $_GET : $aData ;
+        $json_data  = $this->sent_to_api( '/room/search_room', $aData );
+        print_r($json_data);
+    }
+
+    public function search_status_room(  ){
+    	$arr = array();
+    	$arr[0] 		= array( "id" => 'blank', "name" => $this->lang->line('blank') );
+        $arr[1] 		= array( "id" => 'book', "name" => $this->lang->line('book') );
+        $arr[2] 		= array( "id" => 'stay', "name" => $this->lang->line('stay') );
+        $arr[3] 		= array( "id" => 'close_status', "name" => $this->lang->line('close_status') );
+        $json_data = json_encode($arr);
+        return json_decode($json_data);
+    }
+
+
+    public function search_type_room( $aData = "" ){
+        $aData      = ( isset($_GET['type_room_id']) ) ? $_GET : $aData ;
+        $json_data  = $this->sent_to_api( '/room/search_type_room', $aData );
+        return json_decode($json_data);
     }
 }
 ?>

@@ -19,6 +19,7 @@
 		float: left;
 	}
 	.fa-edit{ color: green; }
+	.fa-times-circle{ color: red; margin-top: 6px; }
 	.fa{ cursor: pointer; }
 	.form-check-input{ cursor: pointer; }
 	.error-form{ 
@@ -63,7 +64,7 @@
 					<option value=""> <?php echo $this->lang->line('sl_select'); ?> </option>
 					<?php 
 						foreach ($status as $key => $value) {
-							echo '<option value="'.$value["id"].'">'.$value["name"].'</option>';
+							echo '<option value="'.$value->id.'">'.$value->name.'</option>';
 						}
 					?>
 				</select>
@@ -75,8 +76,8 @@
 				<select id="slRoomStatus" name="slRoomStatus" class="form-control">
 					<option value=""> <?php echo $this->lang->line('sl_select'); ?> </option>
 					<?php 
-						foreach ($status as $key => $value) {
-							echo '<option value="'.$value["id"].'">'.$value["name"].'</option>';
+						foreach ($type_room as $key => $value) {
+							echo '<option value="'.$value->id.'">'.$value->name.'</option>';
 						}
 					?>
 				</select>
@@ -151,7 +152,7 @@
 					<option value=""> <?php echo $this->lang->line('sl_select'); ?> </option>
 					<?php 
 						foreach ($status as $key => $value) {
-							echo '<option value="'.$value["id"].'">'.$value["name"].'</option>';
+							echo '<option value="'.$value->id.'">'.$value->name.'</option>';
 						}
 					?>
 				</select>
@@ -171,8 +172,8 @@
 				<select id="slRoomStatus" name="slRoomStatus" class="form-control">
 					<option value=""> <?php echo $this->lang->line('sl_select'); ?> </option>
 					<?php 
-						foreach ($status as $key => $value) {
-							echo '<option value="'.$value["id"].'">'.$value["name"].'</option>';
+						foreach ($type_room as $key => $value) {
+							echo '<option value="'.$value->id.'">'.$value->name.'</option>';
 						}
 					?>
 				</select>
@@ -284,24 +285,20 @@
 				amphur_id 	: $("#slHotelAmphur").val(),
 				page 			: page
 			}
-		$.get("hotel/search_hotel", option,function( aData ){
+		$.get("room/search_room", option,function( aData ){
 			aData = jQuery.parseJSON( aData );
 			var str_html  = ""; 
-			if ( Object.keys(aData).length > 1) {
+			if ( Object.keys(aData).length > 0) {
 				$.each(aData, function(k , v){
 				if (k=="limit") { return; }
 				var status = "";
 					str_html += "<tr>"; 
 					str_html += " <td>"+( parseInt(k)+1 )+"</td>"; 
 					str_html += " <td>"+v.code+"</td>"; 
-					str_html += " <td>"+v.name_th+"</td>"; 
-					str_html += " <td>"+v.name_en+"</td>";
-					str_html += " <td>"+v.fullname_owner+"</td>";  
-					str_html += " <td>"+v.tel+"</td>";  
-					str_html += " <td>"+v.email+"</td>";  
-					str_html += " <td>"+v.quarter_name_th+"</td>";  
-					str_html += " <td>"+v.province_name+"</td>";  
-					str_html += " <td>"+v.amphur_name+"</td>";  
+					str_html += " <td>"+v.name+"</td>"; 
+					str_html += " <td>"+v.type_room_name+"</td>";
+					str_html += " <td>"+v.price+"</td>"; 
+					str_html += " <td>"+v.status+"</td>";  
 					str_html += " </td>"; 	
 					str_html += " <td align='center'>";
 					str_html += " 	<i class='fa fa-edit' style='font-size:20px' onclick='to_add_data("+v.id+")'></i>";
@@ -551,7 +548,7 @@
 			str_html  += '		<option value=""> <?php echo $this->lang->line('sl_select'); ?> </option>';
 					<?php 
 						foreach ($item_room as $key => $value) {
-							echo 'str_html  += "<option value=\''.$value["id"].'\'>'.$value["name"].'</option>";';
+							echo 'str_html  += "<option value=\''.$value->id.'\'>'.$value->name.'</option>";';
 						}
 					?>
 			str_html  += '	</select>';
@@ -563,7 +560,7 @@
 			str_html  += '	<input type="text" id="txtQty_'+c_item+'" class="form-control number" name="txtQty_'+c_item+'">';
 			str_html  += '</div>';
 			str_html  += '<div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">';
-			str_html += " 	<i class='fa fa-edit' style='font-size:20px' onclick='$(\""+'#item_'+c_item+"\").remove()'></i>";
+			str_html += " 	<i class='fa fa-times-circle' style='font-size:20px' onclick='$(\""+'#item_'+c_item+"\").remove()'></i>";
 			str_html  += '</div>';
 			str_html  += '</div>';
 
