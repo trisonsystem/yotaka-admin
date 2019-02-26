@@ -332,6 +332,13 @@
                             </a>
                             <b class="arrow"></b>
                         </li>
+                        <li id="manage_division">
+                            <a href="#" onclick="getMenu('position/index');">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                จัดการข้อมูลตำแหน่ง
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
                     </ul>
             
                 </li>
