@@ -104,6 +104,11 @@ $route['department/(:any)']  			= 'Mdepartment/MdepartmentController/$1';
 $route['department/(:any)/(:any)']  	= 'Mdepartment/MdepartmentController/$1/$2';
 ##--
 
+## position
+$route['position/(:any)']  			= 'Mposition/MpositionController/$1';
+$route['position/(:any)/(:any)']  	= 'Mposition/MpositionController/$1/$2';
+##--
+
 $route['language/(:any)']  			= 'Language/LanguageController/$1';
 $route['room/(:any)']  				= 'Room/RoomController/$1';
 
