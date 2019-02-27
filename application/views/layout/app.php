@@ -295,6 +295,14 @@
 
                     <ul class="submenu nav-hide" style="display: none;">
                         <li id="employee_list">
+                            <a href="#" onclick="getMenu('customer/index')">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                <span class="lang_customer_employee_data"> <?php echo $this->lang->line('manage_customer_data'); ?></span>
+                            </a>
+
+                            <b class="arrow"></b>
+                        </li>
+                        <li id="employee_list">
                             <a href="#" onclick="getMenu('employee/index')">
                                 <i class="menu-icon fa fa-caret-right"></i>
                                 <span class="lang_manage_employee_data"> <?php echo $this->lang->line('manage_employee_data'); ?></span>

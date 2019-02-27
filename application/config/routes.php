@@ -111,6 +111,7 @@ $route['position/(:any)/(:any)']  	= 'Mposition/MpositionController/$1/$2';
 
 $route['language/(:any)']  			= 'Language/LanguageController/$1';
 $route['room/(:any)']  				= 'Room/RoomController/$1';
+$route['customer/(:any)']  			= 'Customer/CustomerController/$1';
 
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

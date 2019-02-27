@@ -271,7 +271,7 @@
 		$.get("room/search_room", option,function( aData ){
 			aData = jQuery.parseJSON( aData );
 			var str_html  = ""; 
-			if ( Object.keys(aData).length > 0) {
+			if ( Object.keys(aData).length > 1) {
 				$.each(aData, function(k , v){
 				if (k=="limit") { return; }
 				var status = "";
