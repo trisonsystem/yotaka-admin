@@ -39,4 +39,11 @@ class RoomtypeController extends CI_Controller {
         $json_data  = $this->sent_to_api( '/roomtype/search_roomtype', $_GET );
         echo $json_data;
     }
+
+    public function save_data(){
+        $_POST["user"] = $_COOKIE[$this->keyword."user"];
+        $_POST["hotel_id"] = $_COOKIE[$this->keyword."hotel_id"];        
+        $json_data  = $this->sent_to_api( '/roomtype/save_data', $_POST );        
+        echo $json_data;
+    }
 }

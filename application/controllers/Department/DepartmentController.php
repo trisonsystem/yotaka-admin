@@ -51,7 +51,7 @@ class DepartmentController extends CI_Controller {
 
     public function save_data(){
         $_POST["user"] = $_COOKIE[$this->keyword."user"];
-        $_POST["hotel_id"] = $_COOKIE[$this->keyword."hotel_id"];        
+        $_POST["hotel_id"] = $_COOKIE[$this->keyword."hotel_id"];      
         $json_data  = $this->sent_to_api( '/department/save_data', $_POST );        
         echo $json_data;
     }

@@ -27,7 +27,7 @@
 		<h3 style="font-weight: bold;"><?php echo $title;?></h3>
 	</div>
 	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-right">
-		<button type="button" class="btn btn-secondary" onclick="to_add_data( '0' )" id="btn-toadd_data" style="margin-top: 10px; width: 100px;">เพิ่ม</button>
+		<button type="button" class="btn btn-secondary" onclick="to_add_data( '0', '0' )" id="btn-toadd_data" style="margin-top: 10px; width: 100px;">เพิ่ม</button>
 		<button type="button" class="btn btn-warning" onclick="to_manage_data()" id="btn-tomanage_data" style="margin-top: 10px; width: 100px; display: none;">ยกเลิก</button>
 	</div>
 </div>
@@ -149,20 +149,17 @@
 				<input type="text" id="textDepartmentName" class="form-control" name="textDepartmentName">
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<!-- <span>สถานะ : </span> -->
+				
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-				<!-- <select id="slStatus_department" name="slStatus_department" class="form-control">
-					<option value=""> -- เลือกสถานะ -- </option>
-					<option value="1">ใช้งาน</option>
-                    <option value="9">ไม่ได้ใช้งาน</option>
-				</select> -->
+				
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
 				<div style="display: none;">
 					<input type="text" id="txtDepartment_id" name="txtDepartment_id" value="0">
+					<input type="text" id="txtDepartment_status" name="txtDepartment_status" value="">
 				</div>
 			</div>
 			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
@@ -250,7 +247,7 @@
                     str_html += " <td>"+v.division_name+"</td>";
 					str_html += " <td>"+status+"</td>";	
 					str_html += " <td align='center'>";
-					str_html += " 	<i class='fa fa-edit' style='font-size:20px' onclick='to_add_data("+v.id+")'></i>";
+					str_html += " 	<i class='fa fa-edit' style='font-size:20px' onclick='to_add_data("+v.id+","+v.status+")'></i>";
 					str_html += " 	<i class='fa fa-exchange' style='font-size:20px' onclick='open_chang_status("+v.id+","+v.status+",\""+v.code+" "+v.name+"\")' title='เปลี่ยนสถานะพนักงาน'></i>";
 					str_html += " </td>"; 	
 					str_html += "</tr>";
@@ -329,8 +326,9 @@
 		$("#box-manage").css("width","0");
 	}
 
-	function to_add_data( department_id = 0 ){ // เพิ่ม แก้ไข
+	function to_add_data( department_id = 0, department_status ){ // เพิ่ม แก้ไข		
 		$("#txtDepartment_id").val( department_id );
+		$("#txtDepartment_status").val( department_status );
 		$("#box-manage").show();
 		$("#box-show-search").hide();
 		$("#btn-toadd_data").hide();

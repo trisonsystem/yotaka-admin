@@ -28,7 +28,7 @@
 		<h3 style="font-weight: bold;"><?php echo $title; ?></h3>
 	</div>
 	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-right">
-		<button type="button" class="btn btn-secondary" onclick="to_add_data( '0' )" id="btn-toadd_data" style="margin-top: 10px; width: 100px;">เพิ่ม</button>
+		<button type="button" class="btn btn-secondary" onclick="to_add_data( '0', '0' )" id="btn-toadd_data" style="margin-top: 10px; width: 100px;">เพิ่ม</button>
 		<button type="button" class="btn btn-warning" onclick="to_manage_data()" id="btn-tomanage_data" style="margin-top: 10px; width: 100px; display: none;">ยกเลิก</button>
 	</div>
 </div>
@@ -147,7 +147,8 @@
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
 				<div style="display: none;">
 					<input type="text" id="txtDivision_id" name="txtDivision_id" value="0">
-					<input type="text" id="txtDivision_code" name="txtDivision_code" value="">
+					<!-- <input type="text" id="txtDivision_code" name="txtDivision_code" value=""> -->
+					<input type="text" id="txtDivision_status" name="txtDivision_status" value="">
 				</div>
 			</div>
 			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
@@ -236,7 +237,7 @@
 					str_html += " <td>"+v.name+"</td>";
 					str_html += " <td>"+status+"</td>";	
 					str_html += " <td align='center'>";
-					str_html += " 	<i class='fa fa-edit' style='font-size:20px' onclick='to_add_data("+v.id+")'></i>";
+					str_html += " 	<i class='fa fa-edit' style='font-size:20px' onclick='to_add_data("+v.id+","+v.status+")'></i>";
 					str_html += " 	<i class='fa fa-exchange' style='font-size:20px' onclick='open_chang_status("+v.id+","+v.status+",\""+v.code+" "+v.name+"\")' title='เปลี่ยนสถานะพนักงาน'></i>";
 					str_html += " </td>"; 	
 					str_html += "</tr>";
@@ -256,7 +257,7 @@
 	function get_select_divcode(){
 		$.get("division/search_division", function( aData ){
 			aData = jQuery.parseJSON( aData );
-			console.log(aData);
+			// console.log(aData);
 			var str_option  = "";			
 			str_option += "<option value=''> -- เลือกรหัสแผนก -- </option>";
 			$.each(aData, function(k , v){
@@ -346,8 +347,9 @@
 		$("#box-manage").css("width","0");
 	}
 
-	function to_add_data( division_id = 0 ){
+	function to_add_data( division_id = 0, division_status ){		
 		$("#txtDivision_id").val( division_id );
+		$("#txtDivision_status").val( division_status );
 		$("#box-manage").show();
 		$("#box-show-search").hide();
 		$("#btn-toadd_data").hide();
