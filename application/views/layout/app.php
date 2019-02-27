@@ -294,6 +294,13 @@
                     <b class="arrow"></b>
 
                     <ul class="submenu nav-hide" style="display: none;">
+                        <li id="manage_division">
+                            <a href="#" onclick="getMenu('language/index');">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                จัดการข้อมูลภาษา
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
                         <li id="employee_list">
                             <a href="#" onclick="getMenu('employee/index')">
                                 <i class="menu-icon fa fa-caret-right"></i>
@@ -339,8 +346,8 @@
                             </a>
                             <b class="arrow"></b>
                         </li>
-                    </ul>
-            
+                    </ul>    
+
                 </li>
             </ul>
             <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
