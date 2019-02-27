@@ -90,8 +90,8 @@ $route['employee/(:any)/(:any)']  	= 'Employee/EmployeeController/$1/$2';
 
 
 ## division
-$route['division/(:any)']  			= 'Mdivision/MdivisionController/$1';
-$route['division/(:any)/(:any)']  	= 'Mdivision/MdivisionController/$1/$2';
+$route['division/(:any)']  			= 'Division/DivisionController/$1';
+$route['division/(:any)/(:any)']  	= 'Division/DivisionController/$1/$2';
 ##--
 
 ## employee
@@ -100,13 +100,13 @@ $route['hotel/(:any)/(:any)']  		= 'Hotel/HotelController/$1/$2';
 ##
 
 ## department
-$route['department/(:any)']  			= 'Mdepartment/MdepartmentController/$1';
-$route['department/(:any)/(:any)']  	= 'Mdepartment/MdepartmentController/$1/$2';
+$route['department/(:any)']  			= 'Department/DepartmentController/$1';
+$route['department/(:any)/(:any)']  	= 'Department/DepartmentController/$1/$2';
 ##--
 
 ## position
-$route['position/(:any)']  			= 'Mposition/MpositionController/$1';
-$route['position/(:any)/(:any)']  	= 'Mposition/MpositionController/$1/$2';
+$route['position/(:any)']  			= 'Position/PositionController/$1';
+$route['position/(:any)/(:any)']  	= 'Position/PositionController/$1/$2';
 ##--
 
 $route['language/(:any)']  			= 'Language/LanguageController/$1';

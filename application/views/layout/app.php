@@ -336,21 +336,24 @@
                         <li id="manage_division">
                             <a href="#" onclick="getMenu('division/index');">
                                 <i class="menu-icon fa fa-caret-right"></i>
-                                <span class="lang_manage_division_data"><?php echo $this->lang->line('manage_division_data'); ?></span>
+                                ฝ่าย
+                                <!-- <span class="lang_manage_division_data"><?php // echo $this->lang->line('manage_division_data'); ?></span> -->
                             </a>
                             <b class="arrow"></b>
                         </li>
                         <li id="manage_division">
                             <a href="#" onclick="getMenu('department/index');">
                                 <i class="menu-icon fa fa-caret-right"></i>
-                                <span class="lang_manage_department_data"><?php echo $this->lang->line('manage_department_data'); ?></span>
+                                แผนก
+                                <!-- <span class="lang_manage_department_data"><?php // echo $this->lang->line('manage_department_data'); ?></span> -->
                             </a>
                             <b class="arrow"></b>
                         </li>
                         <li id="manage_division">
                             <a href="#" onclick="getMenu('position/index');">
                                 <i class="menu-icon fa fa-caret-right"></i>
-                                <span class="lang_manage_position_data"><?php echo $this->lang->line('manage_position_data'); ?></span>
+                                ตำแหน่ง
+                                <!-- <span class="lang_manage_position_data"><?php // echo $this->lang->line('manage_position_data'); ?></span> -->
                             </a>
                             <b class="arrow"></b>
                         </li>

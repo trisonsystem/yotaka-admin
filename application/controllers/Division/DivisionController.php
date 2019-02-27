@@ -1,7 +1,7 @@
 <?php
 header('Access-Control-Allow-Origin: *');
 
-class MdivisionController extends CI_Controller {
+class DivisionController extends CI_Controller {
     public $strUrl = "";
     public function __construct(){
         parent::__construct();
@@ -19,7 +19,7 @@ class MdivisionController extends CI_Controller {
         
         $dataInfo['title']      = $data['title'];
         $dataInfo['sub_title']  = '';
-        $dataInfo['temp']       = $this->load->view('Mdivision/list',$data,true);
+        $dataInfo['temp']       = $this->load->view('Division/list',$data,true);
         $this->output->set_output(json_encode($dataInfo));
     }
 
