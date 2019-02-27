@@ -41,7 +41,7 @@
 				<span>ฝ่าย : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-                <select id="slPositionDivision" name="slPositionDivision" class="form-control" onchange="change_division('slEmployeeDivision','slEmployeeDepartment','slEmployeePosition')">
+                <select id="slPositionDivision" name="slPositionDivision" class="form-control" onchange="change_division('slPositionDivision','slPositionDepartment')">
 					<option value=""> <?php echo $this->lang->line('sl_select'); ?> </option>
 					<?php 
 						foreach ($division as $key => $value) {
@@ -57,10 +57,10 @@
 				<select id="slPositionDepartment" name="slPositionDepartment" class="form-control">
 					<option value=""> -- เลือกแผนก -- </option>
 					<?php 
-				foreach ($divname as $key => $value) {
-					echo '<option value="' . $value["name"] . '">' . $value["name"] . '</option>';
-				}
-				?>
+						foreach ($department as $key => $value) {
+							echo '<option value="'.$value->id.'">'.$value->name.'</option>';
+						}
+					?>
 				</select>
 			</div>
 		</div>		
@@ -127,8 +127,113 @@
     </div>
 </div>
 
+<!-- ###################################### Manage  ######################################-->
 
+<div id="box-manage" style="display: none;">
+	<form id="form-manage" name="form-manage" method="post" action="" enctype="multipart/form-data">		
+		<div class="row">
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<label class="" style="font-weight: bold;font-size: 16px;">ข้อมูลตำแหน่ง</label>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<span>ฝ่าย : </span>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
+                <select id="eslPositionDivision" name="eslPositionDivision" class="form-control" onchange="change_division('eslPositionDivision','eslPositionDepartment')">
+					<option value=""> <?php echo $this->lang->line('sl_select'); ?> </option>
+					<?php 
+						foreach ($division as $key => $value) {
+							echo '<option value="'.$value->id.'">'.$value->name.'</option>';
+						}
+					?>
+				</select>
+			</div>			
+            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+                แผนก
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
+				<select id="eslPositionDepartment" name="eslPositionDepartment" class="form-control">
+					<option value=""> -- เลือกแผนก -- </option>
+					<?php 
+						foreach ($department as $key => $value) {
+							echo '<option value="'.$value->id.'">'.$value->name.'</option>';
+						}
+					?>
+				</select>
+			</div>
+		</div>		
+		<div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<span>รหัสตำแหน่ง : </span>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
+				<input type="text" id="etxtPositionCode" class="form-control" name="etxtPositionCode">
+            </div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<span>ตำแหน่ง : </span>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
+				<input type="text" id="etxtPositionName" class="form-control" name="etxtPositionName">
+            </div>
+		</div>
+		<div class="row">
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<div style="display: none;">
+					<input type="text" id="txtPosition_id" name="txtPosition_id" value="0">
+				</div>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+				<button type="button" class="btn btn-primary" onclick="save_data()">บันทึก</button>
+				<button type="button" class="btn btn-warning" onclick="clear_data()">ล้าง</button>
+			</div>			
+		</div>		
+	</form>
+</div>
 
+<!-- ###################################### Manage  ######################################-->
+
+<div class="modal" tabindex="-1" role="dialog" id="modal-page">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="md-title"></h5>
+			</div>
+			<div class="modal-body">
+					<table class="table" id="tb-status-list">
+						<thead>
+						<tr>
+							<th>ลำดับ</th>
+							<th>สถานะ</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class='text-center'>1</td>
+							<td><label style='cursor:pointer' onclick='chang_status(1)'><input type='radio' id='rStatus1' name='rStatus' value='1' > &nbsp;ใช้งาน</label></td>
+						</tr>
+						<tr>
+							<td class='text-center'>2</td>
+							<td><label style='cursor:pointer' onclick='chang_status(9)'><input type='radio' id='rStatus9' name='rStatus' value='9' > &nbsp;ไม่ใช้งาน</label></td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<span style="display: none;">
+									<input type="text" name="txtStatus_position_id" id="txtStatus_position_id" value="0">
+								</span>
+							</td>
+						</tr>
+					</tbody>
+					</table>
+			</div>
+			<div class="modal-footer">
+				<!-- <button type="button" class="btn btn-success" id="btn-save-noapprove" onclick="save_noapprove()">บันทึก</button> -->
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
+			</div>
+		</div>
+	</div>
+</div>
 <script type="text/javascript">
 	var page = 1;
 	var no_page = false;
@@ -244,6 +349,123 @@
 		$("#btn-toadd_data").show();
 		$("#btn-tomanage_data").hide();
 		$("#box-manage").css("width","0");
+	}
+
+	function change_division( idObj_Division, idObj_Department ){ 
+		$("#"+idObj_Department+" option[value!='']").remove();
+		// $("#"+idObj_Position+" option[value!='']").remove();
+		var division_id = $("#" + idObj_Division).val();
+		var option = {
+			division_id 	:  division_id
+		}
+		if (division_id != "") {
+			$.get("position/search_departments", option,function( aData ){
+				aData = jQuery.parseJSON( aData );
+				$.each(aData, function(k ,v){
+					$("#"+idObj_Department).append("<option value='"+v.id+"'>"+v.name+"</option>");
+				});
+			});
+		}
+	}
+
+	function to_add_data( posision_id = 0 ){ // เพิ่ม แก้ไข
+		$("#txtPosition_id").val( posision_id );
+		$("#box-manage").show();
+		$("#box-show-search").hide();
+		$("#btn-toadd_data").hide();
+		$("#btn-tomanage_data").show();
+		$("#box-manage").css("width","100%");
+
+		if (posision_id != 0) {			
+			var option = {
+				posision_id 	: posision_id
+			}
+			$.get("position/search_position", option,function( aData ){
+				aData = jQuery.parseJSON( aData );
+				if ( Object.keys(aData).length > 1) {
+					aData = aData[0];
+					$("#etxtPositionCode").val(aData.code);
+					$("#etxtPositionName").val(aData.name);
+					$("#eslPositionDivision option[value='"+aData.m_division_id+"']").prop('selected', true);
+					$("#eslPositionDepartment option[value='"+aData.m_department_id+"']").prop('selected', true);
+				} else {
+					alert( "no data" );
+				}
+			});
+		}else{
+			clear_data();
+			$("#txtPosition_id").val("0");
+		}
+
+		$('.datepicker').datepicker({format: 'dd-mm-yyyy'});
+	}
+
+	function save_data(){
+		var aData = JSON.stringify( $("#form-manage").serializeArray() );
+			aData = jQuery.parseJSON( aData );			
+		if (validate(aData)) {
+			$.post("position/save_data",  aData  ,function( res ){
+				res = jQuery.parseJSON( res ); 
+				if (res.flag) {
+					alert( res.msg );
+					get_data_list();					
+					to_manage_data();
+				}else{
+					alert( res.msg );
+				}
+			});
+		}else{
+			console.log("error-xxxxx")
+		}
+	}
+
+	function validate(aData){
+		var status = true;
+		
+		$.each(aData,function(k,v){
+			if (v.name != "txtPosition_id") {				
+				var obj = $("#"+v.name);
+				if (obj.val() == "") {
+					obj.addClass("error-form");
+					obj.focus();
+					status = false;			
+				}else{
+					obj.removeClass("error-form");
+				}
+			}
+		});		
+
+		return status;
+	}
+
+	function open_chang_status( position_id, status, text_title ){
+		$("#txtStatus_position_id").val( position_id );
+		$("#md-title").html( text_title );		
+		$("#modal-page").modal("show");
+		setTimeout(function(){
+			$('input:radio[name="rStatus"][value="'+status+'"]').prop('checked', true);
+		},300);
+	}
+
+	var c_status = true;
+	function chang_status( status ){
+		if (c_status) {
+			c_status = false;
+			var id = $("#txtStatus_position_id").val();
+			$.post("position/chang_status",  { position_id : id, status: status } ,function( res ){
+				res = jQuery.parseJSON( res ); 
+				if (res.flag) {
+					$("#modal-page").modal("hide");
+					alert( res.msg );
+					get_data_list();
+					c_status = true;
+				}else{
+					alert( res.msg );
+					c_status = true;
+				}
+
+			});
+		}
 	}
 
 </script>

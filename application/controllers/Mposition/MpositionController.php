@@ -17,7 +17,7 @@ class MpositionController extends CI_Controller {
         $data['adminlist']      = array();
         $data['title']          = "จัดการข้อมูลตำแหน่ง";
         $data["division"]       = $this->search_division("");
-        // $data["department"]     = $this->search_department("");
+        $data["department"]     = $this->search_department("");
         
 // debug($data);
         $dataInfo['title']      = $data['title'];
@@ -47,5 +47,29 @@ class MpositionController extends CI_Controller {
     	$aData      = ( isset($_GET['division_id']) ) ? $_GET : $aData ;
         $json_data  = $this->sent_to_api( '/position/search_division', $aData );
         return json_decode($json_data);
+    }
+
+    public function search_department( $aData = "" ){
+        $aData    = ( isset($_GET['division_id']) ) ? $_GET : $aData ;
+        $json_data  = $this->sent_to_api( '/employee/search_department', $aData );
+        return json_decode($json_data);
+    }
+
+    public function search_departments( $aData = "" ){
+        $aData = $this->search_department( $_GET );
+        print_r( json_encode($aData) );
+    }
+
+    public function save_data(){
+        $_POST["user"] = $_COOKIE[$this->keyword."user"];
+        $_POST["hotel_id"] = $_COOKIE[$this->keyword."hotel_id"];        
+        $json_data  = $this->sent_to_api( '/position/save_data', $_POST );        
+        echo $json_data;
+    }
+
+    public function chang_status(){
+        $_POST["user"] = $_COOKIE[$this->keyword."user"];        
+        $json_data     = $this->sent_to_api( '/position/chang_status', $_POST );
+        echo $json_data;
     }
 }
