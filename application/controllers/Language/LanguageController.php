@@ -15,7 +15,7 @@ class LanguageController extends CI_Controller {
     public function index(){
         $data = array();
         $data['adminlist']      = array();
-        $data['title']          = 'จัดการข้อมูลภาษา';
+        $data['title']          = $this->lang->line('manage_language_data');
 
         $dataInfo['title']      = $data['title'];
         $dataInfo['sub_title']  = '';
@@ -25,6 +25,20 @@ class LanguageController extends CI_Controller {
 
     public function search_language(){
         $json_data  = $this->sent_to_api( '/language/search_language', $_GET );
+        echo $json_data;
+    }
+
+    public function save_data(){
+        // $_POST["user"] = $_COOKIE[$this->keyword."user"];
+        // $_POST["hotel_id"] = $_COOKIE[$this->keyword."hotel_id"];        
+        $json_data  = $this->sent_to_api( '/language/save_data', $_POST );        
+        echo $json_data;
+    }
+
+    public function chang_status(){
+        // debug($_POST);
+        // $_POST["user"] = $_COOKIE[$this->keyword."user"];        
+        $json_data     = $this->sent_to_api( '/language/chang_status', $_POST );
         echo $json_data;
     }
 
