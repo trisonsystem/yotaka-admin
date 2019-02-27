@@ -294,10 +294,10 @@
                     <b class="arrow"></b>
 
                     <ul class="submenu nav-hide" style="display: none;">
-                        <li id="manage_division">
+                        <li id="manage_language">
                             <a href="#" onclick="getMenu('language/index');">
-                                <i class="menu-icon fa fa-caret-right"></i>
-                                จัดการข้อมูลภาษา
+                                <i class="menu-icon fa fa-caret-right"></i>                                
+                                <span class="lang_manage_language_data"> <?php echo $this->lang->line('manage_language_data'); ?></span>
                             </a>
                             <b class="arrow"></b>
                         </li>
@@ -336,21 +336,21 @@
                         <li id="manage_division">
                             <a href="#" onclick="getMenu('division/index');">
                                 <i class="menu-icon fa fa-caret-right"></i>
-                                จัดการข้อมูลฝ่าย
+                                <span class="lang_manage_division_data"><?php echo $this->lang->line('manage_division_data'); ?></span>
                             </a>
                             <b class="arrow"></b>
                         </li>
                         <li id="manage_division">
                             <a href="#" onclick="getMenu('department/index');">
                                 <i class="menu-icon fa fa-caret-right"></i>
-                                จัดการข้อมูลแผนก
+                                <span class="lang_manage_department_data"><?php echo $this->lang->line('manage_department_data'); ?></span>
                             </a>
                             <b class="arrow"></b>
                         </li>
                         <li id="manage_division">
                             <a href="#" onclick="getMenu('position/index');">
                                 <i class="menu-icon fa fa-caret-right"></i>
-                                จัดการข้อมูลตำแหน่ง
+                                <span class="lang_manage_position_data"><?php echo $this->lang->line('manage_position_data'); ?></span>
                             </a>
                             <b class="arrow"></b>
                         </li>
