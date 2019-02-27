@@ -354,6 +354,13 @@
                             </a>
                             <b class="arrow"></b>
                         </li>
+                        <li id="manage_division">
+                            <a href="#" onclick="getMenu('position/index');">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                ประเภทห้อง
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
                     </ul>    
 
                 </li>
