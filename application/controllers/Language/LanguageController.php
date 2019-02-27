@@ -12,6 +12,24 @@ class LanguageController extends CI_Controller {
         $this->arr_sent = array("time_now" => date("Y-m-d H:i:s"));
     }
 
+    public function index(){
+        $data = array();
+        $data['adminlist']      = array();
+        $data['title']          = 'จัดการข้อมูลภาษา';
+
+        $dataInfo['title']      = $data['title'];
+        $dataInfo['sub_title']  = '';
+        $dataInfo['temp']       = $this->load->view('Language/list',$data,true);
+        $this->output->set_output(json_encode($dataInfo));
+    }
+
+    public function search_language(){
+        $json_data  = $this->sent_to_api( '/language/search_language', $_GET );
+        echo $json_data;
+    }
+
+    // ********************************************************************************
+
     public function sent_to_api( $path, $aData){
         $aData      = ($aData == "") ?  $this->arr_sent : $aData;
         $arrData    = json_encode($aData);
