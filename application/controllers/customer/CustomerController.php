@@ -16,6 +16,7 @@ class CustomerController extends CI_Controller {
         $data = array();
         $data['adminlist']      = array();
         $data['title']          = $this->lang->line('manage_customer_data');
+        $data['country'] 		= $this->search_country();
 // debug($data);
         $dataInfo['title']      = $data['title'];
         $dataInfo['sub_title']  = '';
@@ -42,15 +43,15 @@ class CustomerController extends CI_Controller {
 
     public function save_data(){
         $_POST["user"] = $_COOKIE[$this->keyword."user"];
-        $json_data  = $this->sent_to_api( '/employee/save_data', $_POST );
+        $json_data  = $this->sent_to_api( '/customer/save_data', $_POST );
         $aData      = json_decode($json_data);
         if ($aData->flag) {
-            $fodel    = "assets/upload/employee_profile/";
-            $aFN      = explode(".", $_POST["txtEmployeeProfile"]);
+            $fodel    = "assets/upload/customer_profile/";
+            $aFN      = explode(".", $_POST["txtCustomerProfile"]);
             $n_name   = $aFN[count($aFN)-1];
             $n_path   = $fodel.$aData->code.".".$n_name;
-            if ( count( explode("temp", $_POST["txtEmployeeProfile"]) ) > 1 ) {
-            $this->copy_img($_POST["txtEmployeeProfile"], $n_path, $fodel);
+            if ( count( explode("temp", $_POST["txtCustomerProfile"]) ) > 1 ) {
+            $this->copy_img($_POST["txtCustomerProfile"], $n_path, $fodel);
         }
         }
         echo $json_data;
@@ -75,4 +76,14 @@ class CustomerController extends CI_Controller {
        }
       
     }
+
+
+    public function search_country(){
+    	$aLang = array("lang" => $_COOKIE[$this->keyword."Lang"]);
+        $json_data =  $this->sent_to_api( '/master/search_country', $aLang );
+        $json_data = json_decode($json_data);
+        return $json_data;
+    }
+
+
 }

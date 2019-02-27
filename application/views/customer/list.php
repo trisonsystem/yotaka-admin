@@ -26,9 +26,11 @@
 	}
 	.title_page{border-bottom: 1px solid #D9D9D9}
 </style>
+<script type="text/javascript" src="<?php echo $path_assets;?>/js/select2.min.js"></script>
+<link rel="stylesheet" type="text/css" href="<?php echo $path_assets;?>/css/select2.min.css">
 <div class="row title_page">
 	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-		<h3 class="lang_manage_employee_data" style="font-weight: bold;"><?php echo $title;?></h3>
+		<h3 class="lang_manage_employee_data" style="font-weight: bold;"><?php echo $title; ?></h3>
 	</div>
 	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-right">
 		<button type="button" class="btn btn-secondary lang_add" onclick="to_add_data( '0' )" id="btn-toadd_data" style="margin-top: 10px; width: 100px;"><?php echo $this->lang->line('add'); ?></button>
@@ -210,6 +212,36 @@
 		</div>
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<span><?php echo $this->lang->line('ethnicity'); ?> : </span>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
+				<select id="slEthnicity" name="slEthnicity" class="select2">
+					<option value=""> <?php echo $this->lang->line('sl_select');  ?> </option>
+					<?php  
+						foreach ($country as $key => $value) {
+							$name = ($_COOKIE[$keyword."Lang"] == "th") ? $value->country_name_th : $value->country_name_en;
+							echo '<option value="'.$value->id.'">'.$name.'</option>';
+						}
+					?>
+				</select>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<span><?php echo $this->lang->line('nationality'); ?> : </span>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
+				<select id="slNationality" name="slNationality" class="select2">
+					<option value=""> <?php echo $this->lang->line('sl_select'); ?> </option>
+					<?php  
+						foreach ($country as $key => $value) {
+							$name = ($_COOKIE[$keyword."Lang"] == "th") ? $value->nation_name_th : $value->nation_name_en;
+							echo '<option value="'.$value->id.'">'.$name.'</option>';
+						}
+					?>
+				</select>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
 				<span><?php echo $this->lang->line('address'); ?> : </span>
 			</div>
 			<div class="col-lg-6 col-md-6 col-sm-9 col-xs-5">
@@ -232,9 +264,9 @@
 				<img id="img" width="250px" style="margin-bottom: 10px;"></div>
 
 				<div style="display: none;">
-					<input type="text" id="txtEmployeeProfile" name="txtEmployeeProfile" value="0">
-					<input type="text" id="txtEmployee_id" name="txtEmployee_id" value="0">
-					<input type="text" id="txtEmployee_code" name="txtEmployee_code" value="">
+					<input type="text" id="txtCustomerProfile" name="txtCustomerProfile" value="0">
+					<input type="text" id="txtCustomer_id" name="txtCustomer_id" value="0">
+					<input type="text" id="txtCustomer_code" name="txtCustomer_code" value="">
 				</div>
 		</div>
 		<hr style="margin: 0px;">
@@ -425,7 +457,7 @@
 	}
 
 	function to_add_data( employee_id = 0 ){ // เพิ่ม แก้ไข
-		$("#txtEmployee_id").val( employee_id );
+		$("#txtCustomer_id").val( employee_id );
 		$("#box-manage").show();
 		$("#box-show-search").hide();
 		$("#btn-toadd_data").hide();
@@ -441,7 +473,7 @@
 			var option = {
 				employee_id 	: employee_id
 			}
-			$.get("employee/search_employee", option,function( aData ){
+			$.get("customer/search_employee", option,function( aData ){
 				aData = jQuery.parseJSON( aData );
 				if ( Object.keys(aData).length > 1) {
 					aData = aData[0];
@@ -449,7 +481,6 @@
 					$("#txtPassWord").val(aData.password);
 					$("#txtRePassWord").val(aData.password);
 	
-					$("#txtEmployee_code").val(aData.code);
 					$("#txtCode").val(aData.code);
 					$("#txtPrefix").val(aData.prefix);
 					$("#txtName").val(aData.name);
@@ -464,7 +495,7 @@
 					$("#txtEmail").val(aData.email);
 					$("#txtAddress").val(aData.address);
 					$('input:radio[name="rTypeCard"][value="'+aData.type_card+'"]').prop('checked', true);
-					$("#txtEmployeeProfile").val(aData.profile_img);
+					$("#txtCustomerProfile").val(aData.profile_img);
 					$("#img").attr("src", aData.profile_img);
 
 				}else{
@@ -480,6 +511,7 @@
 			$("#txtCustomer_id").val("0");
 		}
 
+		$(".select2").select2();
 		$('.datepicker').datepicker({format: 'dd-mm-yyyy'});
 	}
 
@@ -508,7 +540,7 @@
             success: function(response){
                 if(response != 0){
                     $("#img").attr("src",response); 
-                    $("#txtEmployeeProfile").val( response );
+                    $("#txtCustomerProfile").val( response );
                     // $(".preview img").show(); // Display image element
                 }else{
                     alert('file not uploaded');
@@ -521,7 +553,7 @@
 		var aData = JSON.stringify( $("#form-manage").serializeArray() );
 			aData = jQuery.parseJSON( aData );
 		if (validate(aData)) {
-			$.post("employee/save_data",  aData  ,function( res ){
+			$.post("customer/save_data",  aData  ,function( res ){
 				res = jQuery.parseJSON( res ); 
 				if (res.flag) {
 					alert( res.msg );
@@ -538,7 +570,7 @@
 	function validate(aData){ 
 		var status = true;
 		$.each(aData,function(k,v){
-			if (v.name != "txtEmployee_code") {
+			if (v.name != "txtCustomer_code") {
 				var obj = $("#"+v.name);
 				if (obj.val() == "") {
 					obj.addClass("error-form");
