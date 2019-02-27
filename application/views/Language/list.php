@@ -91,6 +91,90 @@
 	</div>
 </div>
 
+<!-- ###################################### Manage  ######################################-->
+
+<div id="box-manage" style="display: none;">
+	<form id="form-manage" name="form-manage" method="post" action="" enctype="multipart/form-data">		
+		<div class="row">
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<label class="" style="font-weight: bold;font-size: 16px;">ข้อมูลแผนก</label>
+			</div>
+		</div>
+		<div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<span>Word : </span>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
+				<input type="text" id="etxtLanguageWord" class="form-control" name="etxtLanguageWord">
+			</div>
+            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<span>ภาษาอังกฤษ : </span>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
+            	<input type="text" id="etxtLanguageEN" class="form-control" name="etxtLanguageEN">
+			</div>
+        </div>
+        <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<span>ภาษาไทย : </span>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
+				<input type="text" id="etxtLanguageTH" class="form-control" name="etxtLanguageTH">
+			</div>
+            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<div style="display: none;">
+					<input type="text" id="txtLanguage_word" name="txtLanguage_word" value="0">
+				</div>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+				<button type="button" class="btn btn-primary" onclick="save_data()">บันทึก</button>
+				<button type="button" class="btn btn-warning" onclick="clear_data()">ล้าง</button>
+			</div>
+        </div>		
+	</form>
+</div>
+<!-- ###################################### Manage  ######################################-->
+
+<div class="modal" tabindex="-1" role="dialog" id="modal-page">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="md-title"></h5>
+			</div>
+			<div class="modal-body">
+					<table class="table" id="tb-status-list">
+						<thead>
+						<tr>
+							<th>ลำดับ</th>
+							<th>สถานะ</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class='text-center'>1</td>
+							<td><label style='cursor:pointer'><input type='radio' id='rStatus1' name='rStatus' value='1' > &nbsp;ใช้งาน</label></td>
+						</tr>
+						<tr>
+							<td class='text-center'>2</td>
+							<td><label style='cursor:pointer' onclick='chang_status(9)'><input type='radio' id='rStatus9' name='rStatus' value='9' > &nbsp;ไม่ใช้งาน</label></td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<span style="display: none;">
+									<input type="text" name="txtStatus_language_word" id="txtStatus_language_word" value="0">
+								</span>
+							</td>
+						</tr>
+					</tbody>
+					</table>
+			</div>
+			<div class="modal-footer">
+				<!-- <button type="button" class="btn btn-success" id="btn-save-noapprove" onclick="save_noapprove()">บันทึก</button> -->
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
+			</div>
+		</div>
+	</div>
+</div>
 
 <script type="text/javascript">
 	var page = 1;
@@ -109,7 +193,7 @@
 
         $.get("language/search_language", option,function( aData ){
             aData = jQuery.parseJSON( aData );
-            console.log(aData);
+            // console.log(aData);
             var str_html  = "";
             if ( Object.keys(aData).length > 1) {
                 $.each(aData, function(k , v){
@@ -125,8 +209,8 @@
                     str_html += " <td>"+v.en+"</td>";
                     str_html += " <td>"+v.th+"</td>";
 					str_html += " <td align='center'>";
-					str_html += " 	<i class='fa fa-edit' style='font-size:20px' onclick='to_add_data("+v.id+")'></i>";
-					str_html += " 	<i class='fa fa-exchange' style='font-size:20px' onclick='open_chang_status("+v.id+","+v.status+",\""+v.code+" "+v.name+"\")' title='เปลี่ยนสถานะพนักงาน'></i>";
+					str_html += " 	<i class='fa fa-edit' style='font-size:20px' onclick='to_add_data(\""+v.word+"\")'></i>";
+					str_html += " 	<i class='fa fa-exchange' style='font-size:20px' onclick='open_chang_status(\""+v.word+"\")' title='เปลี่ยนสถานะภาษา'></i>";
 					str_html += " </td>"; 	
 					str_html += "</tr>";
                 });
@@ -203,4 +287,107 @@
 		$("#btn-tomanage_data").hide();
 		$("#box-manage").css("width","0");
 	}
+
+	function to_add_data( language_word = 0 ){ // เพิ่ม แก้ไข
+		$("#txtLanguage_id").val( language_word );
+		$("#box-manage").show();
+		$("#box-show-search").hide();
+		$("#btn-toadd_data").hide();
+		$("#btn-tomanage_data").show();
+		$("#box-manage").css("width","100%");
+
+		if (language_word != 0) {			
+			var option = {
+				language_word 	: language_word
+			}
+			document.getElementById("etxtLanguageWord").readOnly = true;
+			$.get("language/search_language", option,function( aData ){
+				aData = jQuery.parseJSON( aData );
+				if ( Object.keys(aData).length > 1) {
+					aData = aData[0];
+					$("#etxtLanguageWord").val(aData.word);
+					$("#etxtLanguageEN").val(aData.en);
+					$("#etxtLanguageTH").val(aData.th);
+				} else {
+					alert( "no data" );
+				}
+			});
+		}else{
+			document.getElementById("etxtLanguageWord").readOnly = false;
+			clear_data();
+			$("#txtLanguage_word").val("0");
+		}
+
+		$('.datepicker').datepicker({format: 'dd-mm-yyyy'});
+	}
+
+	function save_data(){
+		var aData = JSON.stringify( $("#form-manage").serializeArray() );
+			aData = jQuery.parseJSON( aData );			
+		if (validate(aData)) {
+			$.post("language/save_data",  aData  ,function( res ){
+				res = jQuery.parseJSON( res ); 
+				if (res.flag) {
+					alert( res.msg );
+					get_data_list();					
+					to_manage_data();
+				}else{
+					alert( res.msg );
+				}
+			});
+		}else{
+			console.log("error-xxxxx")
+		}
+	}
+
+	function validate(aData){
+		var status = true;
+		// console.log(aData);
+		$.each(aData,function(k,v){
+			if (v.name != "txtLanguage_word") {				
+				var obj = $("#"+v.name);
+				if (obj.val() == "") {
+					obj.addClass("error-form");
+					obj.focus();
+					status = false;			
+				}else{
+					obj.removeClass("error-form");
+				}
+			}
+		});		
+
+		return status;
+	}
+
+	function open_chang_status( language_word ){
+		$("#txtStatus_language_word").val( language_word );
+		$("#md-title").html( "Word : " + language_word );		
+		$("#modal-page").modal("show");
+		setTimeout(function(){
+			$('input:radio[name="rStatus"][value="1"]').prop('checked', true);
+		},300);
+	}
+
+	var c_status = true;
+	function chang_status( status ){
+		if (c_status) {
+			c_status = false;
+			var word = $("#txtStatus_language_word").val();
+			// console.log(word)
+			$.post("language/chang_status",  { language_word : word } ,function( res ){
+				res = jQuery.parseJSON( res ); 
+				if (res.flag) {
+					$("#modal-page").modal("hide");
+					alert( res.msg );
+					get_data_list();
+					c_status = true;
+				}else{
+					alert( res.msg );
+					c_status = true;
+				}
+
+			});
+		}
+	}
+
 </script>

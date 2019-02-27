@@ -28,6 +28,20 @@ class LanguageController extends CI_Controller {
         echo $json_data;
     }
 
+    public function save_data(){
+        // $_POST["user"] = $_COOKIE[$this->keyword."user"];
+        // $_POST["hotel_id"] = $_COOKIE[$this->keyword."hotel_id"];        
+        $json_data  = $this->sent_to_api( '/language/save_data', $_POST );        
+        echo $json_data;
+    }
+
+    public function chang_status(){
+        // debug($_POST);
+        // $_POST["user"] = $_COOKIE[$this->keyword."user"];        
+        $json_data     = $this->sent_to_api( '/language/chang_status', $_POST );
+        echo $json_data;
+    }
+
     // ********************************************************************************
 
     public function sent_to_api( $path, $aData){
