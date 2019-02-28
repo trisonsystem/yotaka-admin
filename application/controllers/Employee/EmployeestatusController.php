@@ -1,7 +1,7 @@
 <?php
 header('Access-Control-Allow-Origin: *');
 
-class RoomtypeController extends CI_Controller {
+class EmployeestatusController extends CI_Controller {
     public $strUrl = "";
     public function __construct(){
         parent::__construct();
@@ -15,11 +15,14 @@ class RoomtypeController extends CI_Controller {
     public function index(){
     	$data = array();
         $data['adminlist']      = array();
-        $data['title']          = "จัดการข้อมูลประเภทห้อง";
-
+        $data['title']          = "จัดการข้อมูลสถานะพนักงาน";
+        // $data["division"]       = $this->search_division("");
+        // $data["department"]     = $this->search_department("");
+        
+// debug($data);
         $dataInfo['title']      = $data['title'];
         $dataInfo['sub_title']  = '';
-        $dataInfo['temp']       = $this->load->view('Room/listtype',$data,true);
+        $dataInfo['temp']       = $this->load->view('Employee/liststatus',$data,true);
         $this->output->set_output(json_encode($dataInfo));
     }
 
@@ -35,21 +38,21 @@ class RoomtypeController extends CI_Controller {
         return $json_data;
     }
 
-    public function search_roomtype(){
-        $json_data  = $this->sent_to_api( '/roomtype/search_roomtype', $_GET );
+    public function search_employeestatus(){
+    	$json_data  = $this->sent_to_api( '/employeestatus/search_employeestatus', $_GET );
         echo $json_data;
     }
 
     public function save_data(){
-        $_POST["user"] = $_COOKIE[$this->keyword."user"];
-        $_POST["hotel_id"] = $_COOKIE[$this->keyword."hotel_id"];        
-        $json_data  = $this->sent_to_api( '/roomtype/save_data', $_POST );        
+    	$_POST["user"] = $_COOKIE[$this->keyword."user"];
+        // $_POST["hotel_id"] = $_COOKIE[$this->keyword."hotel_id"];        
+        $json_data  = $this->sent_to_api( '/employeestatus/save_data', $_POST );        
         echo $json_data;
     }
 
     public function chang_status(){
-        $_POST["user"] = $_COOKIE[$this->keyword."user"];        
-        $json_data     = $this->sent_to_api( '/roomtype/chang_status', $_POST );
+    	$_POST["user"] = $_COOKIE[$this->keyword."user"];        
+        $json_data     = $this->sent_to_api( '/employeestatus/chang_status', $_POST );
         echo $json_data;
     }
 }

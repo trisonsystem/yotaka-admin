@@ -35,64 +35,35 @@
 <br>
 <div id="box-show-search">
 	<div class="box-search">
-				
+		<?php // debug($division); ?>		
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>รหัสแผนก : </span>
+				<span>สถานะพนักงาน : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-                <select id="divisionCode" name="divisionCode" class="form-control">
-					<option value=""> -- เลือกรหัสแผนก -- </option>
-					<?php 
-				foreach ($divcode as $key => $value) {
-					echo '<option value="' . $value["code"] . '">' . $value["code"] . '</option>';
-				}
-				?>
-				</select>
+                <input type="text" id="txtEmployeeStatusName" class="form-control" name="txtEmployeeStatusName">
 			</div>			
             <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-                แผนก
+                <span>สถานะ : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-				<select id="divisionName" name="divisionName" class="form-control">
-					<option value=""> -- เลือกแผนก -- </option>
-					<?php 
-				foreach ($divname as $key => $value) {
-					echo '<option value="' . $value["name"] . '">' . $value["name"] . '</option>';
-				}
-				?>
+				<select id="slStatus_employeestatus" name="slStatus_employeestatus" class="form-control">
+					<option value=""> -- เลือกสถานะ -- </option>
+					<option value="1">ใช้งาน</option>
+                    <option value="9">ไม่ได้ใช้งาน</option>
 				</select>
 			</div>
-		</div>
+		</div>		
 		
 		<div class="row">
-            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>สถานะ : </span>
-			</div>
-			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-				<select id="divisionStatus" name="divisionStatus" class="form-control">
-                    <option value=""> -- เลือกสถานะ -- </option>
-                    <option value="1">ใช้งาน</option>
-                    <option value="9">ไม่ใช้งาน</option>					
-				</select>
-            </div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
 				
 			</div>
 			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-				<button type="button" class="btn btn-primary" onclick="get_data_list()">ค้นหา</button>
-				<button type="button" class="btn btn-warning" onclick="clear_data()">Clear</button>
+				<button type="button" class="btn btn-primary lang_save" onclick="get_data_list()"><?php echo $this->lang->line('search'); ?></button>
+				<button type="button" class="btn btn-warning lang_clear" onclick="clear_data()"><?php echo $this->lang->line('clear'); ?></button>
 			</div>
-		</div>
-		<div class="row">
-			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				
-			</div>
-			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-				<!-- <button type="button" class="btn btn-primary" onclick="get_data_list()">ค้นหา</button>
-				<button type="button" class="btn btn-warning" onclick="clear_data()">Clear</button> -->
-			</div>
-		</div>
+		</div>	
 	</div>
 	<hr>
 	<div class="row">
@@ -101,8 +72,7 @@
 				<thead>
 					<tr>
 						<th class="text-center">ลำดับ</th>
-						<th class="text-center">รหัส</th>
-						<th class="text-center">แผนก</th>
+						<th class="text-center">สถานะพนักงาน</th>						
 						<th class="text-center" width="10%">สถานะการใช้งาน</th>	
 						<th class="text-center">จัดการ</th>					
 					</tr>
@@ -126,29 +96,28 @@
 	<form id="form-manage" name="form-manage" method="post" action="" enctype="multipart/form-data">		
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<label class="" style="font-weight: bold;font-size: 16px;">ข้อมูลแผนก</label>
+				<label class="" style="font-weight: bold;font-size: 16px;">ข้อมูลสถานะพนักงาน</label>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>รหัสแผนก : </span>
+				<span>สถานะพนักงาน : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-				<input type="text" id="txtDivisionCode" class="form-control" name="txtDivisionCode">
+                <input type="text" id="etxtEmployeeStatusName" class="form-control" name="etxtEmployeeStatusName">
+			</div>			
+            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+                
 			</div>
-			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>แผนก : </span>
+			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+				
 			</div>
-			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-				<input type="text" id="txtDivisionName" class="form-control" name="txtDivisionName">
-			</div>
-		</div>		
+		</div>
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
 				<div style="display: none;">
-					<input type="text" id="txtDivision_id" name="txtDivision_id" value="0">
-					<!-- <input type="text" id="txtDivision_code" name="txtDivision_code" value=""> -->
-					<input type="text" id="txtDivision_status" name="txtDivision_status" value="">
+					<input type="text" id="txtEmployeeStatus_id" name="txtEmployeeStatus_id" value="0">
+					<input type="text" id="txtEmployeeStatus_status" name="txtEmployeeStatus_status" value="">
 				</div>
 			</div>
 			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
@@ -158,7 +127,9 @@
 		</div>		
 	</form>
 </div>
+
 <!-- ###################################### Manage  ######################################-->
+
 
 <div class="modal" tabindex="-1" role="dialog" id="modal-page">
 	<div class="modal-dialog" role="document">
@@ -186,7 +157,7 @@
 						<tr>
 							<td colspan="2">
 								<span style="display: none;">
-									<input type="text" name="txtStatus_division_id" id="txtStatus_division_id" value="0">
+									<input type="text" name="txtStatus_employeestatus_id" id="txtStatus_employeestatus_id" value="0">
 								</span>
 							</td>
 						</tr>
@@ -201,90 +172,56 @@
 	</div>
 </div>
 
-<script type="text/javascript">
-    var page = 1;
-    var no_page = false;
 
-    $(document).ready(function() {
-        get_data_list();
-        get_select_divcode();
-        get_select_divname();
+<script type="text/javascript">
+		var page = 1;
+	var no_page = false;
+	$(document).ready(function() {
+		get_data_list();
     });
 
     function get_data_list(){
         var option = {
-			division_code : $("#divisionCode").val(),
-			division_name : $("#divisionName").val(),
-			division_status : $("#divisionStatus").val(),
-			page : page
-		}
+        	employeestatus_id  	: "",            
+            employeestatus_name    : $("#txtEmployeeStatusName").val(), 
+            employeestatus_status    : $("#slStatus_employeestatus").val(),           
+            page 	: page
+        }
 
-		$.get("division/search_division", option,function( aData ){
-			aData = jQuery.parseJSON( aData );
-			// console.log(aData);
-			var str_html  = ""; 
-			if ( Object.keys(aData).length > 1) {
-				$.each(aData, function(k , v){
-					if (k=="limit") { return; }
+        $.get("employeestatus/search_employeestatus", option,function( aData ){
+            aData = jQuery.parseJSON( aData );
+            // console.log(aData);
+            var str_html  = "";
+            if ( Object.keys(aData).length > 1) {
+                $.each(aData, function(k , v){
+                    if (k=="limit") { return; }
 					var status = "";
 					switch (v.status) {
 						case '1': status = '<span style="color:#000;">ใช้งาน</span>';break;
 						case '9': status = '<span style="color:red;">ไม่ใช้งาน</span>';break;
-					}
-					str_html += "<tr>";
+                    }
+                    str_html += "<tr>";
 					str_html += " <td>"+( parseInt(k)+1 )+"</td>";
-					str_html += " <td>"+v.code+"</td>";
-					str_html += " <td>"+v.name+"</td>";
-					str_html += " <td>"+status+"</td>";	
+                    str_html += " <td>"+v.name+"</td>";
+                    str_html += " <td>"+status+"</td>";
 					str_html += " <td align='center'>";
 					str_html += " 	<i class='fa fa-edit' style='font-size:20px' onclick='to_add_data("+v.id+","+v.status+")'></i>";
-					str_html += " 	<i class='fa fa-exchange' style='font-size:20px' onclick='open_chang_status("+v.id+","+v.status+",\""+v.code+" "+v.name+"\")' title='เปลี่ยนสถานะพนักงาน'></i>";
+					str_html += " 	<i class='fa fa-exchange' style='font-size:20px' onclick='open_chang_status("+v.id+","+v.status+",\""+v.name+"\")' title='เปลี่ยนสถานะพนักงาน'></i>";
 					str_html += " </td>"; 	
 					str_html += "</tr>";
-					
-				});
-			} else {
-				str_html += "<td colspan='10' class='text-center' style='color:red;margin-top:15px;'> ไม่พบข้อมูล </td>";
-			}
+                });
+            }else{
+                str_html += "<td colspan='10' class='text-center' style='color:red;margin-top:15px;'> ไม่พบข้อมูล </td>";
+            }
 
-			$("#tb-div-list tbody").html( str_html );
+            $("#tb-div-list tbody").html( str_html );
 			var len = Object.keys(aData).length - 1;
 			len = ( aData.limit == len ) ? true : false;
 			set_number_page( len );
-		});
+        });
     }
 
-	function get_select_divcode(){
-		$.get("division/search_division", function( aData ){
-			aData = jQuery.parseJSON( aData );
-			// console.log(aData);
-			var str_option  = "";			
-			str_option += "<option value=''> -- เลือกรหัสแผนก -- </option>";
-			$.each(aData, function(k , v){
-				if (k=="limit") { return; }
-				str_option += "<option value='"+v.code+"'>"+v.code+"</option>";				
-			});
-
-			$("#divisionCode").html( str_option );
-		});
-	}
-
-	function get_select_divname(){
-		$.get("division/search_division", function( aData ){
-			aData = jQuery.parseJSON( aData );
-			// console.log(aData);
-			
-			var str_option  = "";			
-			str_option += "<option value=''> -- เลือกแผนก -- </option>";
-			$.each(aData, function(k , v){
-				if (k=="limit") { return; }
-				str_option += "<option value='"+v.name+"'>"+v.name+"</option>";				
-			});
-			$("#divisionName").html( str_option );
-		});
-	}
-
-	function set_number_page( status ){ 
+        function set_number_page( status ){ 
 		var str = "";
 		if (no_page == false) {
 			for(var i=1; i <= page ; i++){
@@ -347,62 +284,62 @@
 		$("#box-manage").css("width","0");
 	}
 
-	function to_add_data( division_id = 0, division_status ){		
-		$("#txtDivision_id").val( division_id );
-		$("#txtDivision_status").val( division_status );
+	function to_add_data( employeestatus_id = 0, employeestatus_status){ // เพิ่ม แก้ไข				
+		$("#txtEmployeeStatus_id").val( employeestatus_id );
+		$("#txtEmployeeStatus_status").val( employeestatus_status );
 		$("#box-manage").show();
 		$("#box-show-search").hide();
 		$("#btn-toadd_data").hide();
 		$("#btn-tomanage_data").show();
 		$("#box-manage").css("width","100%");
 
-		if (division_id !=0) {
+		if (employeestatus_id != 0) {			
 			var option = {
-				division_id 	: division_id
+				employeestatus_id 	: employeestatus_id
 			}
-			$.get("division/search_division", option,function( aData ){
+			$.get("employeestatus/search_employeestatus", option,function( aData ){
 				aData = jQuery.parseJSON( aData );
 				if ( Object.keys(aData).length > 1) {
 					aData = aData[0];
-					$("#txtDivisionCode").val(aData.code);
-					$("#txtDivisionName").val(aData.name);
-					// $("#txtDivisionStatus").val(aData.status);
-					$("#txtDivisionStatus option[value='"+aData.status+"']").prop('selected', true);
+					$("#etxtEmployeeStatusName").val(aData.name);
 				} else {
 					alert( "no data" );
 				}
 			});
-		} else {
-			// alert("0");
+		}else{
 			clear_data();
-			$("#txtDivision_id").val("0");
+			$("#txtEmployeeStatus_id").val("0");
 		}
+
+		$('.datepicker').datepicker({format: 'dd-mm-yyyy'});
 	}
 
-	function save_data(){
+		function save_data(){
 		var aData = JSON.stringify( $("#form-manage").serializeArray() );
 			aData = jQuery.parseJSON( aData );
+
 		if (validate(aData)) {
-			$.post("division/save_data",  aData  ,function( res ){
+			$.post("employeestatus/save_data",  aData  ,function( res ){
 				res = jQuery.parseJSON( res ); 
 				if (res.flag) {
 					alert( res.msg );
 					get_data_list();					
 					to_manage_data();
-					get_select_divcode();
-					get_select_divname();
 				}else{
 					alert( res.msg );
 				}
 			});
+		}else{
+			console.log("error-xxxxx")
 		}
 	}
 
 	function validate(aData){
 		var status = true;
 		$.each(aData,function(k,v){
-			if (v.name != "txtDivision_id" && v.name != "txtDivision_code" && v.name != "txtDivision_status") {
-				var obj = $("#"+v.name);				
+			if (v.name != "txtEmployeeStatus_id" && v.name != "txtEmployeeStatus_status") {				
+				var obj = $("#"+v.name);
+				console.log(obj);
 				if (obj.val() == "") {
 					obj.addClass("error-form");
 					obj.focus();
@@ -410,14 +347,14 @@
 				}else{
 					obj.removeClass("error-form");
 				}
-			}			
+			}
 		});		
 
 		return status;
 	}
 
-	function open_chang_status( division_id, status, text_title ){
-		$("#txtStatus_division_id").val( division_id );
+	function open_chang_status( employeestatus_id, status, text_title ){
+		$("#txtStatus_employeestatus_id").val( employeestatus_id );
 		$("#md-title").html( text_title );		
 		$("#modal-page").modal("show");
 		setTimeout(function(){
@@ -429,15 +366,13 @@
 	function chang_status( status ){
 		if (c_status) {
 			c_status = false;
-			var id = $("#txtStatus_division_id").val();
-			$.post("division/chang_status",  { division_id : id, status: status } ,function( res ){
+			var id = $("#txtStatus_employeestatus_id").val();
+			$.post("employeestatus/chang_status",  { employeestatus_id : id, status: status } ,function( res ){
 				res = jQuery.parseJSON( res ); 
 				if (res.flag) {
 					$("#modal-page").modal("hide");
 					alert( res.msg );
 					get_data_list();
-					get_select_divcode();
-					get_select_divname();
 					c_status = true;
 				}else{
 					alert( res.msg );
@@ -447,6 +382,5 @@
 			});
 		}
 	}
-
 
 </script>

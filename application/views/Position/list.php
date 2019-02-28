@@ -425,7 +425,7 @@
 		var status = true;
 		
 		$.each(aData,function(k,v){
-			if (v.name != "txtPosition_id") {				
+			if (v.name != "txtPosition_id" && v.name != "txtPosition_status") {				
 				var obj = $("#"+v.name);
 				if (obj.val() == "") {
 					obj.addClass("error-form");
