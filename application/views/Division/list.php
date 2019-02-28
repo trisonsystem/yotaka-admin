@@ -401,7 +401,7 @@
 	function validate(aData){
 		var status = true;
 		$.each(aData,function(k,v){
-			if (v.name != "txtDivision_id" && v.name != "txtDivision_code") {
+			if (v.name != "txtDivision_id" && v.name != "txtDivision_code" && v.name != "txtDivision_status") {
 				var obj = $("#"+v.name);				
 				if (obj.val() == "") {
 					obj.addClass("error-form");

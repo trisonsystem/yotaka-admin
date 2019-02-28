@@ -383,7 +383,7 @@
 		var status = true;
 		
 		$.each(aData,function(k,v){
-			if (v.name != "txtDepartment_id") {				
+			if (v.name != "txtDepartment_id"  && v.name != "txtDepartment_status") {				
 				var obj = $("#"+v.name);
 				if (obj.val() == "") {
 					obj.addClass("error-form");

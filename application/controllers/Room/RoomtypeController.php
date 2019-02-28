@@ -46,4 +46,10 @@ class RoomtypeController extends CI_Controller {
         $json_data  = $this->sent_to_api( '/roomtype/save_data', $_POST );        
         echo $json_data;
     }
+
+    public function chang_status(){
+        $_POST["user"] = $_COOKIE[$this->keyword."user"];        
+        $json_data     = $this->sent_to_api( '/roomtype/chang_status', $_POST );
+        echo $json_data;
+    }
 }
