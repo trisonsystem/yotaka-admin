@@ -82,26 +82,29 @@ $route['manage_quotation/(:any)/(:any)']  	= 'QuotationController/$1/$2';
 }
 ##--
 
-
 ## employee
 $route['employee/(:any)']  			= 'Employee/EmployeeController/$1';
 $route['employee/(:any)/(:any)']  	= 'Employee/EmployeeController/$1/$2';
 ##--
 
-## employee
+## employee status
 $route['employeestatus/(:any)']  			= 'Employee/EmployeestatusController/$1';
 $route['employeestatus/(:any)/(:any)']  	= 'Employee/EmployeestatusController/$1/$2';
 ##--
-
 
 ## division
 $route['division/(:any)']  			= 'Division/DivisionController/$1';
 $route['division/(:any)/(:any)']  	= 'Division/DivisionController/$1/$2';
 ##--
 
-## employee
+## hotel
 $route['hotel/(:any)']  			= 'Hotel/HotelController/$1';
 $route['hotel/(:any)/(:any)']  		= 'Hotel/HotelController/$1/$2';
+##
+
+## hotel status
+$route['hotelstatus/(:any)']  			= 'Hotel/HotelstatusController/$1';
+$route['hotelstatus/(:any)/(:any)']  		= 'Hotel/HotelstatusController/$1/$2';
 ##
 
 ## department

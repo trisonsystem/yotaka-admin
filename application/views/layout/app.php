@@ -326,6 +326,14 @@
                             <b class="arrow"></b>
                         </li>
                         <li id="employee_list">
+                            <a href="#" onclick="getMenu('hotelstatus/index')">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                จัดการข้อมูลสถานะโรงแรม
+                            </a>
+
+                            <b class="arrow"></b>
+                        </li>
+                        <li id="employee_list">
                             <a href="#" onclick="getMenu('room/index')">
                                 <i class="menu-icon fa fa-caret-right"></i>
                                 <span class="lang_manage_main_room"><?php echo $this->lang->line('manage_main_room'); ?></span>

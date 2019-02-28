@@ -174,7 +174,7 @@
 
 
 <script type="text/javascript">
-		var page = 1;
+	var page = 1;
 	var no_page = false;
 	$(document).ready(function() {
 		get_data_list();
