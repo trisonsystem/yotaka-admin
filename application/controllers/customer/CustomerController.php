@@ -57,12 +57,6 @@ class CustomerController extends CI_Controller {
         echo $json_data;
     }
 
-    public function chang_status(){
-        $_POST["user"] = $_COOKIE[$this->keyword."user"];
-        $json_data     = $this->sent_to_api( '/employee/chang_status', $_POST );
-        echo $json_data;
-    }
-
     public function copy_img( $file_name,  $n_path , $n_foder){
         if ( !file_exists($n_foder) ) {
              mkdir ($n_foder, 0755);

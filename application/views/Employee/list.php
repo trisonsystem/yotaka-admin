@@ -354,7 +354,7 @@
 				</div>
 		</div>
 		<hr style="margin: 0px;">
-		<div class="row" style="margin-top: 5px">
+		<div class="row" style="margin-top: 5px;margin-bottom: 30px;">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
 				
 			</div>
@@ -553,8 +553,6 @@
 
 		if (employee_id != 0) {
 			$("#txtUsername").prop('disabled', true);
-			$("#txtPassWord").prop('disabled', true);
-			$("#txtRePassWord").prop('disabled', true);
 			$("#txtCode").prop('disabled', true);
 			$("#txtUsername").prop('disabled', true);
 
@@ -593,8 +591,6 @@
 			});
 		}else{
 			$("#txtUsername").prop('disabled', false);
-			$("#txtPassWord").prop('disabled', false);
-			$("#txtRePassWord").prop('disabled', false);
 			$("#txtCode").prop('disabled', true);
 			$("#txtUsername").prop('disabled', true);
 			$("#img").attr("src", "");

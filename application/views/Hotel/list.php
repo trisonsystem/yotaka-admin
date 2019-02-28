@@ -332,7 +332,7 @@
 				</div>
 		</div>
 		<hr style="margin: 0px;">
-		<div class="row" style="margin-top: 5px">
+		<div class="row" style="margin-top: 5px;margin-bottom: 30px;">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
 				
 			</div>

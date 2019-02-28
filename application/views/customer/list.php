@@ -25,6 +25,7 @@
 		border: 1px solid red !important;
 	}
 	.title_page{border-bottom: 1px solid #D9D9D9}
+	.select2{ width: 100% !important; }
 </style>
 <script type="text/javascript" src="<?php echo $path_assets;?>/js/select2.min.js"></script>
 <link rel="stylesheet" type="text/css" href="<?php echo $path_assets;?>/css/select2.min.css">
@@ -84,14 +85,11 @@
 				<thead>
 					<tr>
 						<th class="text-center"><?php echo $this->lang->line('no'); ?></th>
-						<th class="text-center"><?php echo $this->lang->line('code'); ?></th>
-						<th class="text-center"><?php echo $this->lang->line('division'); ?></th>
-						<th class="text-center"><?php echo $this->lang->line('department'); ?></th>
-						<th class="text-center"><?php echo $this->lang->line('position'); ?></th>
 						<th class="text-center"><?php echo $this->lang->line('full_name'); ?></th>
 						<th class="text-center"><?php echo $this->lang->line('tel'); ?></th>
 						<th class="text-center"><?php echo $this->lang->line('email'); ?></th>
-						<th class="text-center"><?php echo $this->lang->line('status'); ?></th>
+						<th class="text-center"><?php echo $this->lang->line('nationality'); ?></th>
+						<th class="text-center"><?php echo $this->lang->line('ethnicity'); ?></th>
 						<th class="text-center"><?php echo $this->lang->line('action'); ?></th>
 					</tr>
 				</thead>
@@ -270,7 +268,7 @@
 				</div>
 		</div>
 		<hr style="margin: 0px;">
-		<div class="row" style="margin-top: 5px">
+		<div class="row" style="margin-top: 5px;margin-bottom: 30px;">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
 				
 			</div>
@@ -348,29 +346,18 @@
 			var str_html  = ""; 
 			if ( Object.keys(aData).length > 1) {
 				$.each(aData, function(k , v){
+				var nation_name    = ($.cookie("Lang") == "th") ? v.ethnicity_th : v.ethnicity_en;
+				var ethnicity_name = ($.cookie("Lang") == "th") ? v.nation_name_th : v.nation_name_en;
 				if (k=="limit") { return; }
-				var status = "";
-				switch (v.m_status_employee_id) {
-					case '1': status = '<span style="color:#000;">'+v.status_name+'</span>';break;
-					case '2': status = '<span style="color:blue;">'+v.status_name+'</span>';break;
-					case '3': status = '<span style="color:green;">'+v.status_name+'</span>';break;
-					case '4': status = '<span style="color:#cc8b0d;">'+v.status_name+'</span>';break;
-					case '5': status = '<span style="color:red;">'+v.status_name+'</span>';break;
-				}
 					str_html += "<tr>"; 
 					str_html += " <td>"+( parseInt(k)+1 )+"</td>"; 
-					str_html += " <td>"+v.code+"</td>"; 
-					str_html += " <td>"+v.division_name+"</td>"; 
-					str_html += " <td>"+v.department_name+"</td>";
-					str_html += " <td>"+v.position_name+"</td>";  
 					str_html += " <td>"+v.prefix+v.name+" "+v.last_name+"</td>"; 
 					str_html += " <td>"+v.tel+"</td>";  
 					str_html += " <td>"+v.email+"</td>";  
-					str_html += " <td>"+status+"</td>";  
-					str_html += " </td>"; 	
+					str_html += " <td>"+nation_name+"</td>";  
+					str_html += " <td>"+ethnicity_name+"</td>";  	
 					str_html += " <td align='center'>";
 					str_html += " 	<i class='fa fa-edit' style='font-size:20px' onclick='to_add_data("+v.id+")'></i>";
-					str_html += " 	<i class='fa fa-exchange' style='font-size:20px' onclick='open_chang_status("+v.id+","+v.m_status_employee_id+",\""+v.code+" "+v.prefix+v.name+" "+v.last_name+"\")' title='<?php echo $this->lang->line('change_status'); ?>'></i>";
 					str_html += " </td>"; 	
 					str_html += "</tr>"; 
 
@@ -456,40 +443,41 @@
 		$("#box-manage").css("width","0");
 	}
 
-	function to_add_data( employee_id = 0 ){ // เพิ่ม แก้ไข
-		$("#txtCustomer_id").val( employee_id );
+	function to_add_data( customer_id = 0 ){ // เพิ่ม แก้ไข
+		$("#txtCustomer_id").val( customer_id );
 		$("#box-manage").show();
 		$("#box-show-search").hide();
 		$("#btn-toadd_data").hide();
 		$("#btn-tomanage_data").show();
 		$("#box-manage").css("width","100%");
 
-		if (employee_id != 0) {
-			$("#txtUsername").prop('disabled', true);
-			$("#txtPassWord").prop('disabled', true);
-			$("#txtRePassWord").prop('disabled', true);
+		if (customer_id != 0) {
+			change_use("no_use");
 			$('input:radio[name="rTypeCardCustomer"]').prop('disabled', true);
 
 			var option = {
-				employee_id 	: employee_id
+				customer_id 	: customer_id
 			}
-			$.get("customer/search_employee", option,function( aData ){
+			$.get("customer/search_customer", option,function( aData ){
 				aData = jQuery.parseJSON( aData );
 				if ( Object.keys(aData).length > 1) {
 					aData = aData[0];
+					if (aData.user_system == "1") {
+						change_use("use");
+						$('input:radio[name="rUseSystem"][value="1"]').prop('checked', true);
+					}else{
+						$('input:radio[name="rUseSystem"][value="2"]').prop('checked', true);
+					}
+
 					$("#txtUsername").val(aData.username);
 					$("#txtPassWord").val(aData.password);
 					$("#txtRePassWord").val(aData.password);
-	
+
 					$("#txtCode").val(aData.code);
 					$("#txtPrefix").val(aData.prefix);
 					$("#txtName").val(aData.name);
 					$("#txtLastName").val(aData.last_name);
 					$("#txtBirthday").val(aData.birthday);
-					$("#slDivision option[value='"+aData.m_division_id+"']").prop('selected', true);
-					$("#slDepartment option[value='"+aData.m_department_id+"']").prop('selected', true);
-					$("#slPosition option[value='"+aData.m_position_id+"']").prop('selected', true);
-					$("#slRights option[value='"+aData.rights+"']").prop('selected', true);
 					$("#txtCardNumber").val(aData.id_card);
 					$("#txtTel").val(aData.tel);
 					$("#txtEmail").val(aData.email);
@@ -498,14 +486,14 @@
 					$("#txtCustomerProfile").val(aData.profile_img);
 					$("#img").attr("src", aData.profile_img);
 
+					$('#slEthnicity').val(aData.ethnicity).trigger('change');
+					$('#slNationality').val(aData.nationality).trigger('change');
 				}else{
 					alert( "no data" );
 				}
 			});
 		}else{
-			$("#txtUsername").prop('disabled', true);
-			$("#txtPassWord").prop('disabled', true);
-			$("#txtRePassWord").prop('disabled', true);
+			change_use("no_use");
 			$("#img").attr("src", "");
 			clear_data();
 			$("#txtCustomer_id").val("0");
