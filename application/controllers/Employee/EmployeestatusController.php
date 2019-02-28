@@ -39,7 +39,20 @@ class EmployeestatusController extends CI_Controller {
     }
 
     public function search_employeestatus(){
-    	$json_data  = $this->sent_to_api( '/roomtype/search_roomtype', $_GET );
+    	$json_data  = $this->sent_to_api( '/employeestatus/search_employeestatus', $_GET );
+        echo $json_data;
+    }
+
+    public function save_data(){
+    	$_POST["user"] = $_COOKIE[$this->keyword."user"];
+        // $_POST["hotel_id"] = $_COOKIE[$this->keyword."hotel_id"];        
+        $json_data  = $this->sent_to_api( '/employeestatus/save_data', $_POST );        
+        echo $json_data;
+    }
+
+    public function chang_status(){
+    	$_POST["user"] = $_COOKIE[$this->keyword."user"];        
+        $json_data     = $this->sent_to_api( '/employeestatus/chang_status', $_POST );
         echo $json_data;
     }
 }

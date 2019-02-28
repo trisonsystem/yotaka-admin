@@ -90,6 +90,89 @@
     </div>
 </div>
 
+<!-- ###################################### Manage  ######################################-->
+
+<div id="box-manage" style="display: none;">
+	<form id="form-manage" name="form-manage" method="post" action="" enctype="multipart/form-data">		
+		<div class="row">
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<label class="" style="font-weight: bold;font-size: 16px;">ข้อมูลสถานะพนักงาน</label>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<span>สถานะพนักงาน : </span>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
+                <input type="text" id="etxtEmployeeStatusName" class="form-control" name="etxtEmployeeStatusName">
+			</div>			
+            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+                
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+				
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<div style="display: none;">
+					<input type="text" id="txtEmployeeStatus_id" name="txtEmployeeStatus_id" value="0">
+					<input type="text" id="txtEmployeeStatus_status" name="txtEmployeeStatus_status" value="">
+				</div>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+				<button type="button" class="btn btn-primary" onclick="save_data()">บันทึก</button>
+				<button type="button" class="btn btn-warning" onclick="clear_data()">ล้าง</button>
+			</div>			
+		</div>		
+	</form>
+</div>
+
+<!-- ###################################### Manage  ######################################-->
+
+
+<div class="modal" tabindex="-1" role="dialog" id="modal-page">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="md-title"></h5>
+			</div>
+			<div class="modal-body">
+					<table class="table" id="tb-status-list">
+						<thead>
+						<tr>
+							<th>ลำดับ</th>
+							<th>สถานะ</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class='text-center'>1</td>
+							<td><label style='cursor:pointer' onclick='chang_status(1)'><input type='radio' id='rStatus1' name='rStatus' value='1' > &nbsp;ใช้งาน</label></td>
+						</tr>
+						<tr>
+							<td class='text-center'>2</td>
+							<td><label style='cursor:pointer' onclick='chang_status(9)'><input type='radio' id='rStatus9' name='rStatus' value='9' > &nbsp;ไม่ใช้งาน</label></td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<span style="display: none;">
+									<input type="text" name="txtStatus_employeestatus_id" id="txtStatus_employeestatus_id" value="0">
+								</span>
+							</td>
+						</tr>
+					</tbody>
+					</table>
+			</div>
+			<div class="modal-footer">
+				<!-- <button type="button" class="btn btn-success" id="btn-save-noapprove" onclick="save_noapprove()">บันทึก</button> -->
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
 <script type="text/javascript">
 		var page = 1;
 	var no_page = false;
@@ -137,4 +220,167 @@
 			set_number_page( len );
         });
     }
+
+        function set_number_page( status ){ 
+		var str = "";
+		if (no_page == false) {
+			for(var i=1; i <= page ; i++){
+				var css = (i == page) ? "default" : "link";
+				if (page != 1) {
+					str += '<button type="button" class="btn btn-'+css+' btn-xs" id="btn-to-page'+i+'" onclick="to_page('+i+');">'+i+'</button>';
+				}
+				if (status && i == page) { 
+					if(page != 1){ $("#bnt-Previous").show(); } else{ $("#bnt-Previous").hide(); }
+					$("#bnt-next").show(); 
+					str += '<button type="button" class="btn btn-link btn-xs" id="btn-to-page'+(i+1)+'" onclick="to_page('+(i+1)+')">'+(i+1)+'</button>';
+					no_page = true;
+				}else if (!status) {
+					$("#bnt-next").hide(); 
+				}
+			}
+			$("#div-page-number").html( str );
+		}else{
+			$("#div-page-number").find(".btn-default").each(function(){
+				$(this).removeClass("btn-default");
+				$(this).addClass("btn-link");
+			});
+
+			$("#btn-to-page"+page).removeClass("btn-link");
+			$("#btn-to-page"+page).addClass("btn-default");
+		}
+		
+	}
+
+	function next_page( number_page ){
+		no_page = false;
+		page 	= number_page;
+		get_data_list();
+	}
+
+	function to_page( number_page ){
+		no_page = true;
+		page 	= number_page;
+		get_data_list();
+	}
+
+	function previous( number_page ){
+		if (number_page == 0) { return; }
+		page = number_page;
+		if (page < 1) { page = 1; }
+		get_data_list();
+	}
+
+	function clear_data(){
+		$("input").val("");
+		$("select").val("");
+		$("textarea").val("");
+	}
+
+	function to_manage_data(){ //หน้า listdata
+		$("#box-manage").hide();
+		$("#box-show-search").show();
+		$("#btn-toadd_data").show();
+		$("#btn-tomanage_data").hide();
+		$("#box-manage").css("width","0");
+	}
+
+	function to_add_data( employeestatus_id = 0, employeestatus_status){ // เพิ่ม แก้ไข				
+		$("#txtEmployeeStatus_id").val( employeestatus_id );
+		$("#txtEmployeeStatus_status").val( employeestatus_status );
+		$("#box-manage").show();
+		$("#box-show-search").hide();
+		$("#btn-toadd_data").hide();
+		$("#btn-tomanage_data").show();
+		$("#box-manage").css("width","100%");
+
+		if (employeestatus_id != 0) {			
+			var option = {
+				employeestatus_id 	: employeestatus_id
+			}
+			$.get("employeestatus/search_employeestatus", option,function( aData ){
+				aData = jQuery.parseJSON( aData );
+				if ( Object.keys(aData).length > 1) {
+					aData = aData[0];
+					$("#etxtEmployeeStatusName").val(aData.name);
+				} else {
+					alert( "no data" );
+				}
+			});
+		}else{
+			clear_data();
+			$("#txtEmployeeStatus_id").val("0");
+		}
+
+		$('.datepicker').datepicker({format: 'dd-mm-yyyy'});
+	}
+
+		function save_data(){
+		var aData = JSON.stringify( $("#form-manage").serializeArray() );
+			aData = jQuery.parseJSON( aData );
+
+		if (validate(aData)) {
+			$.post("employeestatus/save_data",  aData  ,function( res ){
+				res = jQuery.parseJSON( res ); 
+				if (res.flag) {
+					alert( res.msg );
+					get_data_list();					
+					to_manage_data();
+				}else{
+					alert( res.msg );
+				}
+			});
+		}else{
+			console.log("error-xxxxx")
+		}
+	}
+
+	function validate(aData){
+		var status = true;
+		$.each(aData,function(k,v){
+			if (v.name != "txtEmployeeStatus_id" && v.name != "txtEmployeeStatus_status") {				
+				var obj = $("#"+v.name);
+				console.log(obj);
+				if (obj.val() == "") {
+					obj.addClass("error-form");
+					obj.focus();
+					status = false;			
+				}else{
+					obj.removeClass("error-form");
+				}
+			}
+		});		
+
+		return status;
+	}
+
+	function open_chang_status( employeestatus_id, status, text_title ){
+		$("#txtStatus_employeestatus_id").val( employeestatus_id );
+		$("#md-title").html( text_title );		
+		$("#modal-page").modal("show");
+		setTimeout(function(){
+			$('input:radio[name="rStatus"][value="'+status+'"]').prop('checked', true);
+		},300);
+	}
+
+	var c_status = true;
+	function chang_status( status ){
+		if (c_status) {
+			c_status = false;
+			var id = $("#txtStatus_employeestatus_id").val();
+			$.post("employeestatus/chang_status",  { employeestatus_id : id, status: status } ,function( res ){
+				res = jQuery.parseJSON( res ); 
+				if (res.flag) {
+					$("#modal-page").modal("hide");
+					alert( res.msg );
+					get_data_list();
+					c_status = true;
+				}else{
+					alert( res.msg );
+					c_status = true;
+				}
+
+			});
+		}
+	}
+
 </script>
