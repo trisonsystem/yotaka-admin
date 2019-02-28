@@ -88,6 +88,11 @@ $route['employee/(:any)']  			= 'Employee/EmployeeController/$1';
 $route['employee/(:any)/(:any)']  	= 'Employee/EmployeeController/$1/$2';
 ##--
 
+## employee
+$route['employeestatus/(:any)']  			= 'Employee/EmployeestatusController/$1';
+$route['employeestatus/(:any)/(:any)']  	= 'Employee/EmployeestatusController/$1/$2';
+##--
+
 
 ## division
 $route['division/(:any)']  			= 'Division/DivisionController/$1';

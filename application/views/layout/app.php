@@ -317,6 +317,13 @@
 
                             <b class="arrow"></b>
                         </li>
+                        <li id="manage_division">
+                            <a href="#" onclick="getMenu('employeestatus/index');">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                จัดการสถานะพนักงาน
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
                         <li id="employee_list">
                             <a href="#" onclick="getMenu('hotel/index')">
                                 <i class="menu-icon fa fa-caret-right"></i>
@@ -364,6 +371,7 @@
                             </a>
                             <b class="arrow"></b>
                         </li>
+                        
                     </ul>    
 
                 </li>
