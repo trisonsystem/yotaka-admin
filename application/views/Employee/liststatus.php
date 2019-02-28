@@ -130,7 +130,6 @@
 
 <!-- ###################################### Manage  ######################################-->
 
-
 <div class="modal" tabindex="-1" role="dialog" id="modal-page">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
@@ -221,7 +220,7 @@
         });
     }
 
-        function set_number_page( status ){ 
+    function set_number_page( status ){ 
 		var str = "";
 		if (no_page == false) {
 			for(var i=1; i <= page ; i++){
@@ -314,7 +313,7 @@
 		$('.datepicker').datepicker({format: 'dd-mm-yyyy'});
 	}
 
-		function save_data(){
+	function save_data(){
 		var aData = JSON.stringify( $("#form-manage").serializeArray() );
 			aData = jQuery.parseJSON( aData );
 
