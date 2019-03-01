@@ -38,16 +38,16 @@
 		<?php // debug($division); ?>		
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>สถานะพนักงาน : </span>
+				<span>สถานะโรงแรม : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-                <input type="text" id="txtEmployeeStatusName" class="form-control" name="txtEmployeeStatusName">
+                <input type="text" id="txtHotelStatusName" class="form-control" name="txtHotelStatusName">
 			</div>			
             <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
                 <span>สถานะ : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-				<select id="slStatus_employeestatus" name="slStatus_employeestatus" class="form-control">
+				<select id="slStatus_hotelstatus" name="slStatus_hotelstatus" class="form-control">
 					<option value=""> -- เลือกสถานะ -- </option>
 					<option value="1">ใช้งาน</option>
                     <option value="9">ไม่ได้ใช้งาน</option>
@@ -96,15 +96,15 @@
 	<form id="form-manage" name="form-manage" method="post" action="" enctype="multipart/form-data">		
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<label class="" style="font-weight: bold;font-size: 16px;">ข้อมูลสถานะพนักงาน</label>
+				<label class="" style="font-weight: bold;font-size: 16px;">ข้อมูลสถานะโรงแรม</label>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>สถานะพนักงาน : </span>
+				<span>สถานะโรงแรม : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-                <input type="text" id="etxtEmployeeStatusName" class="form-control" name="etxtEmployeeStatusName">
+                <input type="text" id="etxtHotelStatusName" class="form-control" name="etxtHotelStatusName">
 			</div>			
             <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
                 
@@ -116,8 +116,8 @@
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
 				<div style="display: none;">
-					<input type="text" id="txtEmployeeStatus_id" name="txtEmployeeStatus_id" value="0">
-					<input type="text" id="txtEmployeeStatus_status" name="txtEmployeeStatus_status" value="">
+					<input type="text" id="txtHotelStatus_id" name="txtHotelStatus_id" value="0">
+					<input type="text" id="txtHotelStatus_status" name="txtHotelStatus_status" value="">
 				</div>
 			</div>
 			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
@@ -156,7 +156,7 @@
 						<tr>
 							<td colspan="2">
 								<span style="display: none;">
-									<input type="text" name="txtStatus_employeestatus_id" id="txtStatus_employeestatus_id" value="0">
+									<input type="text" name="txtStatus_hotelstatus_id" id="txtStatus_hotelstatus_id" value="0">
 								</span>
 							</td>
 						</tr>
@@ -171,7 +171,6 @@
 	</div>
 </div>
 
-
 <script type="text/javascript">
 	var page = 1;
 	var no_page = false;
@@ -181,13 +180,13 @@
 
     function get_data_list(){
         var option = {
-        	employeestatus_id  	: "",            
-            employeestatus_name    : $("#txtEmployeeStatusName").val(), 
-            employeestatus_status    : $("#slStatus_employeestatus").val(),           
+        	hotelstatus_id  	: "",            
+            hotelstatus_name    : $("#txtHotelStatusName").val(), 
+            hotelstatus_status    : $("#slStatus_hotelstatus").val(),           
             page 	: page
         }
 
-        $.get("employeestatus/search_employeestatus", option,function( aData ){
+        $.get("hotelstatus/search_hotelstatus", option,function( aData ){
             aData = jQuery.parseJSON( aData );
             // console.log(aData);
             var str_html  = "";
@@ -283,31 +282,31 @@
 		$("#box-manage").css("width","0");
 	}
 
-	function to_add_data( employeestatus_id = 0, employeestatus_status){ // เพิ่ม แก้ไข				
-		$("#txtEmployeeStatus_id").val( employeestatus_id );
-		$("#txtEmployeeStatus_status").val( employeestatus_status );
+	function to_add_data( hotelstatus_id = 0, hotelstatus_status){ // เพิ่ม แก้ไข				
+		$("#txtHotelStatus_id").val( hotelstatus_id );
+		$("#txtHotelStatus_status").val( hotelstatus_status );
 		$("#box-manage").show();
 		$("#box-show-search").hide();
 		$("#btn-toadd_data").hide();
 		$("#btn-tomanage_data").show();
 		$("#box-manage").css("width","100%");
 
-		if (employeestatus_id != 0) {			
+		if (hotelstatus_id != 0) {			
 			var option = {
-				employeestatus_id 	: employeestatus_id
+				hotelstatus_id 	: hotelstatus_id
 			}
-			$.get("employeestatus/search_employeestatus", option,function( aData ){
+			$.get("hotelstatus/search_hotelstatus", option,function( aData ){
 				aData = jQuery.parseJSON( aData );
 				if ( Object.keys(aData).length > 1) {
 					aData = aData[0];
-					$("#etxtEmployeeStatusName").val(aData.name);
+					$("#etxtHotelStatusName").val(aData.name);
 				} else {
 					alert( "no data" );
 				}
 			});
 		}else{
 			clear_data();
-			$("#txtEmployeeStatus_id").val("0");
+			$("#txtHotelStatus_id").val("0");
 		}
 
 		$('.datepicker').datepicker({format: 'dd-mm-yyyy'});
@@ -318,7 +317,7 @@
 			aData = jQuery.parseJSON( aData );
 
 		if (validate(aData)) {
-			$.post("employeestatus/save_data",  aData  ,function( res ){
+			$.post("hotelstatus/save_data",  aData  ,function( res ){
 				res = jQuery.parseJSON( res ); 
 				if (res.flag) {
 					alert( res.msg );
@@ -336,7 +335,7 @@
 	function validate(aData){
 		var status = true;
 		$.each(aData,function(k,v){
-			if (v.name != "txtEmployeeStatus_id" && v.name != "txtEmployeeStatus_status") {				
+			if (v.name != "txtHotelStatus_id" && v.name != "txtHotelStatus_status") {				
 				var obj = $("#"+v.name);
 				console.log(obj);
 				if (obj.val() == "") {
@@ -352,8 +351,8 @@
 		return status;
 	}
 
-	function open_chang_status( employeestatus_id, status, text_title ){
-		$("#txtStatus_employeestatus_id").val( employeestatus_id );
+	function open_chang_status( hotelstatus_id, status, text_title ){
+		$("#txtStatus_hotelstatus_id").val( hotelstatus_id );
 		$("#md-title").html( text_title );		
 		$("#modal-page").modal("show");
 		setTimeout(function(){
@@ -365,8 +364,8 @@
 	function chang_status( status ){
 		if (c_status) {
 			c_status = false;
-			var id = $("#txtStatus_employeestatus_id").val();
-			$.post("employeestatus/chang_status",  { employeestatus_id : id, status: status } ,function( res ){
+			var id = $("#txtStatus_hotelstatus_id").val();
+			$.post("hotelstatus/chang_status",  { hotelstatus_id : id, status: status } ,function( res ){
 				res = jQuery.parseJSON( res ); 
 				if (res.flag) {
 					$("#modal-page").modal("hide");

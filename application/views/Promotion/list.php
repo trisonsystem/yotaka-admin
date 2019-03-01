@@ -1,4 +1,5 @@
 <?php $path_assets = base_url() . "assets/"; ?>
+
 <style type="text/css">
 	.row{ margin-top: 5px; }
 	#box-manage{
@@ -38,32 +39,53 @@
 		<?php // debug($division); ?>		
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>สถานะพนักงาน : </span>
+                <span>โปรโมชั่น : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-                <input type="text" id="txtEmployeeStatusName" class="form-control" name="txtEmployeeStatusName">
-			</div>			
+				<input type="text" id="txtPromotionTitle" class="form-control" name="txtPromotionTitle">
+			</div>
             <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-                <span>สถานะ : </span>
+				<span>โค้ดส่วนลด : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-				<select id="slStatus_employeestatus" name="slStatus_employeestatus" class="form-control">
+				<input type="text" id="txtPromotionCode" class="form-control" name="txtPromotionCode">
+            </div>
+		</div>				
+		<div class="row">			
+            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<span>ราคา : </span>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
+				<input type="text" id="txtPromotionPrice" class="form-control" name="txtPromotionPrice">
+            </div>	
+            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<span>สถานะ : </span>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
+				<select id="slStatus_promotion" name="slStatus_promotion" class="form-control">
 					<option value=""> -- เลือกสถานะ -- </option>
 					<option value="1">ใช้งาน</option>
                     <option value="9">ไม่ได้ใช้งาน</option>
 				</select>
-			</div>
-		</div>		
-		
-		<div class="row">
+            </div>		
+		</div>
+
+		<div class="row">		
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				
+				<!-- <span>ตำแหน่ง : </span> -->
 			</div>
 			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-				<button type="button" class="btn btn-primary lang_save" onclick="get_data_list()"><?php echo $this->lang->line('search'); ?></button>
-				<button type="button" class="btn btn-warning lang_clear" onclick="clear_data()"><?php echo $this->lang->line('clear'); ?></button>
+				<button type="button" class="btn btn-primary" onclick="get_data_list()">ค้นหา</button>
+				<button type="button" class="btn btn-warning" onclick="clear_data()">Clear</button>
+            </div>	
+            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				
 			</div>
-		</div>	
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
+				
+            </div>
+            
+		</div>		
 	</div>
 	<hr>
 	<div class="row">
@@ -72,8 +94,13 @@
 				<thead>
 					<tr>
 						<th class="text-center">ลำดับ</th>
-						<th class="text-center">สถานะพนักงาน</th>						
-						<th class="text-center" width="10%">สถานะการใช้งาน</th>	
+						<th class="text-center">โค้ดส่วนลด</th>
+						<th class="text-center">โปรโมชั่น</th>
+						<th class="text-center">คำอธิบาย</th>
+						<th class="text-center">วันที่เริ่มต้น</th>
+						<th class="text-center">วันที่สิ้นสุด</th>
+						<th class="text-center">ส่วนลด/บาท</th>
+						<th class="text-center">สถานะการใช้งาน</th>	
 						<th class="text-center">จัดการ</th>					
 					</tr>
 				</thead>
@@ -96,28 +123,68 @@
 	<form id="form-manage" name="form-manage" method="post" action="" enctype="multipart/form-data">		
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<label class="" style="font-weight: bold;font-size: 16px;">ข้อมูลสถานะพนักงาน</label>
+				<label class="" style="font-weight: bold;font-size: 16px;">ข้อมูลโปรโมชั่น</label>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>สถานะพนักงาน : </span>
+                <span>โปรโมชั่น : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-                <input type="text" id="etxtEmployeeStatusName" class="form-control" name="etxtEmployeeStatusName">
-			</div>			
+				<input type="text" id="etxtPromotionTitle" class="form-control" name="etxtPromotionTitle">
+			</div>
             <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-                
+				<span>โค้ดส่วนลด : </span>
 			</div>
-			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-				
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
+				<input type="text" id="etxtPromotionCode" class="form-control" name="etxtPromotionCode">
+            </div>
+		</div>	
+		<div class="row">
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<span>คำอธิบายโปรโมชั่น : </span>
 			</div>
+			<div class="col-lg-6 col-md-6 col-sm-9 col-xs-5">
+				<textarea id="txtAddress" name="txtAddress" class="form-control" rows="5"></textarea>
+			</div>
+		</div>
+		<div class="row">			
+            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<span>วันที่เริ่มต้น : </span>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
+				<input type="text" class="form-control" placehoder="Start Date" id="startdate"/>
+            </div>	
+            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<span>วันที่สิ้นสุด : </span>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
+				<input type="text" class="form-control" placehoder="End Date" id="enddate"/>
+            </div>		
+		</div>
+		<div class="row">			
+            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<span>ราคา : </span>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
+				<input type="text" id="txtPromotionPrice" class="form-control" name="txtPromotionPrice">
+            </div>	
+            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<span>สถานะ : </span>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
+				<select id="slStatus_promotion" name="slStatus_promotion" class="form-control">
+					<option value=""> -- เลือกสถานะ -- </option>
+					<option value="1">ใช้งาน</option>
+                    <option value="9">ไม่ได้ใช้งาน</option>
+				</select>
+            </div>		
 		</div>
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
 				<div style="display: none;">
-					<input type="text" id="txtEmployeeStatus_id" name="txtEmployeeStatus_id" value="0">
-					<input type="text" id="txtEmployeeStatus_status" name="txtEmployeeStatus_status" value="">
+					<input type="text" id="txtPromotion_id" name="txtPromotion_id" value="0">
+					<input type="text" id="txtPromotion_status" name="txtPromotion_status" value="">
 				</div>
 			</div>
 			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
@@ -130,66 +197,44 @@
 
 <!-- ###################################### Manage  ######################################-->
 
-<div class="modal" tabindex="-1" role="dialog" id="modal-page">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="md-title"></h5>
-			</div>
-			<div class="modal-body">
-					<table class="table" id="tb-status-list">
-						<thead>
-						<tr>
-							<th>ลำดับ</th>
-							<th>สถานะ</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td class='text-center'>1</td>
-							<td><label style='cursor:pointer' onclick='chang_status(1)'><input type='radio' id='rStatus1' name='rStatus' value='1' > &nbsp;ใช้งาน</label></td>
-						</tr>
-						<tr>
-							<td class='text-center'>2</td>
-							<td><label style='cursor:pointer' onclick='chang_status(9)'><input type='radio' id='rStatus9' name='rStatus' value='9' > &nbsp;ไม่ใช้งาน</label></td>
-						</tr>
-						<tr>
-							<td colspan="2">
-								<span style="display: none;">
-									<input type="text" name="txtStatus_employeestatus_id" id="txtStatus_employeestatus_id" value="0">
-								</span>
-							</td>
-						</tr>
-					</tbody>
-					</table>
-			</div>
-			<div class="modal-footer">
-				<!-- <button type="button" class="btn btn-success" id="btn-save-noapprove" onclick="save_noapprove()">บันทึก</button> -->
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
-			</div>
-		</div>
-	</div>
-</div>
-
-
 <script type="text/javascript">
 	var page = 1;
 	var no_page = false;
 	$(document).ready(function() {
 		get_data_list();
+
+		$("#startdate").datepicker({
+		    todayBtn:  1,
+		    autoclose: true,
+		}).on('changeDate', function (selected) {
+		    var minDate = new Date(selected.date.valueOf());
+		    $('#enddate').datepicker('setStartDate', minDate);
+		    // $('#enddate').datepicker('setDate', minDate); // <--THIS IS THE LINE ADDED
+		});
+
+		$("#enddate").datepicker({
+			todayBtn:  1,
+		    autoclose: true,
+		}).on('changeDate', function (selected) {
+	        var maxDate = new Date(selected.date.valueOf());
+	        $('#startdate').datepicker('setEndDate', maxDate);
+	    });
+
     });
 
-    function get_data_list(){
+    function get_data_list(){    	    	
         var option = {
-        	employeestatus_id  	: "",            
-            employeestatus_name    : $("#txtEmployeeStatusName").val(), 
-            employeestatus_status    : $("#slStatus_employeestatus").val(),           
+        	promotion_id  		: "",            
+            promotion_title    	: $("#txtPromotionTitle").val(),
+            promotion_code		: $("#txtPromotionCode").val(),
+            promotion_status  	: $("#slStatus_promotion").val(),            
+            promotion_hotel_id  : $("#slPromotionHotel").val(),
             page 	: page
         }
 
-        $.get("employeestatus/search_employeestatus", option,function( aData ){
+        $.get("promotion/search_promotion", option,function( aData ){
             aData = jQuery.parseJSON( aData );
-            // console.log(aData);
+            console.log(aData);
             var str_html  = "";
             if ( Object.keys(aData).length > 1) {
                 $.each(aData, function(k , v){
@@ -201,11 +246,16 @@
                     }
                     str_html += "<tr>";
 					str_html += " <td>"+( parseInt(k)+1 )+"</td>";
-                    str_html += " <td>"+v.name+"</td>";
-                    str_html += " <td>"+status+"</td>";
+					str_html += " <td>"+v.promotion_code+"</td>";
+					str_html += " <td>"+v.title+"</td>";
+                    str_html += " <td>"+v.description+"</td>";
+                    str_html += " <td>"+v.startdate+"</td>";
+                    str_html += " <td>"+v.enddate+"</td>";
+                    str_html += " <td>"+v.discount+"</td>";
+					str_html += " <td>"+status+"</td>";	
 					str_html += " <td align='center'>";
 					str_html += " 	<i class='fa fa-edit' style='font-size:20px' onclick='to_add_data("+v.id+","+v.status+")'></i>";
-					str_html += " 	<i class='fa fa-exchange' style='font-size:20px' onclick='open_chang_status("+v.id+","+v.status+",\""+v.name+"\")' title='เปลี่ยนสถานะพนักงาน'></i>";
+					str_html += " 	<i class='fa fa-exchange' style='font-size:20px' onclick='open_chang_status("+v.id+","+v.status+",\""+v.code+" "+v.name+"\")' title='เปลี่ยนสถานะพนักงาน'></i>";
 					str_html += " </td>"; 	
 					str_html += "</tr>";
                 });
@@ -220,7 +270,7 @@
         });
     }
 
-    function set_number_page( status ){ 
+       function set_number_page( status ){ 
 		var str = "";
 		if (no_page == false) {
 			for(var i=1; i <= page ; i++){
@@ -283,31 +333,34 @@
 		$("#box-manage").css("width","0");
 	}
 
-	function to_add_data( employeestatus_id = 0, employeestatus_status){ // เพิ่ม แก้ไข				
-		$("#txtEmployeeStatus_id").val( employeestatus_id );
-		$("#txtEmployeeStatus_status").val( employeestatus_status );
+	function to_add_data( promotion_id = 0, promotion_status ){ // เพิ่ม แก้ไข		
+		$("#txtPosition_id").val( promotion_id );
+		$("#txtPosition_status").val( promotion_status );
 		$("#box-manage").show();
 		$("#box-show-search").hide();
 		$("#btn-toadd_data").hide();
 		$("#btn-tomanage_data").show();
 		$("#box-manage").css("width","100%");
 
-		if (employeestatus_id != 0) {			
+		if (promotion_id != 0) {			
 			var option = {
-				employeestatus_id 	: employeestatus_id
+				promotion_id 	: promotion_id
 			}
-			$.get("employeestatus/search_employeestatus", option,function( aData ){
+			$.get("promotion/search_promotion", option,function( aData ){
 				aData = jQuery.parseJSON( aData );
 				if ( Object.keys(aData).length > 1) {
 					aData = aData[0];
-					$("#etxtEmployeeStatusName").val(aData.name);
+					$("#etxtPositionCode").val(aData.code);
+					$("#etxtPositionName").val(aData.name);
+					$("#eslPositionDivision option[value='"+aData.m_division_id+"']").prop('selected', true);
+					$("#eslPositionDepartment option[value='"+aData.m_department_id+"']").prop('selected', true);
 				} else {
 					alert( "no data" );
 				}
 			});
 		}else{
 			clear_data();
-			$("#txtEmployeeStatus_id").val("0");
+			$("#txtPosition_id").val("0");
 		}
 
 		$('.datepicker').datepicker({format: 'dd-mm-yyyy'});
@@ -315,19 +368,19 @@
 
 	function save_data(){
 		var aData = JSON.stringify( $("#form-manage").serializeArray() );
-			aData = jQuery.parseJSON( aData );
-
+			aData = jQuery.parseJSON( aData );			
 		if (validate(aData)) {
-			$.post("employeestatus/save_data",  aData  ,function( res ){
-				res = jQuery.parseJSON( res ); 
-				if (res.flag) {
-					alert( res.msg );
-					get_data_list();					
-					to_manage_data();
-				}else{
-					alert( res.msg );
-				}
-			});
+			alert("dddddddd");
+			// $.post("position/save_data",  aData  ,function( res ){
+			// 	res = jQuery.parseJSON( res ); 
+			// 	if (res.flag) {
+			// 		alert( res.msg );
+			// 		get_data_list();					
+			// 		to_manage_data();
+			// 	}else{
+			// 		alert( res.msg );
+			// 	}
+			// });
 		}else{
 			console.log("error-xxxxx")
 		}
@@ -335,10 +388,10 @@
 
 	function validate(aData){
 		var status = true;
+		
 		$.each(aData,function(k,v){
-			if (v.name != "txtEmployeeStatus_id" && v.name != "txtEmployeeStatus_status") {				
+			if (v.name != "txtPromotion_id" && v.name != "txtPromotion_status") {				
 				var obj = $("#"+v.name);
-				console.log(obj);
 				if (obj.val() == "") {
 					obj.addClass("error-form");
 					obj.focus();
@@ -350,36 +403,6 @@
 		});		
 
 		return status;
-	}
-
-	function open_chang_status( employeestatus_id, status, text_title ){
-		$("#txtStatus_employeestatus_id").val( employeestatus_id );
-		$("#md-title").html( text_title );		
-		$("#modal-page").modal("show");
-		setTimeout(function(){
-			$('input:radio[name="rStatus"][value="'+status+'"]').prop('checked', true);
-		},300);
-	}
-
-	var c_status = true;
-	function chang_status( status ){
-		if (c_status) {
-			c_status = false;
-			var id = $("#txtStatus_employeestatus_id").val();
-			$.post("employeestatus/chang_status",  { employeestatus_id : id, status: status } ,function( res ){
-				res = jQuery.parseJSON( res ); 
-				if (res.flag) {
-					$("#modal-page").modal("hide");
-					alert( res.msg );
-					get_data_list();
-					c_status = true;
-				}else{
-					alert( res.msg );
-					c_status = true;
-				}
-
-			});
-		}
 	}
 
 </script>
