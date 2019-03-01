@@ -367,6 +367,18 @@
                         
                     </ul>    
 
+                    <li id="main">
+                        <a onclick="getMenu('language/index');">
+                            <i class="menu-icon fa fa-tachometer"></i>
+                            <span class="lang_manage_language_data"> <?php echo $this->lang->line('manage_language_data'); ?></span>
+                        </a>
+
+                        <b class="arrow"></b>
+                    </li>
+                    
+                    <b class="arrow"></b>
+
+
                 </li>
             </ul>
             <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">

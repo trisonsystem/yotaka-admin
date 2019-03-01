@@ -24,9 +24,9 @@ function SetLeague(){
 }
 
 function forLang(){
-    $.each(languages,function(key ,row){
-      $('.lang_' + key).html( row );
-    });
+    // $.each(languages,function(key ,row){
+    //   $('.lang_' + key).html( row );
+    // });
 }
 
 function changeLang(lang){
