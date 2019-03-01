@@ -342,6 +342,13 @@
                             <b class="arrow"></b>
                         </li>
                         <li id="manage_division">
+                            <a href="#" onclick="getMenu('roomtype/index');">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                ประเภทห้อง
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li id="manage_division">
                             <a href="#" onclick="getMenu('division/index');">
                                 <i class="menu-icon fa fa-caret-right"></i>
                                 <!-- ฝ่าย -->
@@ -366,9 +373,9 @@
                             <b class="arrow"></b>
                         </li>
                         <li id="manage_division">
-                            <a href="#" onclick="getMenu('roomtype/index');">
+                            <a href="#" onclick="getMenu('promotion/index');">
                                 <i class="menu-icon fa fa-caret-right"></i>
-                                ประเภทห้อง
+                                จัดการข้อมูลโปรโมชั่น
                             </a>
                             <b class="arrow"></b>
                         </li>

@@ -117,6 +117,11 @@ $route['position/(:any)']  			= 'Position/PositionController/$1';
 $route['position/(:any)/(:any)']  	= 'Position/PositionController/$1/$2';
 ##--
 
+## promotion
+$route['promotion/(:any)']  			= 'promotion/PromotionController/$1';
+$route['promotion/(:any)/(:any)']  		= 'promotion/PromotionController/$1/$2';
+##--
+
 $route['language/(:any)']  			= 'Language/LanguageController/$1';
 $route['room/(:any)']  				= 'Room/RoomController/$1';
 $route['roomtype/(:any)']  			= 'Room/RoomtypeController/$1';
