@@ -125,6 +125,7 @@ $route['promotion/(:any)/(:any)']  		= 'promotion/PromotionController/$1/$2';
 $route['language/(:any)']  			= 'Language/LanguageController/$1';
 $route['room/(:any)']  				= 'Room/RoomController/$1';
 $route['roomtype/(:any)']  			= 'Room/RoomtypeController/$1';
+$route['roomitem/(:any)']  			= 'Room/RoomitemController/$1';
 $route['customer/(:any)']  			= 'Customer/CustomerController/$1';
 $route['book/(:any)']  				= 'Book/BookController/$1';
 

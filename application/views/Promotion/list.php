@@ -45,7 +45,7 @@
 				<input type="text" id="txtPromotionTitle" class="form-control" name="txtPromotionTitle">
 			</div>
             <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>โค้ดส่วนลด : </span>
+				<span><?php echo $this->lang->line('discount_code'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<input type="text" id="txtPromotionCode" class="form-control" name="txtPromotionCode">
@@ -53,19 +53,19 @@
 		</div>				
 		<div class="row">			
             <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>ราคา : </span>
+				<span><?php echo $this->lang->line('discount_baht'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<input type="text" id="txtPromotionPrice" class="form-control" name="txtPromotionPrice">
             </div>	
             <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>สถานะ : </span>
+				<span><?php echo $this->lang->line('status'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<select id="slStatus_promotion" name="slStatus_promotion" class="form-control">
-					<option value=""> -- เลือกสถานะ -- </option>
-					<option value="1">ใช้งาน</option>
-                    <option value="9">ไม่ได้ใช้งาน</option>
+					<option value=""> -- <?php echo $this->lang->line('select_status'); ?> -- </option>
+					<option value="1"><?php echo $this->lang->line('use'); ?></option>
+                    <option value="9"><?php echo $this->lang->line('use_no'); ?></option>
 				</select>
             </div>		
 		</div>
@@ -75,8 +75,8 @@
 				<!-- <span>ตำแหน่ง : </span> -->
 			</div>
 			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-				<button type="button" class="btn btn-primary" onclick="get_data_list()">ค้นหา</button>
-				<button type="button" class="btn btn-warning" onclick="clear_data()">Clear</button>
+				<button type="button" class="btn btn-primary" onclick="get_data_list()"><?php echo $this->lang->line('search'); ?></button>
+				<button type="button" class="btn btn-warning" onclick="clear_data()"><?php echo $this->lang->line('clear'); ?></button>
             </div>	
             <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
 				
@@ -93,15 +93,15 @@
 			<table class="table" id="tb-div-list">
 				<thead>
 					<tr>
-						<th class="text-center">ลำดับ</th>
-						<th class="text-center">โค้ดส่วนลด</th>
-						<th class="text-center">โปรโมชั่น</th>
-						<th class="text-center">คำอธิบาย</th>
-						<th class="text-center">วันที่เริ่มต้น</th>
-						<th class="text-center">วันที่สิ้นสุด</th>
-						<th class="text-center">ส่วนลด/บาท</th>
-						<th class="text-center">สถานะการใช้งาน</th>	
-						<th class="text-center">จัดการ</th>					
+						<th class="text-center"><?php echo $this->lang->line('no'); ?></th>
+						<th class="text-center"><?php echo $this->lang->line('discount_code'); ?></th>
+						<th class="text-center"><?php echo $this->lang->line('promotion'); ?></th>
+						<th class="text-center"><?php echo $this->lang->line('description'); ?></th>
+						<th class="text-center"><?php echo $this->lang->line('start_date'); ?></th>
+						<th class="text-center"><?php echo $this->lang->line('end_date'); ?></th>
+						<th class="text-center"><?php echo $this->lang->line('discount_baht'); ?></th>
+						<th class="text-center"><?php echo $this->lang->line('status'); ?></th>	
+						<th class="text-center"><?php echo $this->lang->line('action'); ?></th>					
 					</tr>
 				</thead>
 				<tbody></tbody>
@@ -123,18 +123,18 @@
 	<form id="form-manage" name="form-manage" method="post" action="" enctype="multipart/form-data">		
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<label class="" style="font-weight: bold;font-size: 16px;">ข้อมูลโปรโมชั่น</label>
+				<label class="" style="font-weight: bold;font-size: 16px;"><?php echo $this->lang->line('data_promotion'); ?></label>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-                <span>โปรโมชั่น : </span>
+                <span><?php echo $this->lang->line('promotion'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<input type="text" id="etxtPromotionTitle" class="form-control" name="etxtPromotionTitle">
 			</div>
             <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>โค้ดส่วนลด : </span>
+				<span><?php echo $this->lang->line('discount_code'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<input type="text" id="etxtPromotionCode" class="form-control" name="etxtPromotionCode">
@@ -142,62 +142,89 @@
 		</div>	
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>คำอธิบายโปรโมชั่น : </span>
+				<span><?php echo $this->lang->line('description'); ?> : </span>
 			</div>
 			<div class="col-lg-6 col-md-6 col-sm-9 col-xs-5">
-				<textarea id="txtAddress" name="txtAddress" class="form-control" rows="5"></textarea>
+				<textarea id="etxtPromotionDescription" name="etxtPromotionDescription" class="form-control" rows="5"></textarea>
 			</div>
 		</div>
 		<div class="row">			
             <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>วันที่เริ่มต้น : </span>
+				<span><?php echo $this->lang->line('start_date'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-				<!-- <input type="text" class="form-control" placehoder="Start Date" id="startdate"/> -->
-				<input class="from_date" placeholder="Select start date" type="text" name="from_date">
+				<input class="form-control from_date" placeholder="Select start date" type="text" id="from_date" name="from_date">
             </div>	
             <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>วันที่สิ้นสุด : </span>
+				<span><?php echo $this->lang->line(' end_date'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-				<!-- <input type="text" class="form-control" placehoder="End Date" id="enddate"/> -->
-				<input class="to_date" placeholder="Select end date" type="text" name="to_date">
+				<input class="form-control to_date" placeholder="Select end date" type="text" id="to_date" name="to_date">
             </div>		
 		</div>
 		<div class="row">			
             <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>ราคา : </span>
+				<span><?php echo $this->lang->line('discount_baht'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-				<input type="text" id="txtPromotionPrice" class="form-control" name="txtPromotionPrice">
+				<input type="text" id="etxtPromotionPrice" class="form-control" name="etxtPromotionPrice">
             </div>	
             <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>สถานะ : </span>
-			</div>
-			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-				<select id="slStatus_promotion" name="slStatus_promotion" class="form-control">
-					<option value=""> -- เลือกสถานะ -- </option>
-					<option value="1">ใช้งาน</option>
-                    <option value="9">ไม่ได้ใช้งาน</option>
-				</select>
-            </div>		
-		</div>
-		<div class="row">
-			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
 				<div style="display: none;">
 					<input type="text" id="txtPromotion_id" name="txtPromotion_id" value="0">
 					<input type="text" id="txtPromotion_status" name="txtPromotion_status" value="">
 				</div>
 			</div>
 			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-				<button type="button" class="btn btn-primary" onclick="save_data()">บันทึก</button>
-				<button type="button" class="btn btn-warning" onclick="clear_data()">ล้าง</button>
-			</div>			
+				<button type="button" class="btn btn-primary" onclick="save_data()"><?php echo $this->lang->line('save'); ?></button>
+				<button type="button" class="btn btn-warning" onclick="clear_data()"><?php echo $this->lang->line('clear'); ?></button>
+            </div>		
 		</div>		
 	</form>
 </div>
 
 <!-- ###################################### Manage  ######################################-->
+
+<div class="modal" tabindex="-1" role="dialog" id="modal-page">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="md-title"></h5>
+			</div>
+			<div class="modal-body">
+					<table class="table" id="tb-status-list">
+						<thead>
+						<tr>
+							<th><?php echo $this->lang->line('no'); ?></th>
+							<th><?php echo $this->lang->line('status'); ?></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class='text-center'>1</td>
+							<td><label style='cursor:pointer' onclick='chang_status(1)'><input type='radio' id='rStatus1' name='rStatus' value='1' > &nbsp;<?php echo $this->lang->line('use'); ?></label></td>
+						</tr>
+						<tr>
+							<td class='text-center'>2</td>
+							<td><label style='cursor:pointer' onclick='chang_status(9)'><input type='radio' id='rStatus9' name='rStatus' value='9' > &nbsp;<?php echo $this->lang->line('use_no'); ?></label></td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<span style="display: none;">
+									<input type="text" name="txtStatus_promotion_id" id="txtStatus_promotion_id" value="0">
+								</span>
+							</td>
+						</tr>
+					</tbody>
+					</table>
+			</div>
+			<div class="modal-footer">
+				<!-- <button type="button" class="btn btn-success" id="btn-save-noapprove" onclick="save_noapprove()">บันทึก</button> -->
+				<button type="button" class="btn btn-secondary" data-dismiss="modal"><?php echo $this->lang->line('close'); ?></button>
+			</div>
+		</div>
+	</div>
+</div>
 
 <script type="text/javascript">
 	var page = 1;
@@ -264,12 +291,12 @@
 					str_html += " <td>"+status+"</td>";	
 					str_html += " <td align='center'>";
 					str_html += " 	<i class='fa fa-edit' style='font-size:20px' onclick='to_add_data("+v.id+","+v.status+")'></i>";
-					str_html += " 	<i class='fa fa-exchange' style='font-size:20px' onclick='open_chang_status("+v.id+","+v.status+",\""+v.code+" "+v.name+"\")' title='เปลี่ยนสถานะพนักงาน'></i>";
+					str_html += " 	<i class='fa fa-exchange' style='font-size:20px' onclick='open_chang_status("+v.id+","+v.status+",\""+v.title+"\")' title='<?php echo $this->lang->line('status'); ?>'></i>";
 					str_html += " </td>"; 	
 					str_html += "</tr>";
                 });
             }else{
-                str_html += "<td colspan='10' class='text-center' style='color:red;margin-top:15px;'> ไม่พบข้อมูล </td>";
+                str_html += "<td colspan='10' class='text-center' style='color:red;margin-top:15px;'> <?php echo $this->lang->line('no_data'); ?> </td>";
             }
 
             $("#tb-div-list tbody").html( str_html );
@@ -346,9 +373,9 @@
 		$("#box-manage").css("width","0");
 	}
 
-	function to_add_data( promotion_id = 0, promotion_status ){ // เพิ่ม แก้ไข		
-		$("#txtPosition_id").val( promotion_id );
-		$("#txtPosition_status").val( promotion_status );
+	function to_add_data( promotion_id = 0, promotion_status ){ // เพิ่ม แก้ไข				
+		$("#txtPromotion_id").val( promotion_id );
+		$("#txtPromotion_status").val( promotion_status );
 		$("#box-manage").show();
 		$("#box-show-search").hide();
 		$("#btn-toadd_data").hide();
@@ -363,17 +390,20 @@
 				aData = jQuery.parseJSON( aData );
 				if ( Object.keys(aData).length > 1) {
 					aData = aData[0];
-					$("#etxtPositionCode").val(aData.code);
-					$("#etxtPositionName").val(aData.name);
-					$("#eslPositionDivision option[value='"+aData.m_division_id+"']").prop('selected', true);
-					$("#eslPositionDepartment option[value='"+aData.m_department_id+"']").prop('selected', true);
+					console.log(aData);
+					$("#etxtPromotionTitle").val(aData.title);
+					$("#etxtPromotionCode").val(aData.promotion_code);	
+					$("#etxtPromotionDescription").val(aData.description);
+					$("#from_date").val(aData.startdate);	
+					$("#to_date").val(aData.enddate);
+					$("#etxtPromotionPrice").val(aData.discount);					
 				} else {
 					alert( "no data" );
 				}
 			});
 		}else{
 			clear_data();
-			$("#txtPosition_id").val("0");
+			$("#txtPromotion_id").val("0");
 		}
 
 		$('.datepicker').datepicker({format: 'dd-mm-yyyy'});
@@ -382,18 +412,17 @@
 	function save_data(){
 		var aData = JSON.stringify( $("#form-manage").serializeArray() );
 			aData = jQuery.parseJSON( aData );			
-		if (validate(aData)) {
-			alert("dddddddd");
-			// $.post("position/save_data",  aData  ,function( res ){
-			// 	res = jQuery.parseJSON( res ); 
-			// 	if (res.flag) {
-			// 		alert( res.msg );
-			// 		get_data_list();					
-			// 		to_manage_data();
-			// 	}else{
-			// 		alert( res.msg );
-			// 	}
-			// });
+		if (validate(aData)) {			
+			$.post("promotion/save_data",  aData  ,function( res ){
+				res = jQuery.parseJSON( res ); 
+				if (res.flag) {
+					alert( res.msg );
+					get_data_list();					
+					to_manage_data();
+				}else{
+					alert( res.msg );
+				}
+			});
 		}else{
 			console.log("error-xxxxx")
 		}
@@ -401,7 +430,7 @@
 
 	function validate(aData){
 		var status = true;
-		
+		console.log(aData);
 		$.each(aData,function(k,v){
 			if (v.name != "txtPromotion_id" && v.name != "txtPromotion_status") {				
 				var obj = $("#"+v.name);
@@ -416,6 +445,36 @@
 		});		
 
 		return status;
+	}
+
+	function open_chang_status( promotion_id, status, text_title ){
+		$("#txtStatus_promotion_id").val( promotion_id );
+		$("#md-title").html( text_title );		
+		$("#modal-page").modal("show");
+		setTimeout(function(){
+			$('input:radio[name="rStatus"][value="'+status+'"]').prop('checked', true);
+		},300);
+	}
+
+	var c_status = true;
+	function chang_status( status ){
+		if (c_status) {
+			c_status = false;
+			var id = $("#txtStatus_promotion_id").val();
+			$.post("promotion/chang_status",  { promotion_id : id, status: status } ,function( res ){
+				res = jQuery.parseJSON( res ); 
+				if (res.flag) {
+					$("#modal-page").modal("hide");
+					alert( res.msg );
+					get_data_list();
+					c_status = true;
+				}else{
+					alert( res.msg );
+					c_status = true;
+				}
+
+			});
+		}
 	}
 
 </script>

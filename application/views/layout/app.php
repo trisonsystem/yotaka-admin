@@ -327,13 +327,13 @@
                     <b class="arrow"></b>
 
                     <ul class="submenu nav-hide" style="display: none;">
-                        <li id="manage_language">
+                        <!-- <li id="manage_language">
                             <a href="#" onclick="getMenu('language/index');">
                                 <i class="menu-icon fa fa-caret-right"></i>                                
-                                <span class="lang_manage_language_data"> <?php echo $this->lang->line('manage_language_data'); ?></span>
+                                <span class="lang_manage_language_data"> <?php // echo $this->lang->line('manage_language_data'); ?></span>
                             </a>
                             <b class="arrow"></b>
-                        </li>
+                        </li> -->
                         <li id="employee_list">
                             <a href="#" onclick="getMenu('customer/index')">
                                 <i class="menu-icon fa fa-caret-right"></i>
@@ -374,10 +374,18 @@
 
                             <b class="arrow"></b>
                         </li>
-                        <li id="manage_division">
-                            <a href="#" onclick="getMenu('roomtype/index');">
+                        <li id="employee_list">
+                            <a href="#" onclick="getMenu('room/index')">
                                 <i class="menu-icon fa fa-caret-right"></i>
-                                <span class="lang_manage_room_type_data"><?php echo $this->lang->line('manage_room_type_data'); ?></span>
+                                <span class="lang_manage_main_room"><?php echo $this->lang->line('manage_main_room'); ?></span>
+                            </a>
+
+                            <b class="arrow"></b>
+                        </li>
+                        <li id="manage_division">
+                            <a href="#" onclick="getMenu('roomitem/index');">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                <span class="lang_manage_equipment_and_room_data"><?php echo $this->lang->line('manage_equipment_and_room_data'); ?></span>
                             </a>
                             <b class="arrow"></b>
                         </li>
