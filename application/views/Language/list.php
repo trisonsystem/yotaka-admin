@@ -27,8 +27,8 @@
 		<h3 style="font-weight: bold;"><?php echo $title;?></h3>
 	</div>
 	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-right">
-		<button type="button" class="btn btn-secondary" onclick="to_add_data( '0' )" id="btn-toadd_data" style="margin-top: 10px; width: 100px;">เพิ่ม</button>
-		<button type="button" class="btn btn-warning" onclick="to_manage_data()" id="btn-tomanage_data" style="margin-top: 10px; width: 100px; display: none;">ยกเลิก</button>
+		<button type="button" class="btn btn-secondary" onclick="to_add_data( '0' )" id="btn-toadd_data" style="margin-top: 10px; width: 100px;"><?php echo $this->lang->line('add'); ?></button>
+		<button type="button" class="btn btn-warning" onclick="to_manage_data()" id="btn-tomanage_data" style="margin-top: 10px; width: 100px; display: none;"><?php echo $this->lang->line('cancel'); ?></button>
 	</div>
 </div>
 <br>
@@ -37,13 +37,13 @@
 		<?php // debug($division); ?>
         <div class="row">
             <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>Word : </span>
+				<span><?php echo $this->lang->line('keyword'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<input type="text" id="txtLanguageWord" class="form-control" name="txtLanguageWord">
 			</div>
             <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>ภาษาอังกฤษ : </span>
+				<span><?php echo $this->lang->line('english'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
             	<input type="text" id="txtLanguageEN" class="form-control" name="txtLanguageEN">
@@ -51,7 +51,7 @@
         </div>
         <div class="row">
             <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>ภาษาไทย : </span>
+				<span><?php echo $this->lang->line('thai'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<input type="text" id="txtLanguageTH" class="form-control" name="txtLanguageTH">
@@ -60,8 +60,8 @@
 				<!-- <span>สถานะ : </span> -->
 			</div>
 			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-				<button type="button" class="btn btn-primary" onclick="get_data_list()">ค้นหา</button>
-				<button type="button" class="btn btn-warning" onclick="clear_data()">Clear</button>
+				<button type="button" class="btn btn-primary" onclick="get_data_list()"><?php echo $this->lang->line('search'); ?></button>
+				<button type="button" class="btn btn-warning" onclick="clear_data()"><?php echo $this->lang->line('clear'); ?></button>
 			</div>
         </div>        
 		<hr>
@@ -70,11 +70,12 @@
 				<table class="table" id="tb-div-list">
 					<thead>
 						<tr>
-			                <th>ลำดับ</th>
-			                <th>word</th>
-			                <th>ภาษาอังกฤษ</th>
-			                <th>ภาษาไทย</th>
-			                <th>จัดการ</th>
+			                <th><?php echo $this->lang->line('no'); ?></th>			                
+			                <th><?php echo $this->lang->line('keyword'); ?></th>
+			                <th><?php echo $this->lang->line('english'); ?></th>
+			                <th><?php echo $this->lang->line('thai'); ?></th>
+			                <th>How to use</th>
+			                <th><?php echo $this->lang->line('action'); ?></th>
 			            </tr>
 					</thead>
 					<tbody></tbody>
@@ -102,13 +103,13 @@
 		</div>
 		<div class="row">
             <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>Word : </span>
+				<span><?php echo $this->lang->line('keyword'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<input type="text" id="etxtLanguageWord" class="form-control" name="etxtLanguageWord">
 			</div>
             <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>ภาษาอังกฤษ : </span>
+				<span><?php echo $this->lang->line('english'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
             	<input type="text" id="etxtLanguageEN" class="form-control" name="etxtLanguageEN">
@@ -116,7 +117,7 @@
         </div>
         <div class="row">
             <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>ภาษาไทย : </span>
+				<span><?php echo $this->lang->line('thai'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<input type="text" id="etxtLanguageTH" class="form-control" name="etxtLanguageTH">
@@ -127,8 +128,8 @@
 				</div>
 			</div>
 			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-				<button type="button" class="btn btn-primary" onclick="save_data()">บันทึก</button>
-				<button type="button" class="btn btn-warning" onclick="clear_data()">ล้าง</button>
+				<button type="button" class="btn btn-primary" onclick="save_data()"><?php echo $this->lang->line('save'); ?></button>
+				<button type="button" class="btn btn-warning" onclick="clear_data()"><?php echo $this->lang->line('clear'); ?></button>
 			</div>
         </div>		
 	</form>
@@ -145,14 +146,14 @@
 					<table class="table" id="tb-status-list">
 						<thead>
 						<tr>
-							<th>ลำดับ</th>
-							<th>สถานะ</th>
+							<th><?php echo $this->lang->line('no'); ?></th>
+							<th><?php echo $this->lang->line('status'); ?></th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
 							<td class='text-center'>1</td>
-							<td><label style='cursor:pointer'><input type='radio' id='rStatus1' name='rStatus' value='1' > &nbsp;ใช้งาน</label></td>
+							<td><label style='cursor:pointer'><input type='radio' id='rStatus1' name='rStatus' value='1' > &nbsp;<?php echo $this->lang->line('no'); ?></label></td>
 						</tr>
 						<tr>
 							<td class='text-center'>2</td>
@@ -203,11 +204,13 @@
 						case '1': status = '<span style="color:#000;">ใช้งาน</span>';break;
 						case '9': status = '<span style="color:red;">ไม่ใช้งาน</span>';break;
                     }
+                    
                     str_html += "<tr>";
 					str_html += " <td>"+( parseInt(k)+1 )+"</td>";
 					str_html += " <td>"+v.word+"</td>";
                     str_html += " <td>"+v.en+"</td>";
-                    str_html += " <td>"+v.th+"</td>";
+                    str_html += " <td>"+v.th+"</td>";                    
+                    str_html += " <td>"+"<pre><code>&lt;?php echo $this->lang->line('"+v.word+"'); ?&gt;</code></pre>"+"</td>";
 					str_html += " <td align='center'>";
 					str_html += " 	<i class='fa fa-edit' style='font-size:20px' onclick='to_add_data(\""+v.word+"\")'></i>";
 					str_html += " 	<i class='fa fa-exchange' style='font-size:20px' onclick='open_chang_status(\""+v.word+"\")' title='เปลี่ยนสถานะภาษา'></i>";
