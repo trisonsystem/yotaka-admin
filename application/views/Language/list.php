@@ -34,7 +34,7 @@
 <br>
 <div id="box-show-search">
 	<div class="box-search">
-		<?php // debug($division); ?>
+		<?php // debug($this->lang); ?>
         <div class="row">
             <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
 				<span><?php echo $this->lang->line('keyword'); ?> : </span>
@@ -71,7 +71,7 @@
 					<thead>
 						<tr>
 			                <th><?php echo $this->lang->line('no'); ?></th>			                
-			                <th><?php echo $this->lang->line('keyword'); ?></th>
+			                <th class="text-center"><?php echo $this->lang->line('keyword'); ?></th>
 			                <th><?php echo $this->lang->line('english'); ?></th>
 			                <th><?php echo $this->lang->line('thai'); ?></th>
 			                <th>How to use</th>
@@ -210,7 +210,7 @@
 					str_html += " <td>"+v.word+"</td>";
                     str_html += " <td>"+v.en+"</td>";
                     str_html += " <td>"+v.th+"</td>";                    
-                    str_html += " <td>"+"<pre><code>&lt;?php echo $this->lang->line('"+v.word+"'); ?&gt;</code></pre>"+"</td>";
+                    str_html += " <td width='30%'>"+"<code>&lt;?php echo $this->lang->line('"+v.word+"'); ?&gt;</code>"+"</td>";
 					str_html += " <td align='center'>";
 					str_html += " 	<i class='fa fa-edit' style='font-size:20px' onclick='to_add_data(\""+v.word+"\")'></i>";
 					str_html += " 	<i class='fa fa-exchange' style='font-size:20px' onclick='open_chang_status(\""+v.word+"\")' title='เปลี่ยนสถานะภาษา'></i>";
