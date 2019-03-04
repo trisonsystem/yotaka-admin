@@ -71,7 +71,7 @@ class LanguageController extends CI_Controller {
         }else{
             $json_data = $this->cache->get($cashName);
         }
-     debug($json_data);
+     // debug($json_data);
         echo $json_data;
     }
     

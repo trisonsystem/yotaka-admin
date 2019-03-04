@@ -281,6 +281,39 @@
                             <b class="arrow"></b>
                         </li>
                     </ul>
+                    <li class="open" id="menuActive">
+                    <a href="#" class="dropdown-toggle">
+                        <i class="menu-icon fa fa-book"></i>
+                        <span class="menu-text">
+                            <?php echo $this->lang->line('book'); ?>
+                        </span>
+
+                        <b class="arrow fa fa-angle-down"></b>
+                    </a>
+                    <b class="arrow"></b>
+                    <ul class="submenu">
+                        <li id="manage_quotation">
+                            <a href="#" onclick="getMenu('book/book_now');">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                <?php echo $this->lang->line('book_now'); ?>
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <!-- <li id="manage_quotation">
+                            <a href="#" onclick="getMenu('manage_quotation/quotation_list');">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                ใบเสนอสินค้า
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
+                        <li id="importOrder">
+                            <a href="#" onclick="getMenu('importOrder');">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                นำเข้าสินค้า
+                            </a>
+                            <b class="arrow"></b>
+                        </li> -->
+                    </ul>
                     <li class="">
                     <a href="#" class="dropdown-toggle">
                         <i class="menu-icon glyphicon glyphicon-user"></i>
