@@ -361,7 +361,7 @@
                         <li id="employee_list">
                             <a href="#" onclick="getMenu('hotelstatus/index')">
                                 <i class="menu-icon fa fa-caret-right"></i>
-                                จัดการข้อมูลสถานะโรงแรม
+                                <span class="lang_manage_hotel_status_data"><?php echo $this->lang->line('manage_hotel_status_data'); ?></span>
                             </a>
 
                             <b class="arrow"></b>
@@ -377,14 +377,13 @@
                         <li id="manage_division">
                             <a href="#" onclick="getMenu('roomtype/index');">
                                 <i class="menu-icon fa fa-caret-right"></i>
-                                ประเภทห้อง
+                                <span class="lang_manage_room_type_data"><?php echo $this->lang->line('manage_room_type_data'); ?></span>
                             </a>
                             <b class="arrow"></b>
                         </li>
                         <li id="manage_division">
                             <a href="#" onclick="getMenu('division/index');">
                                 <i class="menu-icon fa fa-caret-right"></i>
-                                <!-- ฝ่าย -->
                                 <span class="lang_manage_division_data"><?php echo $this->lang->line('manage_division_data'); ?></span>
                             </a>
                             <b class="arrow"></b>
@@ -392,7 +391,6 @@
                         <li id="manage_division">
                             <a href="#" onclick="getMenu('department/index');">
                                 <i class="menu-icon fa fa-caret-right"></i>
-                                <!-- แผนก -->
                                <span class="lang_manage_department_data"><?php echo $this->lang->line('manage_department_data'); ?></span>
                             </a>
                             <b class="arrow"></b>
@@ -400,7 +398,6 @@
                         <li id="manage_division">
                             <a href="#" onclick="getMenu('position/index');">
                                 <i class="menu-icon fa fa-caret-right"></i>
-                                <!-- ตำแหน่ง -->
                                 <span class="lang_manage_position_data"><?php echo $this->lang->line('manage_position_data'); ?></span>
                             </a>
                             <b class="arrow"></b>
@@ -408,7 +405,7 @@
                         <li id="manage_division">
                             <a href="#" onclick="getMenu('promotion/index');">
                                 <i class="menu-icon fa fa-caret-right"></i>
-                                จัดการข้อมูลโปรโมชั่น
+                                <span class="lang_manage_pomotion_data"><?php echo $this->lang->line('manage_pomotion_data'); ?></span>
                             </a>
                             <b class="arrow"></b>
                         </li>

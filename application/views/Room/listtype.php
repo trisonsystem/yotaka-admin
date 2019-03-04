@@ -28,8 +28,8 @@
 		<h3 style="font-weight: bold;"><?php echo $title; ?></h3>
 	</div>
 	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-right">
-		<button type="button" class="btn btn-secondary" onclick="to_add_data( '0', '0' )" id="btn-toadd_data" style="margin-top: 10px; width: 100px;">เพิ่ม</button>
-		<button type="button" class="btn btn-warning" onclick="to_manage_data()" id="btn-tomanage_data" style="margin-top: 10px; width: 100px; display: none;">ยกเลิก</button>
+		<button type="button" class="btn btn-secondary" onclick="to_add_data( '0', '0' )" id="btn-toadd_data" style="margin-top: 10px; width: 100px;"><?php echo $this->lang->line('add'); ?></button>
+		<button type="button" class="btn btn-warning" onclick="to_manage_data()" id="btn-tomanage_data" style="margin-top: 10px; width: 100px; display: none;"><?php echo $this->lang->line('cancel'); ?></button>
 	</div>
 </div>
 <br>
@@ -38,19 +38,19 @@
 		<?php // debug($division); ?>		
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>ประเภทห้อง : </span>
+				<span><?php echo $this->lang->line('type_room'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
                 <input type="text" id="txtRoomTypeName" class="form-control" name="txtRoomTypeName">
 			</div>			
             <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-                <span>สถานะ : </span>
+                <span><?php echo $this->lang->line('status'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<select id="slStatus_roomtype" name="slStatus_roomtype" class="form-control">
-					<option value=""> -- เลือกสถานะ -- </option>
-					<option value="1">ใช้งาน</option>
-                    <option value="9">ไม่ได้ใช้งาน</option>
+					<option value=""> -- <?php echo $this->lang->line('select_status'); ?> -- </option>
+					<option value="1"><?php echo $this->lang->line('use'); ?></option>
+                    <option value="9"><?php echo $this->lang->line('use_no'); ?></option>
 				</select>
 			</div>
 		</div>		
@@ -71,10 +71,10 @@
 			<table class="table" id="tb-div-list">
 				<thead>
 					<tr>
-						<th class="text-center">ลำดับ</th>
-						<th class="text-center">ประเภทห้อง</th>						
-						<th class="text-center" width="10%">สถานะการใช้งาน</th>	
-						<th class="text-center">จัดการ</th>					
+						<th class="text-center"><?php echo $this->lang->line('no'); ?></th>
+						<th class="text-center"><?php echo $this->lang->line('type_room'); ?></th>						
+						<th class="text-center" width="10%"><?php echo $this->lang->line('status'); ?></th>	
+						<th class="text-center"><?php echo $this->lang->line('action'); ?></th>					
 					</tr>
 				</thead>
 				<tbody></tbody>
@@ -96,12 +96,12 @@
 	<form id="form-manage" name="form-manage" method="post" action="" enctype="multipart/form-data">		
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<label class="" style="font-weight: bold;font-size: 16px;">ข้อมูลตำแหน่ง</label>
+				<label class="" style="font-weight: bold;font-size: 16px;"><?php echo $this->lang->line('type_room'); ?></label>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>ประเภทห้อง : </span>
+				<span><?php echo $this->lang->line('type_room'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
                 <input type="text" id="etxtRoomTypeName" class="form-control" name="etxtRoomTypeName">
@@ -121,8 +121,8 @@
 				</div>
 			</div>
 			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-				<button type="button" class="btn btn-primary" onclick="save_data()">บันทึก</button>
-				<button type="button" class="btn btn-warning" onclick="clear_data()">ล้าง</button>
+				<button type="button" class="btn btn-primary" onclick="save_data()"><?php echo $this->lang->line('save'); ?></button>
+				<button type="button" class="btn btn-warning" onclick="clear_data()"><?php echo $this->lang->line('clear'); ?></button>
 			</div>			
 		</div>		
 	</form>
@@ -140,18 +140,18 @@
 					<table class="table" id="tb-status-list">
 						<thead>
 						<tr>
-							<th>ลำดับ</th>
-							<th>สถานะ</th>
+							<th><?php echo $this->lang->line('no'); ?></th>
+							<th><?php echo $this->lang->line('status'); ?></th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
 							<td class='text-center'>1</td>
-							<td><label style='cursor:pointer' onclick='chang_status(1)'><input type='radio' id='rStatus1' name='rStatus' value='1' > &nbsp;ใช้งาน</label></td>
+							<td><label style='cursor:pointer' onclick='chang_status(1)'><input type='radio' id='rStatus1' name='rStatus' value='1' > &nbsp;<?php echo $this->lang->line('use'); ?></label></td>
 						</tr>
 						<tr>
 							<td class='text-center'>2</td>
-							<td><label style='cursor:pointer' onclick='chang_status(9)'><input type='radio' id='rStatus9' name='rStatus' value='9' > &nbsp;ไม่ใช้งาน</label></td>
+							<td><label style='cursor:pointer' onclick='chang_status(9)'><input type='radio' id='rStatus9' name='rStatus' value='9' > &nbsp;<?php echo $this->lang->line('use_no'); ?></label></td>
 						</tr>
 						<tr>
 							<td colspan="2">
@@ -204,12 +204,12 @@
                     str_html += " <td>"+status+"</td>";
 					str_html += " <td align='center'>";
 					str_html += " 	<i class='fa fa-edit' style='font-size:20px' onclick='to_add_data("+v.id+","+v.status+")'></i>";
-					str_html += " 	<i class='fa fa-exchange' style='font-size:20px' onclick='open_chang_status("+v.id+","+v.status+",\""+v.name+"\")' title='เปลี่ยนสถานะพนักงาน'></i>";
+					str_html += " 	<i class='fa fa-exchange' style='font-size:20px' onclick='open_chang_status("+v.id+","+v.status+",\""+v.name+"\")' title='<?php echo $this->lang->line('change_status'); ?>'></i>";
 					str_html += " </td>"; 	
 					str_html += "</tr>";
                 });
             }else{
-                str_html += "<td colspan='10' class='text-center' style='color:red;margin-top:15px;'> ไม่พบข้อมูล </td>";
+                str_html += "<td colspan='10' class='text-center' style='color:red;margin-top:15px;'> <?php echo $this->lang->line('no_data'); ?> </td>";
             }
 
             $("#tb-div-list tbody").html( str_html );

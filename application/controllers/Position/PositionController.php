@@ -15,7 +15,7 @@ class PositionController extends CI_Controller {
     public function index(){
     	$data = array();
         $data['adminlist']      = array();
-        $data['title']          = "จัดการข้อมูลตำแหน่ง";
+        $data['title']          = $this->lang->line('manage_position_data');
         $data["division"]       = $this->search_division("");
         $data["department"]     = $this->search_department("");
         

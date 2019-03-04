@@ -15,7 +15,7 @@ class DivisionController extends CI_Controller {
     public function index(){
         $data = array();
         $data['adminlist']      = array();
-        $data['title']          = 'จัดการข้อมูลฝ่าย';
+        $data['title']          = $this->lang->line('manage_division_data');
         
         $dataInfo['title']      = $data['title'];
         $dataInfo['sub_title']  = '';

@@ -15,9 +15,7 @@ class HotelstatusController extends CI_Controller {
     public function index(){
     	$data = array();
         $data['adminlist']      = array();
-        $data['title']          = "จัดการข้อมูลสถานะโรงแรม";
-        // $data["division"]       = $this->search_division("");
-        // $data["department"]     = $this->search_department("");
+        $data['title']          = $this->lang->line('manage_hotel_status_data');
         
 // debug($data);
         $dataInfo['title']      = $data['title'];

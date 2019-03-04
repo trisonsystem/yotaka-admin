@@ -15,7 +15,7 @@ class RoomtypeController extends CI_Controller {
     public function index(){
     	$data = array();
         $data['adminlist']      = array();
-        $data['title']          = "จัดการข้อมูลประเภทห้อง";
+        $data['title']          = $this->lang->line('manage_room_type_data');
 
         $dataInfo['title']      = $data['title'];
         $dataInfo['sub_title']  = '';

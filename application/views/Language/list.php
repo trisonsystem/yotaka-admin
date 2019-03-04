@@ -98,7 +98,7 @@
 	<form id="form-manage" name="form-manage" method="post" action="" enctype="multipart/form-data">		
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<label class="" style="font-weight: bold;font-size: 16px;">ข้อมูลแผนก</label>
+				<label class="" style="font-weight: bold;font-size: 16px;"><?php echo $this->lang->line('data_language '); ?></label>
 			</div>
 		</div>
 		<div class="row">
@@ -153,11 +153,11 @@
 					<tbody>
 						<tr>
 							<td class='text-center'>1</td>
-							<td><label style='cursor:pointer'><input type='radio' id='rStatus1' name='rStatus' value='1' > &nbsp;<?php echo $this->lang->line('no'); ?></label></td>
+							<td><label style='cursor:pointer'><input type='radio' id='rStatus1' name='rStatus' value='1' > &nbsp;<?php echo $this->lang->line('use'); ?></label></td>
 						</tr>
 						<tr>
 							<td class='text-center'>2</td>
-							<td><label style='cursor:pointer' onclick='chang_status(9)'><input type='radio' id='rStatus9' name='rStatus' value='9' > &nbsp;ไม่ใช้งาน</label></td>
+							<td><label style='cursor:pointer' onclick='chang_status(9)'><input type='radio' id='rStatus9' name='rStatus' value='9' > &nbsp;<?php echo $this->lang->line('use_no'); ?></label></td>
 						</tr>
 						<tr>
 							<td colspan="2">
@@ -171,7 +171,7 @@
 			</div>
 			<div class="modal-footer">
 				<!-- <button type="button" class="btn btn-success" id="btn-save-noapprove" onclick="save_noapprove()">บันทึก</button> -->
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
+				<button type="button" class="btn btn-secondary" data-dismiss="modal"><?php echo $this->lang->line('close'); ?></button>
 			</div>
 		</div>
 	</div>
@@ -213,12 +213,12 @@
                     str_html += " <td width='30%'>"+"<code>&lt;?php echo $this->lang->line('"+v.word+"'); ?&gt;</code>"+"</td>";
 					str_html += " <td align='center'>";
 					str_html += " 	<i class='fa fa-edit' style='font-size:20px' onclick='to_add_data(\""+v.word+"\")'></i>";
-					str_html += " 	<i class='fa fa-exchange' style='font-size:20px' onclick='open_chang_status(\""+v.word+"\")' title='เปลี่ยนสถานะภาษา'></i>";
+					str_html += " 	<i class='fa fa-exchange' style='font-size:20px' onclick='open_chang_status(\""+v.word+"\")' title='<?php echo $this->lang->line('change_status'); ?>'></i>";
 					str_html += " </td>"; 	
 					str_html += "</tr>";
                 });
             }else{
-                str_html += "<td colspan='10' class='text-center' style='color:red;margin-top:15px;'> ไม่พบข้อมูล </td>";
+                str_html += "<td colspan='10' class='text-center' style='color:red;margin-top:15px;'> <?php echo $this->lang->line('no_data'); ?> </td>";
             }
 
             $("#tb-div-list tbody").html( str_html );

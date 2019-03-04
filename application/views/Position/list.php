@@ -28,8 +28,8 @@
 		<h3 style="font-weight: bold;"><?php echo $title; ?></h3>
 	</div>
 	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-right">
-		<button type="button" class="btn btn-secondary" onclick="to_add_data( '0', '0' )" id="btn-toadd_data" style="margin-top: 10px; width: 100px;">เพิ่ม</button>
-		<button type="button" class="btn btn-warning" onclick="to_manage_data()" id="btn-tomanage_data" style="margin-top: 10px; width: 100px; display: none;">ยกเลิก</button>
+		<button type="button" class="btn btn-secondary" onclick="to_add_data( '0', '0' )" id="btn-toadd_data" style="margin-top: 10px; width: 100px;"><?php echo $this->lang->line('add'); ?></button>
+		<button type="button" class="btn btn-warning" onclick="to_manage_data()" id="btn-tomanage_data" style="margin-top: 10px; width: 100px; display: none;"><?php echo $this->lang->line('cancel'); ?></button>
 	</div>
 </div>
 <br>
@@ -38,7 +38,7 @@
 		<?php // debug($division); ?>		
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>ฝ่าย : </span>
+				<span><?php echo $this->lang->line('department'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
                 <select id="slPositionDivision" name="slPositionDivision" class="form-control" onchange="change_division('slPositionDivision','slPositionDepartment')">
@@ -51,11 +51,11 @@
 				</select>
 			</div>			
             <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-                แผนก
+                <span><?php echo $this->lang->line('division'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<select id="slPositionDepartment" name="slPositionDepartment" class="form-control">
-					<option value=""> -- เลือกแผนก -- </option>
+					<option value=""> -- <?php echo $this->lang->line('select_division'); ?> -- </option>
 					<?php 
 						foreach ($department as $key => $value) {
 							echo '<option value="'.$value->id.'">'.$value->name.'</option>';
@@ -66,13 +66,13 @@
 		</div>		
 		<div class="row">
             <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>รหัสตำแหน่ง : </span>
+				<span><?php echo $this->lang->line('position_code'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<input type="text" id="txtPositionCode" class="form-control" name="txtPositionCode">
             </div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>ตำแหน่ง : </span>
+				<span><?php echo $this->lang->line('position'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<input type="text" id="txtPositionName" class="form-control" name="txtPositionName">
@@ -81,21 +81,21 @@
 
 		<div class="row">
             <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>สถานะ : </span>
+				<span><?php echo $this->lang->line('status'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<select id="slStatus_prosition" name="slStatus_prosition" class="form-control">
-					<option value=""> -- เลือกสถานะ -- </option>
-					<option value="1">ใช้งาน</option>
-                    <option value="9">ไม่ได้ใช้งาน</option>
+					<option value=""> -- <?php echo $this->lang->line('select_status'); ?> -- </option>
+					<option value="1"><?php echo $this->lang->line('use'); ?></option>
+                    <option value="9"><?php echo $this->lang->line('use_no'); ?></option>
 				</select>
             </div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
 				<!-- <span>ตำแหน่ง : </span> -->
 			</div>
 			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-				<button type="button" class="btn btn-primary" onclick="get_data_list()">ค้นหา</button>
-				<button type="button" class="btn btn-warning" onclick="clear_data()">Clear</button>
+				<button type="button" class="btn btn-primary" onclick="get_data_list()"><?php echo $this->lang->line('search'); ?></button>
+				<button type="button" class="btn btn-warning" onclick="clear_data()"><?php echo $this->lang->line('clear'); ?></button>
             </div>
 		</div>		
 	</div>
@@ -105,13 +105,13 @@
 			<table class="table" id="tb-div-list">
 				<thead>
 					<tr>
-						<th class="text-center">ลำดับ</th>
-						<th class="text-center">รหัส</th>
-						<th class="text-center">ตำแหน่ง</th>
-						<th class="text-center">แผนก</th>
-						<th class="text-center">ฝ่าย</th>
-						<th class="text-center" width="10%">สถานะการใช้งาน</th>	
-						<th class="text-center">จัดการ</th>					
+						<th class="text-center"><?php echo $this->lang->line('no'); ?></th>
+						<th class="text-center"><?php echo $this->lang->line('code'); ?></th>
+						<th class="text-center"><?php echo $this->lang->line('position'); ?></th>
+						<th class="text-center"><?php echo $this->lang->line('division'); ?></th>
+						<th class="text-center"><?php echo $this->lang->line('department'); ?></th>
+						<th class="text-center" width="10%"><?php echo $this->lang->line('status'); ?></th>	
+						<th class="text-center"><?php echo $this->lang->line('action'); ?></th>					
 					</tr>
 				</thead>
 				<tbody></tbody>
@@ -133,12 +133,12 @@
 	<form id="form-manage" name="form-manage" method="post" action="" enctype="multipart/form-data">		
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<label class="" style="font-weight: bold;font-size: 16px;">ข้อมูลตำแหน่ง</label>
+				<label class="" style="font-weight: bold;font-size: 16px;"><?php echo $this->lang->line('data_position'); ?></label>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>ฝ่าย : </span>
+				<span><?php echo $this->lang->line('department'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
                 <select id="eslPositionDivision" name="eslPositionDivision" class="form-control" onchange="change_division('eslPositionDivision','eslPositionDepartment')">
@@ -151,11 +151,11 @@
 				</select>
 			</div>			
             <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-                แผนก
+                <span><?php echo $this->lang->line('division'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<select id="eslPositionDepartment" name="eslPositionDepartment" class="form-control">
-					<option value=""> -- เลือกแผนก -- </option>
+					<option value=""> -- <?php echo $this->lang->line('select_division'); ?> -- </option>
 					<?php 
 						foreach ($department as $key => $value) {
 							echo '<option value="'.$value->id.'">'.$value->name.'</option>';
@@ -166,13 +166,13 @@
 		</div>		
 		<div class="row">
             <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>รหัสตำแหน่ง : </span>
+				<span><?php echo $this->lang->line('position_code'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<input type="text" id="etxtPositionCode" class="form-control" name="etxtPositionCode">
             </div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>ตำแหน่ง : </span>
+				<span><?php echo $this->lang->line('position'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<input type="text" id="etxtPositionName" class="form-control" name="etxtPositionName">
@@ -186,8 +186,8 @@
 				</div>
 			</div>
 			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-				<button type="button" class="btn btn-primary" onclick="save_data()">บันทึก</button>
-				<button type="button" class="btn btn-warning" onclick="clear_data()">ล้าง</button>
+				<button type="button" class="btn btn-primary" onclick="save_data()"><?php echo $this->lang->line('save'); ?></button>
+				<button type="button" class="btn btn-warning" onclick="clear_data()"><?php echo $this->lang->line('clear'); ?></button>
 			</div>			
 		</div>		
 	</form>
@@ -205,18 +205,18 @@
 					<table class="table" id="tb-status-list">
 						<thead>
 						<tr>
-							<th>ลำดับ</th>
-							<th>สถานะ</th>
+							<th><?php echo $this->lang->line('no'); ?></th>
+							<th><?php echo $this->lang->line('status'); ?></th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
 							<td class='text-center'>1</td>
-							<td><label style='cursor:pointer' onclick='chang_status(1)'><input type='radio' id='rStatus1' name='rStatus' value='1' > &nbsp;ใช้งาน</label></td>
+							<td><label style='cursor:pointer' onclick='chang_status(1)'><input type='radio' id='rStatus1' name='rStatus' value='1' > &nbsp;<?php echo $this->lang->line('use'); ?></label></td>
 						</tr>
 						<tr>
 							<td class='text-center'>2</td>
-							<td><label style='cursor:pointer' onclick='chang_status(9)'><input type='radio' id='rStatus9' name='rStatus' value='9' > &nbsp;ไม่ใช้งาน</label></td>
+							<td><label style='cursor:pointer' onclick='chang_status(9)'><input type='radio' id='rStatus9' name='rStatus' value='9' > &nbsp;<?php echo $this->lang->line('use_no'); ?></label></td>
 						</tr>
 						<tr>
 							<td colspan="2">
@@ -230,7 +230,7 @@
 			</div>
 			<div class="modal-footer">
 				<!-- <button type="button" class="btn btn-success" id="btn-save-noapprove" onclick="save_noapprove()">บันทึก</button> -->
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">ปิด</button>
+				<button type="button" class="btn btn-secondary" data-dismiss="modal"><?php echo $this->lang->line('close'); ?></button>
 			</div>
 		</div>
 	</div>
@@ -262,8 +262,8 @@
                     if (k=="limit") { return; }
 					var status = "";
 					switch (v.status) {
-						case '1': status = '<span style="color:#000;">ใช้งาน</span>';break;
-						case '9': status = '<span style="color:red;">ไม่ใช้งาน</span>';break;
+						case '1': status = '<span style="color:#000;"><?php echo $this->lang->line('use'); ?></span>';break;
+						case '9': status = '<span style="color:red;"><?php echo $this->lang->line('use_no'); ?></span>';break;
                     }
                     str_html += "<tr>";
 					str_html += " <td>"+( parseInt(k)+1 )+"</td>";
@@ -274,12 +274,12 @@
 					str_html += " <td>"+status+"</td>";	
 					str_html += " <td align='center'>";
 					str_html += " 	<i class='fa fa-edit' style='font-size:20px' onclick='to_add_data("+v.id+","+v.status+")'></i>";
-					str_html += " 	<i class='fa fa-exchange' style='font-size:20px' onclick='open_chang_status("+v.id+","+v.status+",\""+v.code+" "+v.name+"\")' title='เปลี่ยนสถานะพนักงาน'></i>";
+					str_html += " 	<i class='fa fa-exchange' style='font-size:20px' onclick='open_chang_status("+v.id+","+v.status+",\""+v.code+" "+v.name+"\")' title='<?php echo $this->lang->line('status'); ?>'></i>";
 					str_html += " </td>"; 	
 					str_html += "</tr>";
                 });
             }else{
-                str_html += "<td colspan='10' class='text-center' style='color:red;margin-top:15px;'> ไม่พบข้อมูล </td>";
+                str_html += "<td colspan='10' class='text-center' style='color:red;margin-top:15px;'> <?php echo $this->lang->line('no_data'); ?> </td>";
             }
 
             $("#tb-div-list tbody").html( str_html );

@@ -29,8 +29,8 @@
 		<h3 style="font-weight: bold;"><?php echo $title; ?></h3>
 	</div>
 	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-right">
-		<button type="button" class="btn btn-secondary" onclick="to_add_data( '0', '0' )" id="btn-toadd_data" style="margin-top: 10px; width: 100px;">เพิ่ม</button>
-		<button type="button" class="btn btn-warning" onclick="to_manage_data()" id="btn-tomanage_data" style="margin-top: 10px; width: 100px; display: none;">ยกเลิก</button>
+		<button type="button" class="btn btn-secondary" onclick="to_add_data( '0', '0' )" id="btn-toadd_data" style="margin-top: 10px; width: 100px;"><?php echo $this->lang->line('add'); ?></button>
+		<button type="button" class="btn btn-warning" onclick="to_manage_data()" id="btn-tomanage_data" style="margin-top: 10px; width: 100px; display: none;"><?php echo $this->lang->line('cancel'); ?></button>
 	</div>
 </div>
 <br>
@@ -39,7 +39,7 @@
 		<?php // debug($division); ?>		
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-                <span>โปรโมชั่น : </span>
+                <span><?php echo $this->lang->line('promotion'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<input type="text" id="txtPromotionTitle" class="form-control" name="txtPromotionTitle">
@@ -153,13 +153,15 @@
 				<span>วันที่เริ่มต้น : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-				<input type="text" class="form-control" placehoder="Start Date" id="startdate"/>
+				<!-- <input type="text" class="form-control" placehoder="Start Date" id="startdate"/> -->
+				<input class="from_date" placeholder="Select start date" type="text" name="from_date">
             </div>	
             <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
 				<span>วันที่สิ้นสุด : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-				<input type="text" class="form-control" placehoder="End Date" id="enddate"/>
+				<!-- <input type="text" class="form-control" placehoder="End Date" id="enddate"/> -->
+				<input class="to_date" placeholder="Select end date" type="text" name="to_date">
             </div>		
 		</div>
 		<div class="row">			
@@ -202,25 +204,32 @@
 	var no_page = false;
 	$(document).ready(function() {
 		get_data_list();
+		ddatepicker();
+    });
 
-		$("#startdate").datepicker({
-		    todayBtn:  1,
+    function ddatepicker(){
+    	$(".from_date").datepicker({
+		 	// clearBtn: true,
+		    format: 'yyyy-mm-dd',
 		    autoclose: true,
 		}).on('changeDate', function (selected) {
-		    var minDate = new Date(selected.date.valueOf());
-		    $('#enddate').datepicker('setStartDate', minDate);
-		    // $('#enddate').datepicker('setDate', minDate); // <--THIS IS THE LINE ADDED
+		    var startDate = new Date(selected.date.valueOf());
+		    $('.to_date').datepicker('setStartDate', startDate);
+		}).on('clearDate', function (selected) {
+		    $('.to_date').datepicker('setStartDate', null);
 		});
 
-		$("#enddate").datepicker({
-			todayBtn:  1,
+		$(".to_date").datepicker({
+			// clearBtn: true,
+		    format: 'yyyy-mm-dd',
 		    autoclose: true,
 		}).on('changeDate', function (selected) {
-	        var maxDate = new Date(selected.date.valueOf());
-	        $('#startdate').datepicker('setEndDate', maxDate);
-	    });
-
-    });
+		    var endDate = new Date(selected.date.valueOf());
+		    $('.from_date').datepicker('setEndDate', endDate);
+		}).on('clearDate', function (selected) {
+		    $('.from_date').datepicker('setEndDate', null);
+		});
+    }
 
     function get_data_list(){    	    	
         var option = {
@@ -323,6 +332,10 @@
 		$("input").val("");
 		$("select").val("");
 		$("textarea").val("");
+
+		// clear datepicker
+		$('.to_date').datepicker('setStartDate', null);
+		$('.from_date').datepicker('setEndDate', null);
 	}
 
 	function to_manage_data(){ //หน้า listdata
