@@ -74,10 +74,10 @@
 				<thead>
 					<tr>
 						<th class="text-center"><?php echo $this->lang->line('no'); ?></th>
-						<th class="text-center">เลขห้อง</th>
-						<th class="text-center">ชื่อห้อง</th>
-						<th class="text-center">ชื่ออุปกรณ์</th>
-						<th class="text-center">จำนวน</th>
+						<th class="text-center"><?php echo $this->lang->line('room_code'); ?></th>
+						<th class="text-center"><?php echo $this->lang->line('room'); ?></th>
+						<th class="text-center"><?php echo $this->lang->line('equipment'); ?></th>
+						<th class="text-center"><?php echo $this->lang->line('qty'); ?></th>
 						<th class="text-center" width="10%"><?php echo $this->lang->line('status'); ?></th>	
 						<th class="text-center"><?php echo $this->lang->line('action'); ?></th>					
 					</tr>
@@ -143,7 +143,71 @@
             $("#tb-div-list tbody").html( str_html );
 			var len = Object.keys(aData).length - 1;
 			len = ( aData.limit == len ) ? true : false;
-			// set_number_page( len );
+			set_number_page( len );
         });
     }
+
+    function set_number_page( status ){ 
+		var str = "";
+		if (no_page == false) {
+			for(var i=1; i <= page ; i++){
+				var css = (i == page) ? "default" : "link";
+				if (page != 1) {
+					str += '<button type="button" class="btn btn-'+css+' btn-xs" id="btn-to-page'+i+'" onclick="to_page('+i+');">'+i+'</button>';
+				}
+				if (status && i == page) { 
+					if(page != 1){ $("#bnt-Previous").show(); } else{ $("#bnt-Previous").hide(); }
+					$("#bnt-next").show(); 
+					str += '<button type="button" class="btn btn-link btn-xs" id="btn-to-page'+(i+1)+'" onclick="to_page('+(i+1)+')">'+(i+1)+'</button>';
+					no_page = true;
+				}else if (!status) {
+					$("#bnt-next").hide(); 
+				}
+			}
+			$("#div-page-number").html( str );
+		}else{
+			$("#div-page-number").find(".btn-default").each(function(){
+				$(this).removeClass("btn-default");
+				$(this).addClass("btn-link");
+			});
+
+			$("#btn-to-page"+page).removeClass("btn-link");
+			$("#btn-to-page"+page).addClass("btn-default");
+		}
+		
+	}
+
+	function next_page( number_page ){
+		no_page = false;
+		page 	= number_page;
+		get_data_list();
+	}
+
+	function to_page( number_page ){
+		no_page = true;
+		page 	= number_page;
+		get_data_list();
+	}
+
+	function previous( number_page ){
+		if (number_page == 0) { return; }
+		page = number_page;
+		if (page < 1) { page = 1; }
+		get_data_list();
+	}
+
+	function clear_data(){
+		$("input").val("");
+		$("select").val("");
+		$("textarea").val("");
+	}
+
+	function to_manage_data(){ //หน้า listdata
+		$("#box-manage").hide();
+		$("#box-show-search").show();
+		$("#btn-toadd_data").show();
+		$("#btn-tomanage_data").hide();
+		$("#box-manage").css("width","0");
+	}
+
 </script>
