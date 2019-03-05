@@ -21,6 +21,7 @@
 		border: 1px solid red !important;
 	}
 	.title_page{border-bottom: 1px solid #D9D9D9}
+
 </style>
 
 <div class="row title_page">
@@ -50,21 +51,38 @@
                 <input type="text" id="txtRoomName" class="form-control" name="txtRoomName">
 			</div>		
 		</div>
-
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
 				<span><?php echo $this->lang->line('equipment'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
                 <input type="text" id="txtRoomItemName" class="form-control" name="txtRoomItemName">
-			</div>			
+			</div>
             <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<span><?php echo $this->lang->line('status'); ?> : </span>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
+				<select id="slStatus_roomitem" name="slStatus_roomitem" class="form-control">
+					<option value=""> -- <?php echo $this->lang->line('select_status'); ?> -- </option>
+					<option value="1"><?php echo $this->lang->line('use'); ?></option>
+                    <option value="9"><?php echo $this->lang->line('use_no'); ?></option>
+				</select>
+            </div>
+		</div>
+		<div class="row">
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
                 
 			</div>
 			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
 				<button type="button" class="btn btn-primary" onclick="get_data_list()"><?php echo $this->lang->line('search'); ?></button>
 				<button type="button" class="btn btn-warning" onclick="clear_data()"><?php echo $this->lang->line('clear'); ?></button>
             </div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
+                
+			</div>		
 		</div>	
 	</div>
 	<hr>
@@ -95,6 +113,60 @@
     </div>
 </div>
 
+<!-- ###################################### Manage  ######################################-->
+
+<div id="box-manage" style="display: none;">
+	<form id="form-manage" name="form-manage" method="post" action="" enctype="multipart/form-data">		
+		<div class="row">
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<label class="" style="font-weight: bold;font-size: 16px;"><?php echo $this->lang->line('data_position'); ?></label>
+			</div>
+		</div>
+		<div class="row">			
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+                <span><?php echo $this->lang->line('room'); ?> : </span>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
+
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<span><?php echo $this->lang->line('room'); ?> : </span>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
+                <input type="text" id="txtRoomName" class="form-control" name="txtRoomName">
+			</div>		
+		</div>
+		<div class="row">
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<span><?php echo $this->lang->line('equipment'); ?> : </span>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
+                <input type="text" id="txtRoomItemName" class="form-control" name="txtRoomItemName">
+			</div>
+            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
+				
+            </div>
+		</div>
+		<div class="row">
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<div style="display: none;">
+					<input type="text" id="txtPosition_id" name="txtPosition_id" value="0">
+					<input type="text" id="txtPosition_status" name="txtPosition_status" value="0">
+				</div>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+				<button type="button" class="btn btn-primary" onclick="save_data()"><?php echo $this->lang->line('save'); ?></button>
+				<button type="button" class="btn btn-warning" onclick="clear_data()"><?php echo $this->lang->line('clear'); ?></button>
+			</div>			
+		</div>		
+	</form>
+</div>
+
+<!-- ###################################### Manage  ######################################-->
+
 <script type="text/javascript">
 	var page = 1;
 	var no_page = false;
@@ -102,10 +174,12 @@
 		get_data_list();
     });
 
+    
     function get_data_list(){
         var option = {
         	roomitem_id  	: "",            
         	roomitem_name  : $("#txtRoomItemName").val(),
+        	roomitem_status  : $("#slStatus_roomitem").val(),
             room_code    : $("#txtRoomCode").val(),
             room_name  : $("#txtRoomName").val(),            
             page 	: page
@@ -208,6 +282,39 @@
 		$("#btn-toadd_data").show();
 		$("#btn-tomanage_data").hide();
 		$("#box-manage").css("width","0");
+	}
+
+	function to_add_data( posision_id = 0, posision_status ){ // เพิ่ม แก้ไข		
+		$("#txtPosition_id").val( posision_id );
+		$("#txtPosition_status").val( posision_status );
+		$("#box-manage").show();
+		$("#box-show-search").hide();
+		$("#btn-toadd_data").hide();
+		$("#btn-tomanage_data").show();
+		$("#box-manage").css("width","100%");
+
+		if (posision_id != 0) {			
+			var option = {
+				posision_id 	: posision_id
+			}
+			$.get("position/search_position", option,function( aData ){
+				aData = jQuery.parseJSON( aData );
+				if ( Object.keys(aData).length > 1) {
+					aData = aData[0];
+					$("#etxtPositionCode").val(aData.code);
+					$("#etxtPositionName").val(aData.name);
+					$("#eslPositionDivision option[value='"+aData.m_division_id+"']").prop('selected', true);
+					$("#eslPositionDepartment option[value='"+aData.m_department_id+"']").prop('selected', true);
+				} else {
+					alert( "no data" );
+				}
+			});
+		}else{
+			clear_data();
+			$("#txtPosition_id").val("0");
+		}
+
+		$('.datepicker').datepicker({format: 'dd-mm-yyyy'});
 	}
 
 </script>

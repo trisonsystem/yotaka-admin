@@ -375,9 +375,9 @@
                             <b class="arrow"></b>
                         </li>
                         <li id="employee_list">
-                            <a href="#" onclick="getMenu('room/index')">
+                            <a href="#" onclick="getMenu('roomtype/index')">
                                 <i class="menu-icon fa fa-caret-right"></i>
-                                <span class="lang_manage_main_room"><?php echo $this->lang->line('manage_main_room'); ?></span>
+                                <span class="lang_manage_main_room"><?php echo $this->lang->line('manage_room_type_data'); ?></span>
                             </a>
 
                             <b class="arrow"></b>
