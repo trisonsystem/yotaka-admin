@@ -73,7 +73,7 @@
 				<span><?php echo $this->lang->line('type_room'); ?>  : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-				<select id="slRoomType" name="slRoomType" class="form-control">
+				<select id="slRoom_Type" name="slRoom_Type" class="form-control">
 					<option value=""> <?php echo $this->lang->line('sl_select'); ?> </option>
 					<?php 
 						foreach ($type_room as $key => $value) {
@@ -265,7 +265,7 @@
 				room_code 	: $("#txtRoomCode").val(),
 				room_name 	: $("#txtRoomName").val(),
 				status 		: $("#slRoomStatus").val(),
-				room_type_id : $("#slRoomType").val(),
+				room_type_id : $("#slRoom_Type").val(),
 				page 			: page
 			}
 		$.get("room/search_room", option,function( aData ){

@@ -64,6 +64,7 @@
 <div class="row">
 	<div class="col-lg-12 col-md-12 col-sm-1 col-xs-1"></div>
 	<div class="col-lg-3 col-md-4 col-sm-4 col-xs-10">
+		<form id="form-search" name="form-search">
 		<div class="box-search">
 			<div class="row">
 				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -92,7 +93,7 @@
 				<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 					<div class="form-group">
 					    <label for="txtTel"><?php echo $this->lang->line('childen'); ?> </label>
-					    <select class="form-control" id="slChilden" name="slChilden">
+					    <select class="form-control" id="slChilden" name="slChilden" onchange="select_childen()">
 					    	<option value="0"><?php echo $this->lang->line('no_childen'); ?></option>
 					    	<?php 
 					    		for ($i=1; $i <= 10; $i++) { 
@@ -118,15 +119,8 @@
 			<div class="row">
 				<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 					<div class="form-group">
-					    <label for="txtTel"><?php echo $this->lang->line('childen'); ?> </label>
-					    <select class="form-control" id="slChilden" name="slChilden">
-					    	<option value="0"><?php echo $this->lang->line('no_childen'); ?></option>
-					    	<?php 
-					    		for ($i=0; $i <= 17; $i++) { 
-					    			echo '<option value="'.$i.'">'.$i." ".$this->lang->line('years_old').'</option>';
-					    		}
-					    	?>
-					    </select>
+					    <label for=""><?php echo $this->lang->line('childen'); ?> </label>
+					   	<div id="box-year-childen"></div>
 					</div>
 				</div>
 			</div>
@@ -137,6 +131,7 @@
 				</div>
 			</div>
 		</div>
+		</form>
 	</div>
 	<div class="col-lg-9 col-md-7 col-sm-6 col-xs-11">
 		<div class="row" id="list_room">
@@ -275,16 +270,43 @@
 
 	function search_room(){
 		var str_room  = "";
-		str_room += '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-left">';
-		str_room += ' 	<h5>เตียงเดียวใหญ่</h5>';
-		str_room += '</div>';
-		for (var i = 0; i < 30; i++) {
-			str_room += '<div class="col-lg-2 col-md-3 col-sm-3 col-xs-4 box-list">';
-			str_room += '		<div class="box-room-list" select="false"> <span>'+"R001"+'<br>(ลีลาวดี)<br>450</span></div>';
-			str_room += '</div>';
+		var aForm = JSON.stringify( $("#form-search").serializeArray() );
+			aForm = jQuery.parseJSON( aForm );	
+		if (validate(aForm)) {	
+			$.get("room/search_room_forbook", aForm,function( aData ){
+				aData = jQuery.parseJSON( aData );	
+				console.log( aData );
+				str_room += '<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-left">';
+				str_room += ' 	<h5>เตียงเดียวใหญ่</h5>';
+				str_room += '</div>';
+				for (var i = 0; i < 30; i++) {
+					str_room += '<div class="col-lg-2 col-md-3 col-sm-3 col-xs-4 box-list">';
+					str_room += '		<div class="box-room-list" select="false"> <span>'+"R001"+'<br>(ลีลาวดี)<br>450</span></div>';
+					str_room += '</div>';
+				}
+				$("#list_room").html( str_room );
+				set_click_box_room();
+			});
 		}
-		$("#list_room").html( str_room );
-		set_click_box_room();
+	}
+
+	function validate(aData){
+		var status = true;
+		console.log(aData);
+		$.each(aData,function(k,v){
+			if (v.name != "txtPromotion_id" && v.name != "txtPromotion_status") {				
+				var obj = $("#"+v.name);
+				if (obj.val() == "") {
+					obj.addClass("error-form");
+					obj.focus();
+					status = false;			
+				}else{
+					obj.removeClass("error-form");
+				}
+			}
+		});		
+
+		return status;
 	}
 
 	function set_click_box_room(){
@@ -320,5 +342,21 @@
 			// }
 			
 		});
+	}
+
+	function select_childen(){
+		var qty = $("#slChilden").val();
+		var str_html  = '';
+		for (var i = 0; i < qty; i++) {
+			str_html += '<select class="form-control" id="slChilden_'+i+'" name="slChilden" style="margin-top: 5px;">';
+			// str_html += '	<option value="0"><?php echo $this->lang->line('no_childen'); ?></option>';
+	    	<?php 
+	    		for ($i=0; $i <= 17; $i++) { 
+	    			echo 'str_html += "<option value=\''.$i.'\'>'.$i." ".$this->lang->line('years_old').'</option>";';
+	    		}
+	    	?>
+			str_html += '</select>';
+		}	
+		$("#box-year-childen").html(str_html);
 	}
 </script>

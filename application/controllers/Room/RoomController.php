@@ -84,7 +84,12 @@ class RoomController extends CI_Controller {
     }
 
     public function chang_status(){
-        echo $json_data  = $this->sent_to_api( '/room/chang_status', $_GET );
+        echo $json_data  = $this->sent_to_api( '/room/chang_status', $_POST );
+    }
+
+    public function search_room_forbook(){
+        $json_data  = $this->sent_to_api( '/room/search_room_forbook', $_GET );
+        print_r($json_data);
     }
 }
 ?>
