@@ -36,21 +36,7 @@
 <br>
 <div id="box-show-search">
 	<div class="box-search">
-		<?php // debug($division); ?>		
-		<div class="row">			
-			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-                <span><?php echo $this->lang->line('room_code'); ?> : </span>
-			</div>
-			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-				<input type="text" id="txtRoomCode" class="form-control" name="txtRoomCode">
-			</div>
-			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span><?php echo $this->lang->line('room'); ?> : </span>
-			</div>
-			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-                <input type="text" id="txtRoomName" class="form-control" name="txtRoomName">
-			</div>		
-		</div>
+		<?php // debug($division); ?>				
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
 				<span><?php echo $this->lang->line('equipment'); ?> : </span>
@@ -91,13 +77,10 @@
 			<table class="table" id="tb-div-list">
 				<thead>
 					<tr>
-						<th class="text-center"><?php echo $this->lang->line('no'); ?></th>
-						<th class="text-center"><?php echo $this->lang->line('room_code'); ?></th>
-						<th class="text-center"><?php echo $this->lang->line('room'); ?></th>
+						<th class="text-center" width="10%"><?php echo $this->lang->line('no'); ?></th>						
 						<th class="text-center"><?php echo $this->lang->line('equipment'); ?></th>
-						<th class="text-center"><?php echo $this->lang->line('qty'); ?></th>
-						<th class="text-center" width="10%"><?php echo $this->lang->line('status'); ?></th>	
-						<th class="text-center"><?php echo $this->lang->line('action'); ?></th>					
+						<th class="text-center" width="15%"><?php echo $this->lang->line('status'); ?></th>	
+						<th class="text-center" width="15%"><?php echo $this->lang->line('action'); ?></th>					
 					</tr>
 				</thead>
 				<tbody></tbody>
@@ -119,29 +102,15 @@
 	<form id="form-manage" name="form-manage" method="post" action="" enctype="multipart/form-data">		
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<label class="" style="font-weight: bold;font-size: 16px;"><?php echo $this->lang->line('data_position'); ?></label>
+				<label class="" style="font-weight: bold;font-size: 16px;"><?php echo $this->lang->line('data_equipment'); ?>	</label>
 			</div>
-		</div>
-		<div class="row">			
-			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-                <span><?php echo $this->lang->line('room'); ?> : </span>
-			</div>
-			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-
-			</div>
-			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span><?php echo $this->lang->line('room'); ?> : </span>
-			</div>
-			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-                <input type="text" id="txtRoomName" class="form-control" name="txtRoomName">
-			</div>		
 		</div>
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
 				<span><?php echo $this->lang->line('equipment'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-                <input type="text" id="txtRoomItemName" class="form-control" name="txtRoomItemName">
+                <input type="text" id="etxtRoomItemName" class="form-control" name="etxtRoomItemName">
 			</div>
             <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
 				
@@ -152,10 +121,10 @@
 		</div>
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<div style="display: none;">
-					<input type="text" id="txtPosition_id" name="txtPosition_id" value="0">
-					<input type="text" id="txtPosition_status" name="txtPosition_status" value="0">
-				</div>
+				<!-- <div style="display: none;"> -->
+					<input type="text" id="txtRoomItem_id" name="txtRoomItem_id" value="0">
+					<input type="text" id="txtRoomItem_status" name="txtRoomItem_status" value="0">
+				<!-- </div> -->
 			</div>
 			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
 				<button type="button" class="btn btn-primary" onclick="save_data()"><?php echo $this->lang->line('save'); ?></button>
@@ -166,6 +135,47 @@
 </div>
 
 <!-- ###################################### Manage  ######################################-->
+
+<div class="modal" tabindex="-1" role="dialog" id="modal-page">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="md-title"></h5>
+			</div>
+			<div class="modal-body">
+					<table class="table" id="tb-status-list">
+						<thead>
+						<tr>
+							<th><?php echo $this->lang->line('no'); ?></th>
+							<th><?php echo $this->lang->line('status'); ?></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class='text-center'>1</td>
+							<td><label style='cursor:pointer' onclick='chang_status(1)'><input type='radio' id='rStatus1' name='rStatus' value='1' > &nbsp;<?php echo $this->lang->line('use'); ?></label></td>
+						</tr>
+						<tr>
+							<td class='text-center'>2</td>
+							<td><label style='cursor:pointer' onclick='chang_status(9)'><input type='radio' id='rStatus9' name='rStatus' value='9' > &nbsp;<?php echo $this->lang->line('use_no'); ?></label></td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<span style="display: none;">
+									<input type="text" name="txtStatus_roomitem_id" id="txtStatus_roomitem_id" value="0">
+								</span>
+							</td>
+						</tr>
+					</tbody>
+					</table>
+			</div>
+			<div class="modal-footer">
+				<!-- <button type="button" class="btn btn-success" id="btn-save-noapprove" onclick="save_noapprove()">บันทึก</button> -->
+				<button type="button" class="btn btn-secondary" data-dismiss="modal"><?php echo $this->lang->line('close'); ?></button>
+			</div>
+		</div>
+	</div>
+</div>
 
 <script type="text/javascript">
 	var page = 1;
@@ -180,8 +190,6 @@
         	roomitem_id  	: "",            
         	roomitem_name  : $("#txtRoomItemName").val(),
         	roomitem_status  : $("#slStatus_roomitem").val(),
-            room_code    : $("#txtRoomCode").val(),
-            room_name  : $("#txtRoomName").val(),            
             page 	: page
         }
 
@@ -199,14 +207,11 @@
                     }
                     str_html += "<tr>";
 					str_html += " <td>"+( parseInt(k)+1 )+"</td>";
-					str_html += " <td>"+v.room_code+"</td>";
-                    str_html += " <td>"+v.room_name+"</td>";
                     str_html += " <td>"+v.name+"</td>";
-                    str_html += " <td>"+v.qty+"</td>";
 					str_html += " <td>"+status+"</td>";	
 					str_html += " <td align='center'>";
 					str_html += " 	<i class='fa fa-edit' style='font-size:20px' onclick='to_add_data("+v.id+","+v.status+")'></i>";
-					str_html += " 	<i class='fa fa-exchange' style='font-size:20px' onclick='open_chang_status("+v.id+","+v.status+",\""+v.code+" "+v.name+"\")' title='<?php echo $this->lang->line('status'); ?>'></i>";
+					str_html += " 	<i class='fa fa-exchange' style='font-size:20px' onclick='open_chang_status("+v.id+","+v.status+",\""+v.name+"\")' title='<?php echo $this->lang->line('status'); ?>'></i>";
 					str_html += " </td>"; 	
 					str_html += "</tr>";
                 });
@@ -284,37 +289,102 @@
 		$("#box-manage").css("width","0");
 	}
 
-	function to_add_data( posision_id = 0, posision_status ){ // เพิ่ม แก้ไข		
-		$("#txtPosition_id").val( posision_id );
-		$("#txtPosition_status").val( posision_status );
+	function to_add_data( roomitem_id = 0, roomitem_status ){ // เพิ่ม แก้ไข		
+		$("#txtRoomItem_id").val( roomitem_id );
+		$("#txtRoomItem_status").val( roomitem_status );
 		$("#box-manage").show();
 		$("#box-show-search").hide();
 		$("#btn-toadd_data").hide();
 		$("#btn-tomanage_data").show();
 		$("#box-manage").css("width","100%");
 
-		if (posision_id != 0) {			
+		if (roomitem_id != 0) {			
 			var option = {
-				posision_id 	: posision_id
+				roomitem_id 	: roomitem_id
 			}
-			$.get("position/search_position", option,function( aData ){
+			$.get("roomitem/search_roomitem", option,function( aData ){
 				aData = jQuery.parseJSON( aData );
 				if ( Object.keys(aData).length > 1) {
 					aData = aData[0];
-					$("#etxtPositionCode").val(aData.code);
-					$("#etxtPositionName").val(aData.name);
-					$("#eslPositionDivision option[value='"+aData.m_division_id+"']").prop('selected', true);
-					$("#eslPositionDepartment option[value='"+aData.m_department_id+"']").prop('selected', true);
+					$("#etxtRoomItemName").val(aData.name);
 				} else {
 					alert( "no data" );
 				}
 			});
 		}else{
 			clear_data();
-			$("#txtPosition_id").val("0");
+			$("#txtRoomItem_id").val("0");
 		}
 
 		$('.datepicker').datepicker({format: 'dd-mm-yyyy'});
+	}
+
+	function save_data(){
+		var aData = JSON.stringify( $("#form-manage").serializeArray() );
+			aData = jQuery.parseJSON( aData );			
+		if (validate(aData)) {
+			$.post("roomitem/save_data",  aData  ,function( res ){
+				res = jQuery.parseJSON( res ); 
+				if (res.flag) {
+					alert( res.msg );
+					get_data_list();					
+					to_manage_data();
+				}else{
+					alert( res.msg );
+				}
+			});
+		}else{
+			console.log("error-xxxxx")
+		}
+	}
+
+	function validate(aData){
+		var status = true;
+		
+		$.each(aData,function(k,v){
+			if (v.name != "txtRoomItem_id" && v.name != "txtRoomItem_status") {				
+				var obj = $("#"+v.name);
+				if (obj.val() == "") {
+					obj.addClass("error-form");
+					obj.focus();
+					status = false;			
+				}else{
+					obj.removeClass("error-form");
+				}
+			}
+		});		
+
+		return status;
+	}
+
+	function open_chang_status( roomitem_id, status, text_title ){
+		$("#txtStatus_roomitem_id").val( roomitem_id );
+		$("#md-title").html( text_title );		
+		$("#modal-page").modal("show");
+		setTimeout(function(){
+			$('input:radio[name="rStatus"][value="'+status+'"]').prop('checked', true);
+		},300);
+	}
+
+	var c_status = true;
+	function chang_status( status ){
+		if (c_status) {
+			c_status = false;
+			var id = $("#txtStatus_roomitem_id").val();
+			$.post("roomitem/chang_status",  { roomitem_id : id, status: status } ,function( res ){
+				res = jQuery.parseJSON( res ); 
+				if (res.flag) {
+					$("#modal-page").modal("hide");
+					alert( res.msg );
+					get_data_list();
+					c_status = true;
+				}else{
+					alert( res.msg );
+					c_status = true;
+				}
+
+			});
+		}
 	}
 
 </script>

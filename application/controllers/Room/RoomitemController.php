@@ -42,4 +42,17 @@ class RoomitemController extends CI_Controller {
 		$json_data  = $this->sent_to_api( '/roomitem/search_roomitem', $_GET );
         echo $json_data;
     }
+
+    public function save_data(){
+        $_POST["user"] = $_COOKIE[$this->keyword."user"];
+        $_POST["hotel_id"] = $_COOKIE[$this->keyword."hotel_id"];      
+        $json_data  = $this->sent_to_api( '/roomitem/save_data', $_POST );        
+        echo $json_data;        
+    }
+
+    public function chang_status(){
+        $_POST["user"] = $_COOKIE[$this->keyword."user"];        
+        $json_data     = $this->sent_to_api( '/roomitem/chang_status', $_POST );
+        echo $json_data;
+    }
 }
