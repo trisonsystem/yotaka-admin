@@ -124,10 +124,7 @@
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
 				<label class="" style="font-weight: bold;font-size: 16px;"><?php echo $this->lang->line('data_promotion'); ?></label>
-				<!-- <input type="text" id="txtPromotionImages" name="txtPromotionImages" value="0"> -->
-				<!-- <input type="text" id="oldPromotionImages" name="oldPromotionImages" value=""> -->
-				<!-- <input type="text" id="txtPromotion_id" name="txtPromotion_id" value="0"> -->
-				<!-- <input type="text" id="txtPromotion_status" name="txtPromotion_status" value=""> -->
+				
 			</div>
 		</div>
 		<div class="row">
@@ -423,17 +420,16 @@
 				aData = jQuery.parseJSON( aData );
 				if ( Object.keys(aData).length > 1) {
 					aData = aData[0];
-					console.log(aData);
+					var str = aData.promotion_img;					
+					var str2 = str.substr(31);
 					$("#etxtPromotionTitle").val(aData.title);
 					$("#etxtPromotionCode").val(aData.promotion_code);	
 					$("#etxtPromotionDescription").val(aData.description);
 					$("#from_date").val(aData.startdate);	
 					$("#to_date").val(aData.enddate);
 					$("#etxtPromotionPrice").val(aData.discount);			
-					$("#txtPromotionImages").val(aData.promotion_img);
-					// var str = aData.promotion_img;
-					// $("#oldPromotionImages").val(str.substr(31));
-					// $("#oldPromotionImages").val(aData.promotion_img);
+					$("#txtPromotionImages").val(aData.promotion_img);					
+					$("#oldPromotionImages").val(str2.substring(0, str2.length-4));
 					$("#img").attr("src", aData.promotion_img);		
 				} else {
 					alert( "no data" );
@@ -463,6 +459,9 @@
                 if(response != 0){
                     $("#img").attr("src",response); 
                     $("#txtPromotionImages").val( response );
+     //                var str = aData.promotion_img;
+					// $("#oldPromotionImages").val(str.substr(14));
+                    // newPromotionImages
                     // $(".preview img").show(); // Display image element
                 }else{
                     alert('file not uploaded');
@@ -494,7 +493,7 @@
 		var status = true;
 		console.log(aData);
 		$.each(aData,function(k,v){
-			if (v.name != "txtPromotion_id" && v.name != "txtPromotion_status") {				
+			if (v.name != "txtPromotion_id" && v.name != "txtPromotion_status" && v.name != "oldPromotionImages" && v.name != "newPromotionImages") {				
 				var obj = $("#"+v.name);
 				if (obj.val() == "") {
 					obj.addClass("error-form");
