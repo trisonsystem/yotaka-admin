@@ -124,6 +124,7 @@
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
 				<label class="" style="font-weight: bold;font-size: 16px;"><?php echo $this->lang->line('data_promotion'); ?></label>
+				
 			</div>
 		</div>
 		<div class="row">
@@ -159,7 +160,7 @@
 				<span><?php echo $this->lang->line(' end_date'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-				<input class="form-control to_date" placeholder="Select end date" type="text" id="to_date" name="to_date">
+				<input class="form-control to_date" placeholder="Select end date" type="text" id="to_date" name="to_date" disabled>
             </div>		
 		</div>
 		<div class="row">			
@@ -170,16 +171,44 @@
 				<input type="text" id="etxtPromotionPrice" class="form-control" name="etxtPromotionPrice">
             </div>	
             <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<div style="display: none;">
-					<input type="text" id="txtPromotion_id" name="txtPromotion_id" value="0">
-					<input type="text" id="txtPromotion_status" name="txtPromotion_status" value="">
-				</div>
+				
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
+				
+            </div>		
+		</div>
+		<div class="row">
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<span><?php echo $this->lang->line('promotion_image'); ?> : </span>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
+				<input type="file" name="fPromotion" id="fPromotion" onchange="change_img()">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
+				<img id="img" width="250px" style="margin-bottom: 10px;">
+			</div>
+
+			<div style="display: none;">
+				<input type="text" id="txtPromotionImages" name="txtPromotionImages" value="0">
+				<input type="text" id="oldPromotionImages" name="oldPromotionImages" value="">
+				<input type="text" id="txtPromotion_id" name="txtPromotion_id" value="0">
+				<input type="text" id="txtPromotion_status" name="txtPromotion_status" value="">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				
 			</div>
 			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
 				<button type="button" class="btn btn-primary" onclick="save_data()"><?php echo $this->lang->line('save'); ?></button>
 				<button type="button" class="btn btn-warning" onclick="clear_data()"><?php echo $this->lang->line('clear'); ?></button>
-            </div>		
-		</div>		
+			</div>
+		</div>
 	</form>
 </div>
 
@@ -236,18 +265,18 @@
 
     function ddatepicker(){
     	$(".from_date").datepicker({
-		 	// clearBtn: true,
 		    format: 'yyyy-mm-dd',
 		    autoclose: true,
+		    startDate: new Date(),
 		}).on('changeDate', function (selected) {
 		    var startDate = new Date(selected.date.valueOf());
+		    document.getElementById("to_date").disabled = false;
 		    $('.to_date').datepicker('setStartDate', startDate);
 		}).on('clearDate', function (selected) {
 		    $('.to_date').datepicker('setStartDate', null);
 		});
 
 		$(".to_date").datepicker({
-			// clearBtn: true,
 		    format: 'yyyy-mm-dd',
 		    autoclose: true,
 		}).on('changeDate', function (selected) {
@@ -374,7 +403,7 @@
 	}
 
 	function to_add_data( promotion_id = 0, promotion_status ){ // เพิ่ม แก้ไข				
-		$("#txtPromotion_id").val( promotion_id );
+		$("#txtPromotion_id").val( promotion_id );		
 		$("#txtPromotion_status").val( promotion_status );
 		$("#box-manage").show();
 		$("#box-show-search").hide();
@@ -386,27 +415,59 @@
 			var option = {
 				promotion_id 	: promotion_id
 			}
+			document.getElementById("to_date").disabled = false;
 			$.get("promotion/search_promotion", option,function( aData ){
 				aData = jQuery.parseJSON( aData );
 				if ( Object.keys(aData).length > 1) {
 					aData = aData[0];
-					console.log(aData);
+					var str = aData.promotion_img;					
+					var str2 = str.substr(31);
 					$("#etxtPromotionTitle").val(aData.title);
 					$("#etxtPromotionCode").val(aData.promotion_code);	
 					$("#etxtPromotionDescription").val(aData.description);
 					$("#from_date").val(aData.startdate);	
 					$("#to_date").val(aData.enddate);
-					$("#etxtPromotionPrice").val(aData.discount);					
+					$("#etxtPromotionPrice").val(aData.discount);			
+					$("#txtPromotionImages").val(aData.promotion_img);					
+					$("#oldPromotionImages").val(str2.substring(0, str2.length-4));
+					$("#img").attr("src", aData.promotion_img);		
 				} else {
 					alert( "no data" );
 				}
 			});
 		}else{
+			$("#img").attr("src", "");			
 			clear_data();
 			$("#txtPromotion_id").val("0");
 		}
 
 		$('.datepicker').datepicker({format: 'dd-mm-yyyy'});
+	}
+
+	function change_img(){
+        var fd = new FormData();
+        var files = $('#fPromotion')[0].files[0];
+        fd.append('file',files);
+
+        $.ajax({
+            url: 'main/upload',
+            type: 'post',
+            data: fd,
+            contentType: false,
+            processData: false,
+            success: function(response){
+                if(response != 0){
+                    $("#img").attr("src",response); 
+                    $("#txtPromotionImages").val( response );
+     //                var str = aData.promotion_img;
+					// $("#oldPromotionImages").val(str.substr(14));
+                    // newPromotionImages
+                    // $(".preview img").show(); // Display image element
+                }else{
+                    alert('file not uploaded');
+                }
+            },
+        });
 	}
 
 	function save_data(){
@@ -432,7 +493,7 @@
 		var status = true;
 		console.log(aData);
 		$.each(aData,function(k,v){
-			if (v.name != "txtPromotion_id" && v.name != "txtPromotion_status") {				
+			if (v.name != "txtPromotion_id" && v.name != "txtPromotion_status" && v.name != "oldPromotionImages" && v.name != "newPromotionImages") {				
 				var obj = $("#"+v.name);
 				if (obj.val() == "") {
 					obj.addClass("error-form");

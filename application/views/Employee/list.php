@@ -345,13 +345,14 @@
 				
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-				<img id="img" width="250px" style="margin-bottom: 10px;"></div>
+				<img id="img" width="250px" style="margin-bottom: 10px;">
+			</div>
 
-				<div style="display: none;">
-					<input type="text" id="txtEmployeeProfile" name="txtEmployeeProfile" value="0">
-					<input type="text" id="txtEmployee_id" name="txtEmployee_id" value="0">
-					<input type="text" id="txtEmployee_code" name="txtEmployee_code" value="">
-				</div>
+			<div style="display: none;">
+				<input type="text" id="txtEmployeeProfile" name="txtEmployeeProfile" value="0">
+				<input type="text" id="txtEmployee_id" name="txtEmployee_id" value="0">
+				<input type="text" id="txtEmployee_code" name="txtEmployee_code" value="">
+			</div>
 		</div>
 		<hr style="margin: 0px;">
 		<div class="row" style="margin-top: 5px;margin-bottom: 30px;">

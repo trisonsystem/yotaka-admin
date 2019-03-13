@@ -45,6 +45,20 @@ class PromotionController extends CI_Controller {
         $_POST["user"] = $_COOKIE[$this->keyword."user"];
         $_POST["hotel_id"] = $_COOKIE[$this->keyword."hotel_id"];     
         $json_data  = $this->sent_to_api( '/promotion/save_data', $_POST );        
+        // echo $json_data;
+
+        $aData      = json_decode($json_data);
+
+        if ($aData->flag) {
+            $fodel    = "assets/upload/promotion_images/";
+            $aFN      = explode(".", $_POST["txtPromotionImages"]);            
+            $n_name   = $aFN[count($aFN)-1];            
+            $n_path   = $fodel.$aData->code.".".$n_name;
+            // debug($n_path, true);
+            if ( count( explode("temp", $_POST["txtPromotionImages"]) ) > 1 ) {
+                $this->copy_img($_POST["txtPromotionImages"], $n_path, $fodel);
+            }
+        }
         echo $json_data;
     }
 
@@ -52,5 +66,19 @@ class PromotionController extends CI_Controller {
         $_POST["user"] = $_COOKIE[$this->keyword."user"];        
         $json_data     = $this->sent_to_api( '/promotion/chang_status', $_POST );
         echo $json_data;
+    }
+
+    public function copy_img( $file_name,  $n_path , $n_foder){
+        if ( !file_exists($n_foder) ) {
+             mkdir ($n_foder, 0755);
+        }
+        
+       if(copy($file_name, $n_path)){ 
+          unlink($file_name);
+          return 1;
+       }else{
+          return 0;
+       }
+      
     }
 }
