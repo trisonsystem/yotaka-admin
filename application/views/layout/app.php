@@ -418,21 +418,20 @@
                             <b class="arrow"></b>
                         </li>
                         
-                    </ul>    
+                    </ul> 
 
-                    <li id="main">
+
+                    <li class="">  
                         <a onclick="getMenu('language/index');">
                             <i class="menu-icon fa fa-tachometer"></i>
-                            <span class="lang_manage_language_data"> <?php echo $this->lang->line('manage_language_data'); ?></span>
-                        </a>
-
-                        <b class="arrow"></b>
+                            <span class="lang_manage_language_data">
+                                <?php echo $this->lang->line('manage_language_data'); ?>
+                            </span>
+                        </a>  
                     </li>
-                    
-                    <b class="arrow"></b>
-
-
+                       
                 </li>
+               
             </ul>
             <div class="sidebar-toggle sidebar-collapse" id="sidebar-collapse">
                 <i class="ace-icon fa fa-angle-double-left" data-icon1="ace-icon fa fa-angle-double-left" data-icon2="ace-icon fa fa-angle-double-right"></i>

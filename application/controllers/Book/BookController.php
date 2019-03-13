@@ -37,8 +37,18 @@ class BookController extends CI_Controller {
         return $json_data;
     }
 
+    public function search_room_forbook(){
+        $json_data  = $this->sent_to_api( '/book/search_room_forbook', $_GET );
+        print_r($json_data);
+    }
+
     public function search_customer(){
         $json_data  = $this->sent_to_api( '/customer/search_customer', $_GET );
+        echo $json_data;
+    }
+
+    public function save(){
+        $json_data  = $this->sent_to_api( '/book/save_data', $_GET );
         echo $json_data;
     }
 }//end class

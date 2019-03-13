@@ -168,6 +168,14 @@
 		</div>
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<span><?php echo $this->lang->line('qty_people'); ?>  : </span>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
+				<input type="text" id="txtQtyPeople" class="form-control" name="txtQtyPeople">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
 				<span><?php echo $this->lang->line('remark'); ?> : </span>
 			</div>
 			<div class="col-lg-6 col-md-6 col-sm-9 col-xs-5">
@@ -394,6 +402,8 @@
 					$("#txtName").val(aData.name);
 					$("#slRoomType option[value='"+aData.m_type_room_id+"']").prop('selected', true);
 					$("#txtPrice").val(aData.price);
+					console.log(aData);
+					$("#txtQtyPeople").val(aData.qty_people);
 
 					if ( Object.keys(it).length > 0) {
 						$.each(it, function(k, v){
