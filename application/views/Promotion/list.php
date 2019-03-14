@@ -157,7 +157,7 @@
 				<input class="form-control from_date" placeholder="Select start date" type="text" id="from_date" name="from_date">
             </div>	
             <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span><?php echo $this->lang->line(' end_date'); ?> : </span>
+				<span><?php echo $this->lang->line('end_date'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<input class="form-control to_date" placeholder="Select end date" type="text" id="to_date" name="to_date" disabled>
