@@ -16,17 +16,13 @@ class MainController extends CI_Controller {
 
 	public function index(){
 
-        $chkCookie  = true;
+        $chkCookie  = false;
         $arrCookie  = array('token','lang','level','user','hotel_id');
         foreach ($arrCookie as $value) {
-          if(isset($_COOKIE[$this->keyword.$value])){
-            $chkCookie = false;
-          }else{
+          if(!isset($_COOKIE[$this->keyword.$value])){
             $chkCookie  = true;
           }
         }
-
-        // // debug(444,true);
 
         if($chkCookie == false){
             $data                   = array();

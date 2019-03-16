@@ -299,6 +299,13 @@
                             </a>
                             <b class="arrow"></b>
                         </li>
+                        <li id="manage_quotation">
+                            <a href="#" onclick="getMenu('book/book_list');">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                <?php echo $this->lang->line('book_data'); ?>
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
                         <!-- <li id="manage_quotation">
                             <a href="#" onclick="getMenu('manage_quotation/quotation_list');">
                                 <i class="menu-icon fa fa-caret-right"></i>

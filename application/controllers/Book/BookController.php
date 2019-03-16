@@ -17,8 +17,7 @@ class BookController extends CI_Controller {
         $data = array();
         $data['adminlist']      = array();
         $data['title']          = $this->lang->line('book_now');
-        // $data['country']        = $this->search_country();
-// debug($data);
+        
         $dataInfo['title']      = $data['title'];
         $dataInfo['sub_title']  = '';
         $dataInfo['temp']       = $this->load->view('Book/book_now',$data,true);
@@ -50,6 +49,52 @@ class BookController extends CI_Controller {
     public function save(){
         $json_data  = $this->sent_to_api( '/book/save_data', $_GET );
         echo $json_data;
+    }
+
+    public function book_list(){
+        $data = array();
+        $data['adminlist']      = array();
+        $data['title']          = $this->lang->line('book_data');
+        $data['status_book']    = $this->search_status_book("");
+// debug($data, true);
+        $dataInfo['title']      = $data['title'];
+        $dataInfo['sub_title']  = '';
+        $dataInfo['temp']       = $this->load->view('Book/list',$data,true);
+        $this->output->set_output(json_encode($dataInfo));
+    }
+
+    public function search_status_book( $aData = "" ){
+        $aData      = ( isset($_GET['status_book_id']) ) ? $_GET : $aData ;
+        $json_data  = $this->sent_to_api( '/book/search_status_book', $aData );
+        return json_decode($json_data);
+    }
+
+    public function search_book_list(){
+        $json_data  = $this->sent_to_api( '/book/search_book_list', $_GET );
+        echo $json_data;
+    }
+
+    public function chang_status(){
+        $json_data     = $this->sent_to_api( '/book/chang_status', $_POST );
+        echo $json_data;
+    }
+
+    public function get_form_payment(){
+        $data = array();
+        $data['adminlist']      = array();
+        $data['title']          = $this->lang->line('payment');
+        $data['bank']           = $this->search_bank("");
+        
+        $dataInfo['title']      = $data['title'];
+        $dataInfo['sub_title']  = '';
+        $dataInfo['temp']       = $this->load->view('Book/payment',$data,true);
+        $this->output->set_output(json_encode($dataInfo));
+    }
+
+    public function search_bank( $aData = "" ){
+        $aData      = ( isset($_GET['bank_id']) ) ? $_GET : $aData ;
+        $json_data  = $this->sent_to_api( '/bank/search_bank', $aData );
+        return json_decode($json_data);
     }
 }//end class
 ?>

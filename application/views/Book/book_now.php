@@ -69,13 +69,13 @@
 					<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
 						<div class="form-group">
 						    <label for="txtCheckIn"><?php echo $this->lang->line('check_in_date'); ?> </label>
-						    <input type="text" id="txtCheckIn" class="form-control" name="txtCheckIn">
+						    <input type="text" id="txtCheckIn" class="form-control check_in" name="txtCheckIn">
 						</div>
 					</div>
 					<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
 						<div class="form-group">
 						    <label for="txtCheckOut"><?php echo $this->lang->line('check_out_date'); ?> </label>
-						    <input type="text" id="txtCheckOut" class="form-control" name="txtCheckOut">
+						    <input type="text" id="txtCheckOut" class="form-control check_out" name="txtCheckOut">
 						</div>
 					</div>
 					<div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
@@ -381,12 +381,13 @@
 
     });
     function set_datepicker(){
-    	var d = new Date();
-		$("#txtCheckIn").val( d.getDate() + "-" + d.getMonth() + "-" + d.getFullYear() );
-		$("#txtCheckOut").val( d.getDate() + "-" + d.getMonth() + "-" + d.getFullYear() );
+    	var d = moment().add(1, 'days');
+		$("#txtCheckIn").val( moment().format('D-MM-YYYY') );
+		$("#txtCheckOut").val( d.format('D-MM-YYYY') );
 
 		$("#txtCheckIn").datepicker({
 		 	// clearBtn: true,
+		 	startDate:'0d' ,
 		    format: 'dd-mm-yyyy',
 		    autoclose: true,
 		}).on('changeDate', function (selected) {
@@ -398,6 +399,7 @@
 
 		$("#txtCheckOut").datepicker({
 			// clearBtn: true,
+			startDate:'+1d',
 		    format: 'dd-mm-yyyy',
 		    autoclose: true,
 		}).on('changeDate', function (selected) {
@@ -534,7 +536,12 @@
 
 	function Save_data(){
 		var str_room  = "";
-		if ($("#txtCustomerID").val()=="") { alert("กรุณาเลือก ผู้เข้าพัก");  return false; }
+		if ($("#txtCustomerID").val()=="") { alert("กรุณาเลือก ผู้จอง");  return false; }
+		if ($("#txtBookCustomerID").val() == "" && $('input:radio[name="rBook"]:checked').val() != "main") { 
+			alert("กรุณาเลือก ผู้เข้าพัก");  
+			return false; 
+		}
+
 		var aForm = {
 			BookID 			: $("#txtBookID").val(),
 			BookPrefix 		: $("#txtBookPrefix").val(),
@@ -587,6 +594,7 @@
 					alert( res.msg );
 					// get_data_list();
 					// to_manage_data();
+					getMenu('book/book_list');
 				}else{
 					alert( res.msg );
 				}
