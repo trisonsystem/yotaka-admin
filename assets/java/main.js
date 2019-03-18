@@ -4,7 +4,7 @@ $( document ).ready(function() {
   // $.cookie(keyword+"Lang", "en");
   
   
-  SetLeague();
+  // SetLeague();
   update_login();
   setInterval(function(){ 
       update_login();
@@ -14,6 +14,7 @@ $( document ).ready(function() {
 
 function SetLeague(){
   var lang      = $.cookie( keyword +"Lang");
+  
   $.get( "language/getLang", { lang: lang }, function( arrData ) {
     var aData     = jQuery.parseJSON(arrData);
     languages     = aData;

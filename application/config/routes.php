@@ -122,6 +122,11 @@ $route['promotion/(:any)']  			= 'promotion/PromotionController/$1';
 $route['promotion/(:any)/(:any)']  		= 'promotion/PromotionController/$1/$2';
 ##--
 
+## bank
+$route['bank/(:any)']  			= 'Bank/BanknumberlistController/$1';
+$route['bank/(:any)/(:any)']  		= 'Bank/BanknumberlistController/$1/$2';
+##--
+
 $route['language/(:any)']  			= 'Language/LanguageController/$1';
 $route['room/(:any)']  				= 'Room/RoomController/$1';
 $route['roomtype/(:any)']  			= 'Room/RoomtypeController/$1';

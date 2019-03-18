@@ -431,6 +431,13 @@
                             </a>
                             <b class="arrow"></b>
                         </li>
+                         <li id="manage_division">
+                            <a href="#" onclick="getMenu('bank/index');">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                <span class="lang_manage_accountbook_data"><?php echo $this->lang->line('manage_accountbook_data'); ?></span>
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
                         
                     </ul> 
 
