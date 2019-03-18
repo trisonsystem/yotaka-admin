@@ -306,6 +306,13 @@
                             </a>
                             <b class="arrow"></b>
                         </li>
+                        <li id="manage_quotation">
+                            <a href="#" onclick="getMenu('payment/payment_list');">
+                                <i class="menu-icon fa fa-caret-right"></i>
+                                <?php echo $this->lang->line('payment_list'); ?>
+                            </a>
+                            <b class="arrow"></b>
+                        </li>
                         <!-- <li id="manage_quotation">
                             <a href="#" onclick="getMenu('manage_quotation/quotation_list');">
                                 <i class="menu-icon fa fa-caret-right"></i>

@@ -84,7 +84,9 @@ class BookController extends CI_Controller {
         $data['adminlist']      = array();
         $data['title']          = $this->lang->line('payment');
         $data['bank']           = $this->search_bank("");
-        
+        $data['bank_list']      = $this->search_bank_list("");
+        $data["amount"]         = isset($_GET["amount"]) ? $_GET["amount"] : 0;
+
         $dataInfo['title']      = $data['title'];
         $dataInfo['sub_title']  = '';
         $dataInfo['temp']       = $this->load->view('Book/payment',$data,true);
@@ -94,6 +96,12 @@ class BookController extends CI_Controller {
     public function search_bank( $aData = "" ){
         $aData      = ( isset($_GET['bank_id']) ) ? $_GET : $aData ;
         $json_data  = $this->sent_to_api( '/bank/search_bank', $aData );
+        return json_decode($json_data);
+    }
+
+    public function search_bank_list( $aData = "" ){
+        $aData      = ( isset($_GET['bank_id']) ) ? $_GET : $aData ;
+        $json_data  = $this->sent_to_api( '/bank/search_bank_list', $aData );
         return json_decode($json_data);
     }
 }//end class

@@ -128,6 +128,7 @@ $route['roomtype/(:any)']  			= 'Room/RoomtypeController/$1';
 $route['roomitem/(:any)']  			= 'Room/RoomitemController/$1';
 $route['customer/(:any)']  			= 'Customer/CustomerController/$1';
 $route['book/(:any)']  				= 'Book/BookController/$1';
+$route['payment/(:any)']  			= 'PaymentController/$1';
 
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
