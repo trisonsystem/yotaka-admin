@@ -141,7 +141,7 @@
 				<span><?php echo $this->lang->line('department'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-                <select id="eslPositionDivision" name="eslPositionDivision" class="form-control" onchange="change_division('eslPositionDivision','eslPositionDepartment')">
+                <select id="eslPositionDivision" name="eslPositionDivision" class="form-control">
 					<option value=""> <?php echo $this->lang->line('sl_select'); ?> </option>
 					<?php 
 						foreach ($division as $key => $value) {
