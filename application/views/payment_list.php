@@ -26,10 +26,48 @@
 		border: 1px solid red !important;
 	}
 	.title_page{border-bottom: 1px solid #D9D9D9}
+
+	.chip {
+  display: inline-block;
+  padding: 0 25px;
+  height: 50px;
+  /*font-size: 16px;*/
+  line-height: 50px;
+  border-radius: 25px;
+  background-color: #f1f1f1;
+}
+
+.chip img {
+  float: left;
+  margin: 0 10px 0 -25px;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+}
+
+/* Style the buttons */
+.chip {
+  border: none;
+  outline: none;
+  /*padding: 10px 16px;*/
+  background-color: #f1f1f1;
+  cursor: pointer;
+  /*font-size: 18px;*/
+}
+
+/* Style the active class, and buttons on mouse-over */
+.xactive, .chip:hover {
+  background-color: #666;
+  color: white;
+}
 </style>
 <div class="row title_page">
 	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 		<h3 class="lang_manage_employee_data" style="font-weight: bold;"><?php echo $title;?></h3>
+	</div>
+	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-right">
+		<button type="button" class="btn btn-secondary" onclick="to_add_data( '0', '0' )" id="btn-toadd_data" style="margin-top: 10px; width: 100px;"><?php echo $this->lang->line('add'); ?></button>
+		<button type="button" class="btn btn-warning" onclick="to_manage_data()" id="btn-tomanage_data" style="margin-top: 10px; width: 100px; display: none;"><?php echo $this->lang->line('cancel'); ?></button>
 	</div>
 </div>
 <br>
@@ -41,7 +79,7 @@
 				<span class="lang_employee_code"><?php echo $this->lang->line('payment_time'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-				<input type="text" id="txtPaymentTime" class="form-control check_in" name="txtPaymentTime">
+				<input type="text" id="txtPaymentTime" class="form-control check_in" name="txtPaymentTime" placeholder="<?php echo $this->lang->line('select_datetime'); ?>">
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
 				<?php echo $this->lang->line('status'); ?>
@@ -130,10 +168,7 @@
 		</div>
 </div>
 
-
-
-
-<div class="modal" tabindex="-1" role="dialog" id="md-manage">
+<!-- <div class="modal" tabindex="-1" role="dialog" id="md-manage">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -142,9 +177,9 @@
       <div class="modal-body" id="md-manage-detail">
          	
       </div>
-      <div class="modal-footer">
+      <div class="modal-footer"> -->
       	<!-- <button type="button" class="btn btn-success" id="btn-save-noapprove" onclick="save_noapprove()">บันทึก</button> -->
-        <button type="button" class="btn btn-secondary" data-dismiss="modal"><?php echo $this->lang->line('close'); ?></button>
+        <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal"><?php echo $this->lang->line('close'); ?></button>
         <span style="display: none;">
         	<input type="text" name="cs_book_id" id="cs_book_id" value="0">
         </span>
@@ -152,7 +187,233 @@
       </div>
     </div>
   </div>
+</div> -->
+
+<!-- ###################################### Manage  ######################################-->
+
+<div id="box-manage" style="display: none;">
+	<form id="form-manage" name="form-manage" method="post" action="" enctype="multipart/form-data">		
+		<div class="row">
+			<div class="col-lg-3 col-md-3 col-sm-4 col-xs-6 text-right">
+				<label class="" style="font-weight: bold;font-size: 16px;"><?php echo $this->lang->line('book_data'); ?>  (<?php echo $this->lang->line('s_wait_payment'); ?>)</label>
+			</div>
+		</div>
+		<div class="row">
+		    <div class="col-sm-2" style="text-align: right;">เลือกผู้จอง</div>
+		    <div class="col-sm-10">
+				<div class="row">
+					<div class="bok_status_waitpayment" id="bok_status_waitpayment"></div>					
+				</div>
+		    </div>
+		 </div>
+		<hr>
+		<div class="row">
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<label class="" style="font-weight: bold;font-size: 16px;"><?php echo $this->lang->line('book_data'); ?></label>
+			</div>
+		</div>
+		<div class="row" >
+            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<span>วันที่เข้าพัก : </span>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
+				<input type="text" id="etxtPayment_check_in" class="form-control" name="etxtPayment_check_in" readonly>
+            </div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<span>วันที่ออก : </span>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
+				<input type="text" id="etxtPayment_check_out" class="form-control" name="etxtPayment_check_out" readonly>
+            </div>
+		</div>
+		<div class="row" >
+            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<span>ผู้จอง - ชื่อ : </span>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
+				<input type="text" id="etxtPayment_name_book" class="form-control" name="etxtPayment_name_book" readonly>
+            </div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<span>ผู้จอง - นามสกุล : </span>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
+				<input type="text" id="etxtPayment_lastname_book" class="form-control" name="etxtPayment_lastname_book" readonly>
+            </div>
+		</div>
+		<div class="row" >
+            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<span>ผู้เข้าพัก - ชื่อ : </span>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
+				<input type="text" id="etxtPayment_name_guest" class="form-control" name="etxtPayment_name_guest" readonly>
+            </div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<span>ผู้เข้าพัก - นามสกุล : </span>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
+				<input type="text" id="etxtPayment_lastname_guest" class="form-control" name="etxtPayment_lastname_guest" readonly>
+            </div>
+		</div>
+		<hr>
+		<div class="row">
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<label class="" style="font-weight: bold;font-size: 16px;"><?php echo $this->lang->line('promotion'); ?></label>
+			</div>
+		</div>
+		<div class="row" >
+            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<span>โค้ดส่วนลด : </span>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
+				<input type="text" id="etxtPayment_promotion_code" class="form-control" name="etxtPayment_promotion_code" >
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
+				<button type="button" class="btn btn-default btn-sm" onclick="search_promotion()">
+		          	<span class="glyphicon glyphicon-search"></span> Search 
+		        </button>
+            </div>
+			
+		</div>
+		<div class="row" >
+            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<span>ราคา : </span>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
+				<input type="text" id="etxtPayment_summary" class="form-control" name="etxtPayment_summary" readonly>
+            </div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<span>ส่วนลด/บาท : </span>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
+				<input type="text" id="etxtPayment_promotion_discount" class="form-control" name="etxtPayment_promotion_discount" readonly>
+            </div>
+		</div>		
+		<hr>
+		<div class="row">
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<label class="" style="font-weight: bold;font-size: 16px;">การจ่ายเงิน</label>
+			</div>
+		</div>
+		<div class="row" >
+            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<span>รวม/บาท : </span>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
+				<input type="text" id="etxtPayment_total" class="form-control" name="etxtPayment_total" readonly>
+            </div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<span>ประเภทการชำระเงิน : </span>
+			</div>
+			<div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
+				<!-- <div class="container"> -->
+				    <label class="radio-inline">
+			      		<input type="radio" name="optradio" checked><?php echo $this->lang->line('pay_cash'); ?>
+				    </label>
+				    <label class="radio-inline">
+			      		<input type="radio" name="optradio"><?php echo $this->lang->line('transfer_money'); ?>
+				    </label>
+				    <label class="radio-inline">
+			      		<input type="radio" name="optradio"><?php echo $this->lang->line('visa'); ?>
+				    </label>
+				<!-- </div> -->
+            </div>
+		</div>
+		<div class="row">
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<span class="lang_name"><?php echo $this->lang->line('bank_transfer_form'); ?> : </span>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
+				<select id="slPaymentType" name="slPaymentType" class="form-control">
+					<option value=""> <?php echo $this->lang->line('sl_select'); ?> </option>
+					<?php  
+						foreach ($payment_type as $key => $value) {
+								echo '<option value="'.$value->id.'">'.$this->lang->line( $value->name ).'</option>';
+							}
+						?>
+				</select>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<span class="lang_name"><?php echo $this->lang->line('transfer_to_bank'); ?> : </span>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
+				<select id="slBankTransferTo" name="slBankTransferTo" class="form-control">
+					<option value=""> <?php echo $this->lang->line('sl_select'); ?> </option>
+					<?php  
+						foreach ($bank_list as $key => $value) {
+								$name = ($_COOKIE[$keyword.'Lang'] == "th") ? $value->name_th : $value->name_en;
+								echo '<option value="'.$value->id.'">'.$name.'</option>';
+							}
+						?>
+				</select>
+			</div>			
+		</div>
+		<div class="row">
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<span><?php echo $this->lang->line('promotion_image'); ?> : </span>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
+				<input type="file" name="fPromotion" id="fPromotion" onchange="change_img()">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
+				<img id="img" width="250px" style="margin-bottom: 10px;">
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<span><?php echo $this->lang->line('description'); ?> : </span>
+			</div>
+			<div class="col-lg-6 col-md-6 col-sm-9 col-xs-5">
+				<textarea id="etxtPromotionDescription" name="etxtPromotionDescription" class="form-control" rows="5"></textarea>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<div style="display: none;">
+					<input type="text" id="txtPosition_id" name="txtPosition_id" value="0">
+					<input type="text" id="txtPosition_status" name="txtPosition_status" value="0">
+
+					<input type="text" id="etxtPayment_booking_id" class="form-control" name="etxtPayment_booking_id">
+					<input type="text" id="etxtPayment_m_customer_id_book" class="form-control" name="etxtPayment_m_customer_id_book">
+					<input type="text" id="etxtPayment_m_customer_id_guest" class="form-control" name="etxtPayment_m_customer_id_guest">
+					<input type="text" id="etxtPayment_promotion_id" class="form-control" name="etxtPayment_promotion_id">
+				</div>
+			</div>
+			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+				<button type="button" class="btn btn-primary" onclick="save_data()"><?php echo $this->lang->line('save'); ?></button>
+				<button type="button" class="btn btn-warning" onclick="clear_data()"><?php echo $this->lang->line('clear'); ?></button>
+			</div>			
+		</div>		
+	</form>
 </div>
+
+<!-- ###################################### Manage  ######################################-->
+
+<!-- Modal show booking detail -->
+  <div class="modal fade" id="myModal_detail" role="dialog">
+	<div class="modal-dialog modal-lg">
+	  <div class="modal-content">
+	    <div class="modal-header">
+	      	<button type="button" class="close" data-dismiss="modal">&times;</button>
+	      	<div class="title" id="title"></div>
+	    </div>
+	    <div class="modal-body">
+	      	<div class="bok_detail" id="bok_detail"></div> 
+	    </div>
+	    <div class="modal-footer">
+	      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	    </div>
+	  </div>
+	</div>
+  </div>
 
 <script type="text/javascript">
 	var page = 1;
@@ -161,6 +422,7 @@
 	$(document).ready(function() {
 		set_datepicker();
 		get_data_list();
+
 		// $.ajax({
   //           url:  "book/book_now",
   //           type: 'POST',
@@ -174,9 +436,34 @@
   //       });
 	});
 
+	function search_promotion(){
+		if($("#etxtPayment_check_in").val() == ""){alert( "Please choose a booking." ); return false;}
+		if($("#etxtPayment_check_out").val() == ""){alert( "Please choose a booking." ); return false;}
+		if($("#etxtPayment_promotion_code").val() == ""){alert( "Please choose a booking." ); return false;}
+
+		var option = {
+			check_in : $("#etxtPayment_check_in").val(),
+			check_out : $("#etxtPayment_check_out").val(),
+			promotion_code : $("#etxtPayment_promotion_code").val()
+		}
+
+		$.get("payment/search_promotion_codeanddate", option,function( aData ){
+			aData = jQuery.parseJSON( aData );
+			// console.log(Object.keys(aData).length);
+			if ( Object.keys(aData).length > 0) {
+				aData = aData[0];
+				$("#etxtPayment_promotion_discount").val(aData.discount);
+				$("#etxtPayment_promotion_id").val(aData.id);
+				$("#etxtPayment_total").val($("#etxtPayment_total").val() - aData.discount);
+			} else {
+				alert( "no data promotion code" );
+			}
+		});
+	}
+
 	function set_datepicker(){
     	var d = moment().add(1, 'days');
-		$("#txtPaymentTime").val( moment().format('D-MM-YYYY') );
+		// $("#txtPaymentTime").val( moment().format('D-MM-YYYY') );
 		$("#txtCheckOut").val( d.format('D-MM-YYYY') );
 
 		$("#txtPaymentTime").datepicker({format: 'dd-mm-yyyy',autoclose: true});
@@ -194,27 +481,46 @@
 			}
 		$.get("payment/search_payment", option,function( aData ){
 			aData = jQuery.parseJSON( aData );
+			// console.log(aData);
 			var str_html  = ""; 
 			if ( Object.keys(aData).length > 1) {
 				$.each(aData, function(k , v){
-				if (k=="limit") { return; }
-				var status = v.status;
-				switch (v.status) {
-					case 'wait_confirm'	: status = '<span style="color:#000;">'+languages[v.status]+'</span>';break;
-					case 'already_paid'	: status = '<span style="color:blue;">'+languages[v.status]+'</span>';break;
-					case 'cancel'		: status = '<span style="color:red;">'+languages[v.status]+'</span>';break;
-				}
-				
-				
+					if (k=="limit") { return; }
+					var status = v.status;
+					switch (v.status) {
+						case 'wait_confirm'	: 
+							status = '<span style="color:#000;"><?php echo $this->lang->line('wait_confirm'); ?></span>';
+							break;
+						case 'already_paid'	: 
+							status = '<span style="color:blue;"><?php echo $this->lang->line('already_paid'); ?></span>';
+							break;
+						case 'cancel'		: 
+							status = '<span style="color:red;"><?php echo $this->lang->line('cancel'); ?></span>';
+							break;
+					}
+
+					var paytype = "";
+					switch (v.pay_type) {
+						case 'transfer' : 
+							paytype = '<?php echo $this->lang->line('transfer'); ?>';
+							break;
+						case 'pay_cash' : 
+							paytype = '<?php echo $this->lang->line('pay_cash'); ?>';
+							break;
+						case 'visa' : 
+							paytype = '<?php echo $this->lang->line('visa'); ?>';
+							break;
+					}
+
 					str_html += "<tr>"; 
 					str_html += " <td>"+( parseInt(k)+1 )+"</td>"; 
 					str_html += " <td>"+moment(v.pay_time).format('YYYY-MM-D')+"</td>";
-					str_html += " <td>"+languages['book_data']+"</td>";
+					str_html += " <td><a href='#' onclick='show_booking_data(\""+v.bok_name_book+"  "+v.bok_lastname_book+"\","+v.booking_id+")'>"+v.bok_name_book+"  "+v.bok_lastname_book+"</a></td>";
 					str_html += " <td class='text-right'>"+v.summary+"</td>";  
 					str_html += " <td class='text-right'>"+v.discount+"</td>";
 					str_html += " <td class='text-right'>"+v.total+"</td>";  
 					str_html += " <td class='text-right'>"+v.pay_amount+"</td>";  
-					str_html += " <td>"+languages[v.pay_type]+"</td>";
+					str_html += " <td>"+paytype+"</td>";
 					str_html += (v.m_bank_number_list_id != undefined)?" <td>"+v.bank_name+"("+v.account_number+")</td>" : "<td></td>"; 
 					str_html += " <td>"+status+"</td>";  
 					str_html += (v.status == "wait_confirm") ? "<td><i class='fa' style='color:blue;' onclick='chang_status(\""+'already_paid'+"\","+v.booking_id+","+v.id+")'> "+languages['confirm']+"</i></td>" : "<td></td>";
@@ -238,6 +544,60 @@
 			// }
 
 		});
+	}
+
+	function show_booking_data( title, booking_id){
+		if(title != "" && booking_id != ""){
+			var option = {
+				booking_id 	: booking_id,
+				is_waitpayment	: ''
+			}
+			$.get("payment/search_booking", option,function( aData ){				
+				aData = jQuery.parseJSON( aData );
+				if ( Object.keys(aData).length > 0) {
+					aData = aData[0];
+					var str_title = "<h2 class='modal-title'>"+title+"</h2>";
+					$("#myModal_detail").modal({show: true});
+					$("#title").html( str_title );
+					
+					var str_bookdata = "";
+					str_bookdata += "<table class='table table-striped'>";
+					str_bookdata += "<tbody>";
+					str_bookdata += "<tr>";
+					str_bookdata += "<th width='20%' style='vertical-align:unset'><?php echo $this->lang->line('people_booking'); ?></th>";
+					str_bookdata += "<td>";
+					str_bookdata += aData.prefix_book+"  "+aData.name_book+"  "+aData.lastname_book+"<br>";
+					str_bookdata += "<?php echo $this->lang->line('email'); ?> : "+aData.email_book+"<br>";
+					str_bookdata += "<?php echo $this->lang->line('tel'); ?> : "+aData.tel_book+"<br>";
+					str_bookdata += "</td>";
+					str_bookdata += "</tr>";
+					str_bookdata += "<tr>";
+					str_bookdata += "<th width='20%' style='vertical-align:unset'><?php echo $this->lang->line('guest_booking'); ?></th>";
+					str_bookdata += "<td>";
+					str_bookdata += aData.prefix_guest+"  "+aData.name_guest+"  "+aData.lastname_guest+"<br>";
+					str_bookdata += "<?php echo $this->lang->line('email'); ?> : "+aData.email_guest+"<br>";
+					str_bookdata += "<?php echo $this->lang->line('tel'); ?> : "+aData.tel_guest+"<br>";
+					str_bookdata += "</td>";
+					str_bookdata += "</tr>";
+					str_bookdata += "<tr>";
+					str_bookdata += "<th width='20%' style='vertical-align:unset'><?php echo $this->lang->line('detail'); ?></th>";
+					str_bookdata += "<td>";
+					str_bookdata += "<?php echo $this->lang->line('s_check_in'); ?> : "+moment(aData.check_in).format('YYYY-MM-D')+"<br>";
+					str_bookdata += "<?php echo $this->lang->line('s_check_out'); ?> : "+moment(aData.check_out).format('YYYY-MM-D')+"<br>";
+					str_bookdata += "<?php echo $this->lang->line('guests_qty'); ?> : "+aData.customer_qty+"<br>";
+					str_bookdata += "<?php echo $this->lang->line('guests_qty'); ?> (<?php echo $this->lang->line('childen'); ?>) : "+aData.child_qty+"<br>";
+					str_bookdata += "<?php echo $this->lang->line('qty_room'); ?> : "+aData.room_qty+"<br>";
+					str_bookdata += "</td>";
+					str_bookdata += "</tr>";
+					str_bookdata += "</tbody>";
+					str_bookdata += "</table>";
+
+					$("#bok_detail").html( str_bookdata );
+				} else {
+					alert( "no data" );
+				}
+			});
+		}
 	}
 
 	function set_number_page( status ){ 
@@ -304,8 +664,111 @@
 		$("#box-manage").css("width","0");
 	}
 
-	function to_add_data( employee_id = 0 ){ // เพิ่ม แก้ไข
-		$("#md-manage").modal("show");
+	function to_add_data( posision_id = 0, posision_status ){ // เพิ่ม แก้ไข		
+		$("#txtPosition_id").val( posision_id );
+		$("#txtPosition_status").val( posision_status );
+		$("#box-manage").show();
+		$("#box-show-search").hide();
+		$("#btn-toadd_data").hide();
+		$("#btn-tomanage_data").show();
+		$("#box-manage").css("width","100%");
+
+		if (posision_id != 0) {			
+			var option = {
+				posision_id 	: posision_id
+			}
+			$.get("position/search_position", option,function( aData ){
+				aData = jQuery.parseJSON( aData );
+				if ( Object.keys(aData).length > 1) {
+					aData = aData[0];
+					$("#etxtPositionCode").val(aData.code);
+					$("#etxtPositionName").val(aData.name);
+					$("#eslPositionDivision option[value='"+aData.m_division_id+"']").prop('selected', true);
+					$("#eslPositionDepartment option[value='"+aData.m_department_id+"']").prop('selected', true);
+				} else {
+					alert( "no data" );
+				}
+			});
+		}else{
+			clear_data();
+
+			var option = {
+				booking_id 	: '',
+				is_waitpayment	: true 
+			}
+			$.get("payment/search_booking", option,function( aData ){
+				aData = jQuery.parseJSON( aData );
+				// console.log(aData);
+				var str_html  = ""; 
+				if ( Object.keys(aData).length > 1) {
+					$.each(aData, function(k , v){
+						// console.log(k);
+						if(v.m_customer_id_book > 0){
+							var xactive = "";
+							var ci = "";ci = "chip"+v.id;
+							var ximg = "";
+							if(k == 0){xactive = "active";}
+							if(v.profile_img == ""){
+								ximg = "assets/upload/customer_profile/cus-noimage.png";
+							}else{
+								ximg = v.profile_img;
+							}
+							str_html += "<div class='chip' id='"+ci+"' onclick='add_payment_frombooking("+v.id+")' style='margin-left:10px; margin-top:10px'>";						
+							str_html += "<img src='"+ximg+"' alt='customer' width='96' height='96'>";
+							str_html += v.name_book+" "+v.lastname_book+" ("+v.summary+")";
+							str_html += "</div>";
+							
+						}	
+					});
+					$("#bok_status_waitpayment").html( str_html );
+				}else{
+					alert( "no data" );
+				}
+			});
+			
+			$("#txtPosition_id").val("0");
+		}
+
+		$('.datepicker').datepicker({format: 'dd-mm-yyyy'});
+	}
+
+	function add_payment_frombooking(id){
+		var element = document.getElementById("bok_status_waitpayment").getElementsByClassName("chip");
+		var d = ""; d = "chip"+id;
+		for (var i = 0; i < element.length; i++) {
+			var current = document.getElementById("bok_status_waitpayment").getElementsByClassName("xactive");
+			if(current.length > 0){
+				current[0].className = current[0].className.replace(" xactive", "");
+				this.className += " xactive";
+			}			
+		}
+		document.getElementById(d).classList.add("xactive");
+		clear_data();
+		var option = {
+			booking_id 	: id,
+			is_waitpayment	: '' 
+		}
+
+		$.get("payment/search_booking", option,function( aData ){				
+			aData = jQuery.parseJSON( aData );
+			if ( Object.keys(aData).length > 0) {
+				aData = aData[0];
+				$("#etxtPayment_check_in").val(moment(aData.check_in).format('YYYY-MM-D'));
+				$("#etxtPayment_check_out").val(moment(aData.check_out).format('YYYY-MM-D'));
+				$("#etxtPayment_name_book").val(aData.name_book);
+				$("#etxtPayment_lastname_book").val(aData.lastname_book);
+				$("#etxtPayment_name_guest").val(aData.name_guest);
+				$("#etxtPayment_lastname_guest").val(aData.lastname_guest);
+				$("#etxtPayment_summary").val(aData.summary);
+				$("#etxtPayment_total").val(aData.summary);
+
+				$("#etxtPayment_booking_id").val(aData.id);
+				$("#etxtPayment_m_customer_id_book").val(aData.m_customer_id_book);
+				$("#etxtPayment_m_customer_id_guest").val(aData.m_customer_id_guest);
+			} else {
+				alert( "no data" );
+			}
+		});
 	}
 
 	function select_photo(){

@@ -74,4 +74,20 @@ class PaymentController extends CI_Controller {
         $json_data     = $this->sent_to_api( '/payment/chang_status', $_POST );
         echo $json_data;
     }
+
+    public function search_booking(){
+        // $aData      = ( isset($_GET['booking_id']) ) ? $_GET : $aData ;
+        // $json_data  = $this->sent_to_api( '/payment/search_booking', $aData );
+        // echo $json_data;
+        // return json_decode($json_data);
+        $json_data  = $this->sent_to_api( '/payment/search_booking', $_GET );
+        echo $json_data;
+    }
+
+    public function search_promotion_codeanddate(){
+        $_POST["hotel_id"] = $_COOKIE[$this->keyword."hotel_id"];
+        $json_data  = $this->sent_to_api( '/promotion/search_promotion_codeanddate', $_GET );
+        // debug($json_data, true);
+        echo $json_data;
+    }
 }
