@@ -148,7 +148,7 @@
 				<span><?php echo $this->lang->line('type_room'); ?> : </span>
 			</div>
 			<div class="col-lg-6 col-md-6 col-sm-9 col-xs-5">
-				<table class='table table-striped'>									
+				<table class='table table-striped' id="tbRoomtype">									
 				<thead>
 			      <tr>
 			        <th><?php echo $this->lang->line('type_room'); ?></th>
@@ -419,6 +419,8 @@
 		// clear datepicker
 		$('.to_date').datepicker('setStartDate', null);
 		$('.from_date').datepicker('setEndDate', null);
+
+		document.getElementById("tbRoomtype").classList.remove("error-form");
 	}
 
 	function to_manage_data(){ //หน้า listdata
@@ -525,7 +527,12 @@
 			});
 			aData.push({name: 'rroomType_id', value: xroom_id.toString()});
 			aData.push({name: 'rroomType_value', value: xroom_value.toString()});
-
+						
+			if (aData[10]['value'] == "") {				
+				alert( "Insert price for room type ?" ); 
+				document.getElementById("tbRoomtype").classList.add("error-form");
+			}
+			
 			$.post("promotion/save_data",  aData  ,function( res ){
 				res = jQuery.parseJSON( res ); 
 				if (res.flag) {
