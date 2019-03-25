@@ -514,19 +514,19 @@
 	function save_data(){
 		var aData = JSON.stringify( $("#form-manage").serializeArray() );
 			aData = jQuery.parseJSON( aData );
-		
+		var xroom_id = []; var xroom_value = [];
+		var roomType = [];
+		$(".get_roomtype").each(function(){
+			if($(this).val() != "") {
+				xroom_id.push($(this).attr('data'));
+				xroom_value.push($(this).val());
+		    }
+		});
+		aData.push({name: 'rroomType_id', value: xroom_id.toString()});
+		aData.push({name: 'rroomType_value', value: xroom_value.toString()});
+
 		if (validate(aData)) {	
-			var no = 0; 
-			var xroom_id = []; var xroom_value = [];
-			var roomType = [];
-			$(".get_roomtype").each(function(){
-				if($(this).val() != "") {
-					xroom_id.push($(this).attr('data'));
-					xroom_value.push($(this).val());
-			    }
-			});
-			aData.push({name: 'rroomType_id', value: xroom_id.toString()});
-			aData.push({name: 'rroomType_value', value: xroom_value.toString()});
+			
 						
 			if (aData[10]['value'] == "") {				
 				alert( "Insert price for room type ?" ); 
@@ -550,17 +550,25 @@
 
 	function validate(aData){
 		var status = true;
-		// console.log(aData);
+		
 		$.each(aData,function(k,v){
-			if (v.name != "txtPromotion_id" && v.name != "txtPromotion_status" && v.name != "txtPromotionImages" && v.name != "oldPromotionImages" && v.name != "cbTypeRoom") {				
+			if (v.name != "txtPromotion_id" && v.name != "txtPromotion_status" && v.name != "txtPromotionImages" && v.name != "oldPromotionImages" && v.name != "rroomType_id" && v.name != "rroomType_value") {				
 				var obj = $("#"+v.name);
-				if (obj.val() == "") {
+				if (obj.val() == "") {					
 					obj.addClass("error-form");
+					// if (v.name[] == "") {				
+					// 	document.getElementById("tbRoomtype").classList.add("error-form");
+					// }
 					obj.focus();
 					status = false;			
 				}else{
 					obj.removeClass("error-form");
 				}
+			}
+
+			if(v.name == "rroomType_value" && v.value == ""){
+				document.getElementById("tbRoomtype").classList.add("error-form");
+				status = false;
 			}
 		});		
 
