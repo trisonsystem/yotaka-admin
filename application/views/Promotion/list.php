@@ -29,7 +29,7 @@
 		<h3 style="font-weight: bold;"><?php echo $title; ?></h3>
 	</div>
 	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-right">
-		<button type="button" class="btn btn-secondary" onclick="to_add_data( '0', '0' )" id="btn-toadd_data" style="margin-top: 10px; width: 100px;"><?php echo $this->lang->line('add'); ?></button>
+		<button type="button" class="btn btn-secondary" onclick="to_add_data( '0', '0', '0' )" id="btn-toadd_data" style="margin-top: 10px; width: 100px;"><?php echo $this->lang->line('add'); ?></button>
 		<button type="button" class="btn btn-warning" onclick="to_manage_data()" id="btn-tomanage_data" style="margin-top: 10px; width: 100px; display: none;"><?php echo $this->lang->line('cancel'); ?></button>
 	</div>
 </div>
@@ -99,6 +99,7 @@
 						<th class="text-center"><?php echo $this->lang->line('description'); ?></th>
 						<th class="text-center"><?php echo $this->lang->line('start_date'); ?></th>
 						<th class="text-center"><?php echo $this->lang->line('end_date'); ?></th>
+						<th class="text-center"><?php echo $this->lang->line('type_room'); ?></th>
 						<th class="text-center"><?php echo $this->lang->line('discount_baht'); ?></th>
 						<th class="text-center"><?php echo $this->lang->line('status'); ?></th>	
 						<th class="text-center"><?php echo $this->lang->line('action'); ?></th>					
@@ -120,6 +121,7 @@
 <!-- ###################################### Manage  ######################################-->
 
 <div id="box-manage" style="display: none;">
+	<?php // debug($room_type) ?>
 	<form id="form-manage" name="form-manage" method="post" action="" enctype="multipart/form-data">		
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
@@ -140,7 +142,41 @@
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<input type="text" id="etxtPromotionCode" class="form-control" name="etxtPromotionCode">
             </div>
-		</div>	
+		</div>
+		<div class="row" style="margin-top: 20px">
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<span><?php echo $this->lang->line('type_room'); ?> : </span>
+			</div>
+			<div class="col-lg-6 col-md-6 col-sm-9 col-xs-5">
+				<table class='table table-striped'>									
+				<thead>
+			      <tr>
+			        <th><?php echo $this->lang->line('type_room'); ?></th>
+			        <th><?php echo $this->lang->line('discount_baht'); ?></th>
+			        <th><?php echo $this->lang->line('type_room'); ?></th>
+			        <th><?php echo $this->lang->line('discount_baht'); ?></th>
+			      </tr>
+			    </thead>	
+			    <tbody>	
+				<?php 
+					foreach ($room_type as $key => $value) {
+						if($key != 'limit'){
+							$tr = $key %= 2;
+							if($tr == 0){echo "<tr>";}			
+							echo "<td style='text-align: right;'>";
+							echo $value->name;
+							echo "</td>";
+							echo "<td>";
+							echo "<input type='text' class='form-control get_roomtype' data='".$value->id."' onkeypress='return isNumberKey(event)'>";
+							echo "</td>";
+							if($tr != 0){echo "</tr>";}
+						}
+					}
+				?>
+				</tbody>
+				</table>
+			</div>
+		</div>
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
 				<span><?php echo $this->lang->line('description'); ?> : </span>
@@ -161,20 +197,6 @@
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<input class="form-control to_date" placeholder="Select end date" type="text" id="to_date" name="to_date" disabled>
-            </div>		
-		</div>
-		<div class="row">			
-            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span><?php echo $this->lang->line('discount_baht'); ?> : </span>
-			</div>
-			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-				<input type="text" id="etxtPromotionPrice" class="form-control" name="etxtPromotionPrice">
-            </div>	
-            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				
-			</div>
-			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-				
             </div>		
 		</div>
 		<div class="row">
@@ -299,7 +321,7 @@
 
         $.get("promotion/search_promotion", option,function( aData ){
             aData = jQuery.parseJSON( aData );
-            console.log(aData);
+            // console.log(aData);
             var str_html  = "";
             if ( Object.keys(aData).length > 1) {
                 $.each(aData, function(k , v){
@@ -316,10 +338,11 @@
                     str_html += " <td>"+v.description+"</td>";
                     str_html += " <td>"+v.startdate+"</td>";
                     str_html += " <td>"+v.enddate+"</td>";
+                    str_html += " <td>"+v.room_type_name+"</td>";
                     str_html += " <td>"+v.discount+"</td>";
 					str_html += " <td>"+status+"</td>";	
 					str_html += " <td align='center'>";
-					str_html += " 	<i class='fa fa-edit' style='font-size:20px' onclick='to_add_data("+v.id+","+v.status+")'></i>";
+					str_html += " 	<i class='fa fa-edit' style='font-size:20px' onclick='to_add_data("+v.id+","+v.status+","+v.room_type_id+")'></i>";
 					str_html += " 	<i class='fa fa-exchange' style='font-size:20px' onclick='open_chang_status("+v.id+","+v.status+",\""+v.title+"\")' title='<?php echo $this->lang->line('status'); ?>'></i>";
 					str_html += " </td>"; 	
 					str_html += "</tr>";
@@ -335,7 +358,7 @@
         });
     }
 
-       function set_number_page( status ){ 
+    function set_number_page( status ){ 
 		var str = "";
 		if (no_page == false) {
 			for(var i=1; i <= page ; i++){
@@ -389,6 +412,10 @@
 		$("select").val("");
 		$("textarea").val("");
 
+		$(".get_roomtype").each(function(){
+			$(this).val("");
+		});
+
 		// clear datepicker
 		$('.to_date').datepicker('setStartDate', null);
 		$('.from_date').datepicker('setEndDate', null);
@@ -402,7 +429,7 @@
 		$("#box-manage").css("width","0");
 	}
 
-	function to_add_data( promotion_id = 0, promotion_status ){ // เพิ่ม แก้ไข				
+	function to_add_data( promotion_id = 0, promotion_status, room_type_id ){ // เพิ่ม แก้ไข				
 		$("#txtPromotion_id").val( promotion_id );		
 		$("#txtPromotion_status").val( promotion_status );
 		$("#box-manage").show();
@@ -413,13 +440,15 @@
 
 		if (promotion_id != 0) {			
 			var option = {
-				promotion_id 	: promotion_id
+				promotion_id 	: promotion_id,
+				room_type_id	: room_type_id
 			}
 			document.getElementById("to_date").disabled = false;
 			$.get("promotion/search_promotion", option,function( aData ){
 				aData = jQuery.parseJSON( aData );
 				if ( Object.keys(aData).length > 1) {
 					aData = aData[0];
+					console.log(aData);
 					var str = aData.promotion_img;					
 					var str2 = str.substr(31);
 					$("#etxtPromotionTitle").val(aData.title);
@@ -430,7 +459,17 @@
 					$("#etxtPromotionPrice").val(aData.discount);			
 					$("#txtPromotionImages").val(aData.promotion_img);					
 					$("#oldPromotionImages").val(str2.substring(0, str2.length-4));
-					$("#img").attr("src", aData.promotion_img);		
+					$("#img").attr("src", aData.promotion_img);	
+					
+					$(".get_roomtype").each(function(){	
+						$(this).val("");					
+						if($(this).attr('data') == aData.room_type_id) {
+							console.log("data ==> "+$(this).attr('data'));
+							console.log("data id ==> "+aData.room_type_id);
+							console.log("data discount ==> "+aData.discount);
+							$(this).val(aData.discount);
+					    }
+					});	
 				} else {
 					alert( "no data" );
 				}
@@ -472,8 +511,21 @@
 
 	function save_data(){
 		var aData = JSON.stringify( $("#form-manage").serializeArray() );
-			aData = jQuery.parseJSON( aData );			
-		if (validate(aData)) {			
+			aData = jQuery.parseJSON( aData );
+		
+		if (validate(aData)) {	
+			var no = 0; 
+			var xroom_id = []; var xroom_value = [];
+			var roomType = [];
+			$(".get_roomtype").each(function(){
+				if($(this).val() != "") {
+					xroom_id.push($(this).attr('data'));
+					xroom_value.push($(this).val());
+			    }
+			});
+			aData.push({name: 'rroomType_id', value: xroom_id.toString()});
+			aData.push({name: 'rroomType_value', value: xroom_value.toString()});
+
 			$.post("promotion/save_data",  aData  ,function( res ){
 				res = jQuery.parseJSON( res ); 
 				if (res.flag) {
@@ -491,9 +543,9 @@
 
 	function validate(aData){
 		var status = true;
-		console.log(aData);
+		// console.log(aData);
 		$.each(aData,function(k,v){
-			if (v.name != "txtPromotion_id" && v.name != "txtPromotion_status" && v.name != "oldPromotionImages" && v.name != "newPromotionImages") {				
+			if (v.name != "txtPromotion_id" && v.name != "txtPromotion_status" && v.name != "txtPromotionImages" && v.name != "oldPromotionImages" && v.name != "cbTypeRoom") {				
 				var obj = $("#"+v.name);
 				if (obj.val() == "") {
 					obj.addClass("error-form");
@@ -537,5 +589,12 @@
 			});
 		}
 	}
+
+function isNumberKey(evt) {
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57))
+        return false;
+    return true;
+}
 
 </script>

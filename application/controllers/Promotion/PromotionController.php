@@ -16,7 +16,7 @@ class PromotionController extends CI_Controller {
     	$data = array();
         $data['adminlist']      = array();
         $data['title']          = $this->lang->line('manage_pomotion_data');
-        
+        $data["room_type"]       = $this->search_roomtype("");
 // debug($data);
         $dataInfo['title']      = $data['title'];
         $dataInfo['sub_title']  = '';
@@ -36,12 +36,20 @@ class PromotionController extends CI_Controller {
         return $json_data;
     }
 
+
+    public function search_roomtype( $aData = "" ){
+        $aData      = ( isset($_GET['roomtype_id']) ) ? $_GET : $aData ;
+        $json_data  = $this->sent_to_api( '/roomtype/search_roomtype', $_GET );
+        return json_decode($json_data);
+    }
+
     public function search_promotion(){
         $json_data  = $this->sent_to_api( '/promotion/search_promotion', $_GET );
         echo $json_data;
     }
 
     public function save_data(){
+        // debug($_POST,true);
         $_POST["user"] = $_COOKIE[$this->keyword."user"];
         $_POST["hotel_id"] = $_COOKIE[$this->keyword."hotel_id"];     
         $json_data  = $this->sent_to_api( '/promotion/save_data', $_POST );        

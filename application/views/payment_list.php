@@ -310,23 +310,25 @@
 			<div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
 				<!-- <div class="container"> -->
 				    <label class="radio-inline">
-			      		<input type="radio" name="optradio" checked><?php echo $this->lang->line('pay_cash'); ?>
+			      		<input type="radio" name="optradio_paytype" id="optradio_paytype" value="pay_cash" checked><?php echo $this->lang->line('pay_cash'); ?>
 				    </label>
 				    <label class="radio-inline">
-			      		<input type="radio" name="optradio"><?php echo $this->lang->line('transfer_money'); ?>
+			      		<input type="radio" name="optradio_paytype" id="optradio_paytype" value="transfer"><?php echo $this->lang->line('transfer_money'); ?>
 				    </label>
 				    <label class="radio-inline">
-			      		<input type="radio" name="optradio"><?php echo $this->lang->line('visa'); ?>
+			      		<input type="radio" name="optradio_paytype" id="optradio_paytype" value="visa"><?php echo $this->lang->line('visa'); ?>
 				    </label>
 				<!-- </div> -->
             </div>
 		</div>
+
+		
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
 				<span class="lang_name"><?php echo $this->lang->line('bank_transfer_form'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-				<select id="slPaymentType" name="slPaymentType" class="form-control">
+				<select id="eslPaymentType" name="eslPaymentType" class="form-control">
 					<option value=""> <?php echo $this->lang->line('sl_select'); ?> </option>
 					<?php  
 						foreach ($payment_type as $key => $value) {
@@ -339,7 +341,7 @@
 				<span class="lang_name"><?php echo $this->lang->line('transfer_to_bank'); ?> : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-				<select id="slBankTransferTo" name="slBankTransferTo" class="form-control">
+				<select id="eslBankTransferTo" name="eslBankTransferTo" class="form-control">
 					<option value=""> <?php echo $this->lang->line('sl_select'); ?> </option>
 					<?php  
 						foreach ($bank_list as $key => $value) {
