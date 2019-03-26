@@ -492,7 +492,7 @@
 					str_html += " <td>"+v.room_code+"</td>";
 					str_html += " <td>"+v.room_name+"</td>";  
 					str_html += " <td class='get_roomtype' data='"+v.room_typeid+"'>"+v.room_type+"</td>";
-					str_html += " <td class='text-right'>"+v.discount+"</td>";
+					str_html += " <td class='text-right get_promotionid' data='"+v.promotion_id+"'>"+v.discount+"</td>";
 					str_html += " <td class='text-right'>"+v.room_price+"</td>"; 
 					str_html += " <td class='text-right'>"+v.sum+"</td>"; 
 					str_html += "</tr>";

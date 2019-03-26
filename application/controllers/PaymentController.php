@@ -109,8 +109,10 @@ class PaymentController extends CI_Controller {
         for ($j=0; $j < count($array_promotion); $j++) { 
             for ($i=0; $i < count($array_promotion); $i++) {
                 if($array_booking[$i]['room_typeid'] == $array_promotion[$j]['m_room_type_id']){
+                    $pormotion_id = $array_promotion[$j]['id'];
                     $discount = $array_promotion[$j]['discount'];
                 }else{
+                    $pormotion_id = 0;
                     $discount = 0;
                 }
                 $data[$i] = array(
@@ -119,6 +121,7 @@ class PaymentController extends CI_Controller {
                     'room_typeid' => $array_booking[$i]['room_typeid'],
                     'room_type' => $array_booking[$i]['room_type'],
                     'room_price' => $array_booking[$i]['room_price'],
+                    'promotion_id' => $pormotion_id,
                     'discount'  => $discount,
                     'sum' => $array_booking[$i]['room_price'] - $discount
                 );
