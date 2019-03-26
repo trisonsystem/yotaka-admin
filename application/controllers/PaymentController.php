@@ -84,10 +84,49 @@ class PaymentController extends CI_Controller {
         echo $json_data;
     }
 
+    public function search_booking_cusprofile(){
+        // debug($_GET, true);
+        $json_data  = $this->sent_to_api( '/payment/search_booking_cusprofile', $_GET );
+        echo $json_data;
+    }
+
     public function search_promotion_codeanddate(){
         $_POST["hotel_id"] = $_COOKIE[$this->keyword."hotel_id"];
-        $json_data  = $this->sent_to_api( '/promotion/search_promotion_codeanddate', $_GET );
-        // debug($json_data, true);
+        $promotion_data = array(
+            'check_in' => $_GET['check_in'],
+            'check_out' => $_GET['check_out'],
+            'promotion_code' => $_GET['promotion_code'],
+            'room_type' => $_GET['room_type']
+        );
+
+        $booking_data = array(
+            'booking_id' => $_GET['booking_id'],
+            'is_waitpayment' => $_GET['is_waitpayment']
+        );
+
+        $array_promotion  = json_decode($this->sent_to_api( '/promotion/search_promotion_codeanddate', $promotion_data ), true);
+        $array_booking  = json_decode($this->sent_to_api( '/payment/search_booking', $booking_data ), true);
+        for ($j=0; $j < count($array_promotion); $j++) { 
+            for ($i=0; $i < count($array_promotion); $i++) {
+                if($array_booking[$i]['room_typeid'] == $array_promotion[$j]['m_room_type_id']){
+                    $discount = $array_promotion[$j]['discount'];
+                }else{
+                    $discount = 0;
+                }
+                $data[$i] = array(
+                    'room_code' => $array_booking[$i]['room_code'],
+                    'room_name' => $array_booking[$i]['room_name'],
+                    'room_typeid' => $array_booking[$i]['room_typeid'],
+                    'room_type' => $array_booking[$i]['room_type'],
+                    'room_price' => $array_booking[$i]['room_price'],
+                    'discount'  => $discount,
+                    'sum' => $array_booking[$i]['room_price'] - $discount
+                );
+            }
+        }
+
+        $json_data = json_encode($data);
+
         echo $json_data;
     }
 }

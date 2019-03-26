@@ -254,12 +254,6 @@
 				<input type="text" id="etxtPayment_lastname_guest" class="form-control" name="etxtPayment_lastname_guest" readonly>
             </div>
 		</div>
-		<hr>
-		<div class="row">
-			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<label class="" style="font-weight: bold;font-size: 16px;"><?php echo $this->lang->line('promotion'); ?></label>
-			</div>
-		</div>
 		<div class="row" >
             <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
 				<span>โค้ดส่วนลด : </span>
@@ -274,10 +268,37 @@
 				<button type="button" class="btn btn-default btn-sm" onclick="search_promotion()">
 		          	<span class="glyphicon glyphicon-search"></span> Search 
 		        </button>
-            </div>
-			
+            </div>			
 		</div>
-		<div class="row" >
+		<div class="row">
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<span>รายละเอียดห้องพัก : </span>
+			</div>
+			<div class="col-lg-6 col-md-6 col-sm-9 col-xs-5">
+				<table class="table" id="tb-room-list">
+				<thead>
+					<tr>
+						<th class="text-center"><?php echo $this->lang->line('no'); ?></th>
+						<th class="text-center">เลขห้อง</th>
+						<th class="text-center">ชื่อห้อง</th>
+						<th class="text-center">ประเภทห้อง</th>
+						<th class="text-center">ส่วนลด</th>
+						<th class="text-center">ราคา</th>
+						<th class="text-center">ราคารวม</th>
+					</tr>
+				</thead>
+				<tbody></tbody>
+			</table>
+			</div>
+		</div>
+		<!-- <hr>
+		<div class="row">
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<label class="" style="font-weight: bold;font-size: 16px;"><?php echo $this->lang->line('promotion'); ?></label>
+			</div>
+		</div> -->
+		
+		<!-- <div class="row" >
             <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
 				<span>ราคา : </span>
 			</div>
@@ -290,7 +311,7 @@
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<input type="text" id="etxtPayment_promotion_discount" class="form-control" name="etxtPayment_promotion_discount" readonly>
             </div>
-		</div>		
+		</div> -->		
 		<hr>
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
@@ -443,20 +464,55 @@
 		if($("#etxtPayment_check_out").val() == ""){alert( "Please choose a booking." ); return false;}
 		if($("#etxtPayment_promotion_code").val() == ""){alert( "Please choose a booking." ); return false;}
 
+		var roomType = [];
+		$(".get_roomtype").each(function(){
+			roomType.push($(this).attr('data'));
+		});
+
 		var option = {
 			check_in : $("#etxtPayment_check_in").val(),
 			check_out : $("#etxtPayment_check_out").val(),
-			promotion_code : $("#etxtPayment_promotion_code").val()
+			promotion_code : $("#etxtPayment_promotion_code").val(),
+			room_type : roomType.toString(),
+
+			booking_id 	: $("#etxtPayment_booking_id").val(),
+			is_waitpayment	: ''
 		}
 
 		$.get("payment/search_promotion_codeanddate", option,function( aData ){
 			aData = jQuery.parseJSON( aData );
 			// console.log(Object.keys(aData).length);
 			if ( Object.keys(aData).length > 0) {
-				aData = aData[0];
-				$("#etxtPayment_promotion_discount").val(aData.discount);
-				$("#etxtPayment_promotion_id").val(aData.id);
-				$("#etxtPayment_total").val($("#etxtPayment_total").val() - aData.discount);
+				console.log(aData);
+
+				var str_html  = ""; var ssum = 0; var dsum = 0;
+				$.each(aData, function(k , v){
+					str_html += "<tr>"; 
+					str_html += " <td>"+( parseInt(k)+1 )+"</td>"; 
+					str_html += " <td>"+v.room_code+"</td>";
+					str_html += " <td>"+v.room_name+"</td>";  
+					str_html += " <td class='get_roomtype' data='"+v.room_typeid+"'>"+v.room_type+"</td>";
+					str_html += " <td class='text-right'>"+v.discount+"</td>";
+					str_html += " <td class='text-right'>"+v.room_price+"</td>"; 
+					str_html += " <td class='text-right'>"+v.sum+"</td>"; 
+					str_html += "</tr>";
+					ssum = ssum + v.sum;
+					// dsum = dsum + 
+				});
+				str_html += "<tr>"; 
+				str_html += " <td colspan='5'></td>"; 
+				str_html += " <td class='text-right'>รวม</td>";
+				str_html += " <td class='text-right'>"+ssum+"</td>";  
+				str_html += "</tr>";
+				$("#tb-room-list tbody").html( str_html );
+				$("#etxtPayment_total").val(ssum);
+			// 	// aData = aData[0];
+				
+			// 	// $("#etxtPayment_promotion_discount").val(aData.discount);
+			// 	// $("#etxtPayment_promotion_id").val(aData.id);
+			// 	// $("#etxtPayment_total").val($("#etxtPayment_total").val() - aData.discount);
+
+
 			} else {
 				alert( "no data promotion code" );
 			}
@@ -656,6 +712,7 @@
 		$("select").val("");
 		$("textarea").val("");
 		set_datepicker();
+		$("#tb-room-list tbody").empty();
 	}
 
 	function to_manage_data(){ //หน้า listdata
@@ -694,11 +751,8 @@
 		}else{
 			clear_data();
 
-			var option = {
-				booking_id 	: '',
-				is_waitpayment	: true 
-			}
-			$.get("payment/search_booking", option,function( aData ){
+			var option = {}
+			$.get("payment/search_booking_cusprofile", option,function( aData ){
 				aData = jQuery.parseJSON( aData );
 				// console.log(aData);
 				var str_html  = ""; 
@@ -748,25 +802,46 @@
 		clear_data();
 		var option = {
 			booking_id 	: id,
-			is_waitpayment	: '' 
+			is_waitpayment	: ''
 		}
-
+		// console.log(id);
 		$.get("payment/search_booking", option,function( aData ){				
 			aData = jQuery.parseJSON( aData );
 			if ( Object.keys(aData).length > 0) {
-				aData = aData[0];
-				$("#etxtPayment_check_in").val(moment(aData.check_in).format('YYYY-MM-D'));
-				$("#etxtPayment_check_out").val(moment(aData.check_out).format('YYYY-MM-D'));
-				$("#etxtPayment_name_book").val(aData.name_book);
-				$("#etxtPayment_lastname_book").val(aData.lastname_book);
-				$("#etxtPayment_name_guest").val(aData.name_guest);
-				$("#etxtPayment_lastname_guest").val(aData.lastname_guest);
-				$("#etxtPayment_summary").val(aData.summary);
-				$("#etxtPayment_total").val(aData.summary);
+				aval = aData[0];
+				// console.log(aData);
+				$("#etxtPayment_check_in").val(moment(aval.check_in).format('YYYY-MM-D'));
+				$("#etxtPayment_check_out").val(moment(aval.check_out).format('YYYY-MM-D'));
+				$("#etxtPayment_name_book").val(aval.name_book);
+				$("#etxtPayment_lastname_book").val(aval.lastname_book);
+				$("#etxtPayment_name_guest").val(aval.name_guest);
+				$("#etxtPayment_lastname_guest").val(aval.lastname_guest);
+				// $("#etxtPayment_summary").val(v.summary);
+				$("#etxtPayment_total").val(aval.summary);
 
-				$("#etxtPayment_booking_id").val(aData.id);
-				$("#etxtPayment_m_customer_id_book").val(aData.m_customer_id_book);
-				$("#etxtPayment_m_customer_id_guest").val(aData.m_customer_id_guest);
+				$("#etxtPayment_booking_id").val(aval.id);
+				$("#etxtPayment_m_customer_id_book").val(aval.m_customer_id_book);
+				$("#etxtPayment_m_customer_id_guest").val(aval.m_customer_id_guest);
+
+				var str_html  = "";
+				$.each(aData, function(k , v){
+					str_html += "<tr>"; 
+					str_html += " <td>"+( parseInt(k)+1 )+"</td>"; 
+					str_html += " <td>"+v.room_code+"</td>";
+					str_html += " <td>"+v.room_name+"</td>";  
+					str_html += " <td class='get_roomtype' data='"+v.room_typeid+"'>"+v.room_type+"</td>";
+					str_html += " <td class='text-right'>0</td>";
+					str_html += " <td class='text-right'>"+v.room_price+"</td>";
+					str_html += " <td class='text-right'>"+v.room_price+"</td>";  
+					str_html += "</tr>";
+				});
+				str_html += "<tr>"; 
+				str_html += " <td colspan='5'></td>";  
+				str_html += " <td class='text-right'>รวม</td>";
+				str_html += " <td class='text-right'>"+aval.summary+"</td>";  
+				str_html += "</tr>";
+				$("#tb-room-list tbody").html( str_html );
+
 			} else {
 				alert( "no data" );
 			}
