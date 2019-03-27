@@ -291,27 +291,6 @@
 			</table>
 			</div>
 		</div>
-		<!-- <hr>
-		<div class="row">
-			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<label class="" style="font-weight: bold;font-size: 16px;"><?php echo $this->lang->line('promotion'); ?></label>
-			</div>
-		</div> -->
-		
-		<!-- <div class="row" >
-            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>ราคา : </span>
-			</div>
-			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-				<input type="text" id="etxtPayment_summary" class="form-control" name="etxtPayment_summary" readonly>
-            </div>
-			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>ส่วนลด/บาท : </span>
-			</div>
-			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-				<input type="text" id="etxtPayment_promotion_discount" class="form-control" name="etxtPayment_promotion_discount" readonly>
-            </div>
-		</div> -->		
 		<hr>
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
@@ -320,31 +299,27 @@
 		</div>
 		<div class="row" >
             <div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<span>ประเภทการชำระเงิน : </span>
+			</div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
+				<select id="eslPaytype" name="eslPaytype" class="form-control" onchange="paytype(this.value)">>
+					<option value=""> <?php echo $this->lang->line('sl_select'); ?> </option>
+					<option value="pay_cash"> <?php echo $this->lang->line('pay_cash'); ?> </option>
+					<option value="transfer_money"> <?php echo $this->lang->line('transfer_money'); ?> </option>
+					<option value="visa"> <?php echo $this->lang->line('visa'); ?> </option>
+					<option value="wallet"> Yotaka wallet </option>
+				</select>
+            </div>
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
 				<span>รวม/บาท : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-				<input type="text" id="etxtPayment_total" class="form-control" name="etxtPayment_total" readonly>
+				<input type="text" id="etxtPayment_totalx" class="form-control" name="etxtPayment_totalx" readonly style="display: block;">
+				<input type="text" id="etxtPayment_total" class="form-control" name="etxtPayment_total" readonly style="display: none;">
             </div>
-			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span>ประเภทการชำระเงิน : </span>
-			</div>
-			<div class="col-lg-3 col-md-3 col-sm-4 col-xs-6">
-				<!-- <div class="container"> -->
-				    <label class="radio-inline">
-			      		<input type="radio" name="optradio_paytype" id="optradio_paytype" value="pay_cash" checked><?php echo $this->lang->line('pay_cash'); ?>
-				    </label>
-				    <label class="radio-inline">
-			      		<input type="radio" name="optradio_paytype" id="optradio_paytype" value="transfer"><?php echo $this->lang->line('transfer_money'); ?>
-				    </label>
-				    <label class="radio-inline">
-			      		<input type="radio" name="optradio_paytype" id="optradio_paytype" value="visa"><?php echo $this->lang->line('visa'); ?>
-				    </label>
-				<!-- </div> -->
-            </div>
-		</div>
+		</div>		
 
-		
-		<div class="row">
+		<div class="row" style="display: none;" id="transfer_money">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
 				<span class="lang_name"><?php echo $this->lang->line('bank_transfer_form'); ?> : </span>
 			</div>
@@ -373,6 +348,49 @@
 				</select>
 			</div>			
 		</div>
+
+		<div class="row" style="display: none;" id="visa">
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<span>ข้อมูลบัตร : </span>
+			</div>
+			<div class="col-lg-6 col-md-6 col-sm-9 col-xs-5">
+				<div class="row" >
+					<div class="col-lg-12">
+						<img src="assets/images/v1.png" class="img-rounded" alt="masster" style="width: 40px; height: 40px">
+						<img src="assets/images/v2.png" class="img-rounded" alt="masster" style="width: 40px; height: 40px">
+						<img src="assets/images/v3.png" class="img-rounded" alt="masster" style="width: 40px; height: 40px">
+					</div>
+		            <div class="col-lg-12">
+						<label for="etxtPayment_name_guest">หมายเลขบัตร : </label>
+						<input type="text" id="etxtPayment_name_guest" class="form-control" name="etxtPayment_name_guest">
+					</div>
+					<div class="col-lg-12">
+						<label for="etxtPayment_name_guest">ชื่อผู้ถือบัตร : </label>
+						<input type="text" id="etxtPayment_name_guest" class="form-control" name="etxtPayment_name_guest">
+		            </div>
+					<div class="col-lg-12">
+						<label for="etxtPayment_name_guest">วันหมดอายุ : </label>
+						<input type="text" id="etxtPayment_name_guest" class="form-control" name="etxtPayment_name_guest">
+					</div>
+					<div class="col-lg-12">
+						<label for="etxtPayment_name_guest">CCV <span class="glyphicon" data-toggle="popover" data-img="assets/images/cvv.jpg">&#xe086;</span>: </label>
+						<input type="text" id="etxtPayment_name_guest" class="form-control" name="etxtPayment_name_guest">
+		            </div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row" style="display: none;" id="wallet">
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<span>ข้อมูลบัตร : </span>
+			</div>
+			<div class="col-lg-6 col-md-6 col-sm-9 col-xs-5">
+				<div class="row" >
+					xxxxxxxxxxxxxxxxxxxx
+				</div>
+			</div>
+		</div>
+
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
 				<span><?php echo $this->lang->line('promotion_image'); ?> : </span>
@@ -445,7 +463,7 @@
 	$(document).ready(function() {
 		set_datepicker();
 		get_data_list();
-
+		popover();
 		// $.ajax({
   //           url:  "book/book_now",
   //           type: 'POST',
@@ -458,6 +476,53 @@
   //           }
   //       });
 	});
+
+	function popover(){
+		$('[data-toggle="popover"]').popover({
+			//trigger: 'focus',
+			trigger: 'hover',
+			html: true,
+			content: function () {
+				return '<img class="img-rounded" src="'+$(this).data('img') + '" style="width: 140px; height: 140px" />  รหัส CVV คือตัวเลขสามหลักที่อยู่บนหลังบัตรของท่าน';
+			},
+			title: ''
+    	}) 
+	}
+
+	function paytype(pvalue){
+		if($("#etxtPayment_booking_id").val() == ""){ 
+			alert( "Please choose a booking." ); 
+			document.getElementById("eslPaytype").options.length = 1; 
+			return false; 
+		}
+		document.getElementById("etxtPayment_totalx").style.display = "none";
+		document.getElementById("etxtPayment_total").style.display = "block";
+		document.getElementById("transfer_money").style.display = "none";
+		document.getElementById("visa").style.display = "none";
+		document.getElementById("wallet").style.display = "none";
+		switch (pvalue){
+			case "pay_cash":
+				document.getElementById("etxtPayment_totalx").style.display = "none";
+				document.getElementById("etxtPayment_total").style.display = "block";
+				break;
+			case "transfer_money":
+				document.getElementById("transfer_money").style.display = "block";
+				break;
+			case "visa":
+				document.getElementById("visa").style.display = "block";
+				break;
+			case "wallet":
+				document.getElementById("wallet").style.display = "block";
+				break;
+			default:
+				document.getElementById("etxtPayment_totalx").style.display = "block";
+				document.getElementById("etxtPayment_total").style.display = "none";
+				document.getElementById("transfer_money").style.display = "none";
+				document.getElementById("visa").style.display = "none";
+				document.getElementById("wallet").style.display = "none";
+		}
+		
+	}
 
 	function search_promotion(){
 		if($("#etxtPayment_check_in").val() == ""){alert( "Please choose a booking." ); return false;}
@@ -497,7 +562,6 @@
 					str_html += " <td class='text-right'>"+v.sum+"</td>"; 
 					str_html += "</tr>";
 					ssum = ssum + v.sum;
-					// dsum = dsum + 
 				});
 				str_html += "<tr>"; 
 				str_html += " <td colspan='5'></td>"; 
@@ -506,13 +570,6 @@
 				str_html += "</tr>";
 				$("#tb-room-list tbody").html( str_html );
 				$("#etxtPayment_total").val(ssum);
-			// 	// aData = aData[0];
-				
-			// 	// $("#etxtPayment_promotion_discount").val(aData.discount);
-			// 	// $("#etxtPayment_promotion_id").val(aData.id);
-			// 	// $("#etxtPayment_total").val($("#etxtPayment_total").val() - aData.discount);
-
-
 			} else {
 				alert( "no data promotion code" );
 			}

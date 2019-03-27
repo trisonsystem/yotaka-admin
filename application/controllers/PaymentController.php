@@ -129,7 +129,6 @@ class PaymentController extends CI_Controller {
         }
 
         $json_data = json_encode($data);
-
         echo $json_data;
     }
 }
