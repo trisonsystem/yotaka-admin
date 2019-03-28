@@ -355,26 +355,26 @@
 			</div>
 			<div class="col-lg-6 col-md-6 col-sm-9 col-xs-5">
 				<div class="row" >
-					<div class="col-lg-12">
+					<div class="col-lg-12" style="margin-top: 10px">
 						<img src="assets/images/v1.png" class="img-rounded" alt="masster" style="width: 40px; height: 40px">
 						<img src="assets/images/v2.png" class="img-rounded" alt="masster" style="width: 40px; height: 40px">
 						<img src="assets/images/v3.png" class="img-rounded" alt="masster" style="width: 40px; height: 40px">
 					</div>
-		            <div class="col-lg-12">
-						<label for="etxtPayment_name_guest">หมายเลขบัตร : </label>
-						<input type="text" id="etxtPayment_name_guest" class="form-control" name="etxtPayment_name_guest">
+		            <div class="col-lg-12" style="margin-top: 10px">
+						<label for="etxtPayment_cardcode">หมายเลขบัตร : </label>
+						<input type="text" id="etxtPayment_cardcode" class="form-control" name="etxtPayment_cardcode">
 					</div>
-					<div class="col-lg-12">
-						<label for="etxtPayment_name_guest">ชื่อผู้ถือบัตร : </label>
-						<input type="text" id="etxtPayment_name_guest" class="form-control" name="etxtPayment_name_guest">
+					<div class="col-lg-12" style="margin-top: 10px">
+						<label for="etxtPayment_cardname">ชื่อผู้ถือบัตร : </label>
+						<input type="text" id="etxtPayment_cardname" class="form-control" name="etxtPayment_cardname">
 		            </div>
-					<div class="col-lg-12">
-						<label for="etxtPayment_name_guest">วันหมดอายุ : </label>
-						<input type="text" id="etxtPayment_name_guest" class="form-control" name="etxtPayment_name_guest">
+					<div class="col-lg-12" style="margin-top: 10px">
+						<label for="etxtPayment_cardexpireddate">วันหมดอายุ : </label>
+						<input type="text" id="etxtPayment_cardexpireddate" class="form-control" name="etxtPayment_cardexpireddate">
 					</div>
-					<div class="col-lg-12">
-						<label for="etxtPayment_name_guest">CCV <span class="glyphicon" data-toggle="popover" data-img="assets/images/cvv.jpg">&#xe086;</span>: </label>
-						<input type="text" id="etxtPayment_name_guest" class="form-control" name="etxtPayment_name_guest">
+					<div class="col-lg-12" style="margin-top: 10px">
+						<label for="etxtPayment_cardevv">CVV <span class="glyphicon" data-toggle="popover" data-img="assets/images/cvv.jpg">&#xe086;</span>: </label>
+						<input type="text" id="etxtPayment_cardevv" class="form-control" name="etxtPayment_cardevv">
 		            </div>
 				</div>
 			</div>
@@ -492,7 +492,7 @@
 	function paytype(pvalue){
 		if($("#etxtPayment_booking_id").val() == ""){ 
 			alert( "Please choose a booking." ); 
-			document.getElementById("eslPaytype").options.length = 1; 
+			document.getElementById("eslPaytype").selectedIndex = 0;
 			return false; 
 		}
 		document.getElementById("etxtPayment_totalx").style.display = "none";
@@ -515,11 +515,8 @@
 				document.getElementById("wallet").style.display = "block";
 				break;
 			default:
-				document.getElementById("etxtPayment_totalx").style.display = "block";
 				document.getElementById("etxtPayment_total").style.display = "none";
-				document.getElementById("transfer_money").style.display = "none";
-				document.getElementById("visa").style.display = "none";
-				document.getElementById("wallet").style.display = "none";
+				document.getElementById("etxtPayment_totalx").style.display = "block";
 		}
 		
 	}
@@ -550,29 +547,36 @@
 			if ( Object.keys(aData).length > 0) {
 				console.log(aData);
 
-				var str_html  = ""; var ssum = 0; var dsum = 0;
+				var str_html  = "";var ssum = 0; var dsum = 0;
 				$.each(aData, function(k , v){
-					str_html += "<tr>"; 
-					str_html += " <td>"+( parseInt(k)+1 )+"</td>"; 
-					str_html += " <td>"+v.room_code+"</td>";
-					str_html += " <td>"+v.room_name+"</td>";  
-					str_html += " <td class='get_roomtype' data='"+v.room_typeid+"'>"+v.room_type+"</td>";
-					str_html += " <td class='text-right get_promotionid' data='"+v.promotion_id+"'>"+v.discount+"</td>";
-					str_html += " <td class='text-right'>"+v.room_price+"</td>"; 
-					str_html += " <td class='text-right'>"+v.sum+"</td>"; 
-					str_html += "</tr>";
-					ssum = ssum + v.sum;
+					if (v.room_type != "") {
+						str_html += "<tr>"; 
+						str_html += " <td>"+( parseInt(k)+1 )+"</td>"; 
+						str_html += " <td>"+v.room_code+"</td>";
+						str_html += " <td>"+v.room_name+"</td>";  
+						str_html += " <td class='get_roomtype' data='"+v.room_typeid+"'>"+v.room_type+"</td>";
+						str_html += " <td class='text-right get_promotionid' data='"+v.promotion_id+"'>"+v.discount+"</td>";
+						str_html += " <td class='text-right'>"+v.room_price+"</td>"; 
+						str_html += " <td class='text-right'>"+v.sum+"</td>"; 
+						str_html += "</tr>";
+						ssum = ssum + v.sum;
+					}					
 				});
-				str_html += "<tr>"; 
-				str_html += " <td colspan='5'></td>"; 
-				str_html += " <td class='text-right'>รวม</td>";
-				str_html += " <td class='text-right'>"+ssum+"</td>";  
-				str_html += "</tr>";
+				if (ssum != 0) {
+					str_html += "<tr>"; 
+					str_html += " <td colspan='5'></td>"; 
+					str_html += " <td class='text-right'>รวม</td>";
+					str_html += " <td class='text-right'>"+ssum+"</td>";  
+					str_html += "</tr>";
+				}				
 				$("#tb-room-list tbody").html( str_html );
 				$("#etxtPayment_total").val(ssum);
 			} else {
+				$("#tb-room-list tbody").empty();
+				$("#etxtPayment_total").val("");
 				alert( "no data promotion code" );
 			}
+
 		});
 	}
 
