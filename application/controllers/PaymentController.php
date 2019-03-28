@@ -76,23 +76,17 @@ class PaymentController extends CI_Controller {
     }
 
     public function search_booking(){
-        // $aData      = ( isset($_GET['booking_id']) ) ? $_GET : $aData ;
-        // $json_data  = $this->sent_to_api( '/payment/search_booking', $aData );
-        // echo $json_data;
-        // return json_decode($json_data);
         $json_data  = $this->sent_to_api( '/payment/search_booking', $_GET );
         echo $json_data;
     }
 
     public function search_booking_cusprofile(){
-        // debug($_GET, true);
         $json_data  = $this->sent_to_api( '/payment/search_booking_cusprofile', $_GET );
         echo $json_data;
     }
 
     public function search_promotion_codeanddate(){
         $_POST["hotel_id"] = $_COOKIE[$this->keyword."hotel_id"];
-        // debug($_GET['promotion_code']);
         $promotion_data = array(
             'check_in' => $_GET['check_in'],
             'check_out' => $_GET['check_out'],
@@ -107,12 +101,14 @@ class PaymentController extends CI_Controller {
 
         $array_promotion  = json_decode($this->sent_to_api( '/promotion/search_promotion_codeanddate', $promotion_data ), true);
         $array_booking  = json_decode($this->sent_to_api( '/payment/search_booking', $booking_data ), true);
-        // debug($array_booking, true);
+        // debug($array_promotion);
+        // debug($array_booking);
+        // exit();
         if (count($array_promotion) == 0) {
             $data = "";
         } else {
             for ($j=0; $j < count($array_promotion); $j++) { 
-                for ($i=0; $i < count($array_promotion); $i++) {
+                for ($i=0; $i < count($array_booking); $i++) {
                     $b_typeid = isset($array_booking[$i]['room_typeid']) ? $array_booking[$i]['room_typeid'] : 0;
                     $p_typeid = isset($array_promotion[$j]['m_room_type_id']) ? $array_promotion[$j]['m_room_type_id'] : 0;
                     if($b_typeid == $p_typeid){
@@ -137,6 +133,14 @@ class PaymentController extends CI_Controller {
         }
         // debug($data, true);
         $json_data = json_encode($data);
+        echo $json_data;
+    }
+
+    public function save_data(){
+        debug($_POST, true);
+        $_POST["user"] = $_COOKIE[$this->keyword."user"];
+        $_POST["hotel_id"] = $_COOKIE[$this->keyword."hotel_id"];      
+        $json_data  = $this->sent_to_api( '/payment/save_data', $_POST );        
         echo $json_data;
     }
 }

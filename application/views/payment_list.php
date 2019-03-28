@@ -321,33 +321,45 @@
 
 		<div class="row" style="display: none;" id="transfer_money">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span class="lang_name"><?php echo $this->lang->line('bank_transfer_form'); ?> : </span>
+				<span>ข้อมูลการโอน : </span>
 			</div>
-			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-				<select id="eslPaymentType" name="eslPaymentType" class="form-control">
-					<option value=""> <?php echo $this->lang->line('sl_select'); ?> </option>
-					<?php  
-						foreach ($payment_type as $key => $value) {
-								echo '<option value="'.$value->id.'">'.$this->lang->line( $value->name ).'</option>';
-							}
-						?>
-				</select>
+			<div class="col-lg-6 col-md-6 col-sm-9 col-xs-5">
+				<div class="row" >
+		            <div class="col-lg-12" style="margin-top: 10px">
+						<label for="eslPaymentType"><?php echo $this->lang->line('bank_transfer_form'); ?> : </label>
+						<select id="eslPaymentType" name="eslPaymentType" class="form-control">
+							<option value=""> <?php echo $this->lang->line('sl_select'); ?> </option>
+							<?php  
+								foreach ($payment_type as $key => $value) {
+										echo '<option value="'.$value->id.'">'.$this->lang->line( $value->name ).'</option>';
+									}
+								?>
+						</select>
+					</div>
+					<div class="col-lg-12" style="margin-top: 10px">
+						<label for="eslBankTransferTo"><?php echo $this->lang->line('transfer_to_bank'); ?> : </label>
+						<select id="eslBankTransferTo" name="eslBankTransferTo" class="form-control">
+							<option value=""> <?php echo $this->lang->line('sl_select'); ?> </option>
+							<?php  
+								foreach ($bank_list as $key => $value) {
+										$name = ($_COOKIE[$keyword.'Lang'] == "th") ? $value->name_th : $value->name_en;
+										echo '<option value="'.$value->id.'">'.$name.'</option>';
+									}
+								?>
+						</select>
+		            </div>
+		            <div class="col-lg-12" style="margin-top: 10px">
+		            	<label for="etxtPayment_cardcode"><?php echo $this->lang->line('promotion_image'); ?> : </label>
+						<input type="file" name="fPromotion" id="fPromotion" onchange="change_img()">
+		            </div>
+		            <div class="col-lg-12" style="margin-top: 10px">
+		            	<img id="img" width="250px" style="margin-bottom: 10px;">
+		            </div>
+				</div>
 			</div>
-			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span class="lang_name"><?php echo $this->lang->line('transfer_to_bank'); ?> : </span>
-			</div>
-			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-				<select id="eslBankTransferTo" name="eslBankTransferTo" class="form-control">
-					<option value=""> <?php echo $this->lang->line('sl_select'); ?> </option>
-					<?php  
-						foreach ($bank_list as $key => $value) {
-								$name = ($_COOKIE[$keyword.'Lang'] == "th") ? $value->name_th : $value->name_en;
-								echo '<option value="'.$value->id.'">'.$name.'</option>';
-							}
-						?>
-				</select>
-			</div>			
 		</div>
+
+
 
 		<div class="row" style="display: none;" id="visa">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
@@ -393,22 +405,6 @@
 
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span><?php echo $this->lang->line('promotion_image'); ?> : </span>
-			</div>
-			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-				<input type="file" name="fPromotion" id="fPromotion" onchange="change_img()">
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				
-			</div>
-			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
-				<img id="img" width="250px" style="margin-bottom: 10px;">
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
 				<span><?php echo $this->lang->line('description'); ?> : </span>
 			</div>
 			<div class="col-lg-6 col-md-6 col-sm-9 col-xs-5">
@@ -419,8 +415,8 @@
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
 				<div style="display: none;">
-					<input type="text" id="txtPosition_id" name="txtPosition_id" value="0">
-					<input type="text" id="txtPosition_status" name="txtPosition_status" value="0">
+					<!-- <input type="text" id="txtPosition_id" name="txtPosition_id" value="0">
+					<input type="text" id="txtPosition_status" name="txtPosition_status" value="0"> -->
 
 					<input type="text" id="etxtPayment_booking_id" class="form-control" name="etxtPayment_booking_id">
 					<input type="text" id="etxtPayment_m_customer_id_book" class="form-control" name="etxtPayment_m_customer_id_book">
@@ -549,7 +545,7 @@
 
 				var str_html  = "";var ssum = 0; var dsum = 0;
 				$.each(aData, function(k , v){
-					if (v.room_type != "") {
+					// if (v.room_code != "") {
 						str_html += "<tr>"; 
 						str_html += " <td>"+( parseInt(k)+1 )+"</td>"; 
 						str_html += " <td>"+v.room_code+"</td>";
@@ -560,7 +556,7 @@
 						str_html += " <td class='text-right'>"+v.sum+"</td>"; 
 						str_html += "</tr>";
 						ssum = ssum + v.sum;
-					}					
+					// }					
 				});
 				if (ssum != 0) {
 					str_html += "<tr>"; 
@@ -572,8 +568,9 @@
 				$("#tb-room-list tbody").html( str_html );
 				$("#etxtPayment_total").val(ssum);
 			} else {
-				$("#tb-room-list tbody").empty();
-				$("#etxtPayment_total").val("");
+				// $("#tb-room-list tbody").empty();
+				// $("#etxtPayment_total").val("");
+				clear_data();
 				alert( "no data promotion code" );
 			}
 
@@ -671,7 +668,7 @@
 				booking_id 	: booking_id,
 				is_waitpayment	: ''
 			}
-			$.get("payment/search_booking", option,function( aData ){				
+			$.get("payment/search_booking_cusprofile", option,function( aData ){				
 				aData = jQuery.parseJSON( aData );
 				if ( Object.keys(aData).length > 0) {
 					aData = aData[0];
@@ -948,7 +945,7 @@
 		var aData = JSON.stringify( $("#form-manage").serializeArray() );
 			aData = jQuery.parseJSON( aData );
 		if (validate(aData)) {
-			$.post("employee/save_data",  aData  ,function( res ){
+			$.post("payment/save_data",  aData  ,function( res ){
 				res = jQuery.parseJSON( res ); 
 				if (res.flag) {
 					alert( res.msg );
@@ -962,10 +959,16 @@
 		}
 	}
 
+	// <input type="text" id="etxtPayment_booking_id" class="form-control" name="etxtPayment_booking_id">
+	// 				<input type="text" id="etxtPayment_m_customer_id_book" class="form-control" name="etxtPayment_m_customer_id_book">
+	// 				<input type="text" id="etxtPayment_m_customer_id_guest" class="form-control" name="etxtPayment_m_customer_id_guest">
+	// 				<input type="text" id="etxtPayment_promotion_id" class="form-control" name="etxtPayment_promotion_id">
+
 	function validate(aData){ 
 		var status = true;
+		console.log(aData);
 		$.each(aData,function(k,v){
-			if (v.name != "txtEmployee_code") {
+			if (v.name != "etxtPayment_booking_id" && v.name != "etxtPayment_m_customer_id_book" && v.name != "etxtPayment_m_customer_id_guest" && v.name != "etxtPayment_m_customer_id_guest" && v.name != "etxtPayment_promotion_id") {
 				var obj = $("#"+v.name);
 				if (obj.val() == "") {
 					obj.addClass("error-form");
