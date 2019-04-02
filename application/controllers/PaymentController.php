@@ -101,9 +101,7 @@ class PaymentController extends CI_Controller {
 
         $array_promotion  = json_decode($this->sent_to_api( '/promotion/search_promotion_codeanddate', $promotion_data ), true);
         $array_booking  = json_decode($this->sent_to_api( '/payment/search_booking', $booking_data ), true);
-        // debug($array_promotion);
-        // debug($array_booking);
-        // exit();
+
         if (count($array_promotion) == 0) {
             $data = "";
         } else {
@@ -112,10 +110,10 @@ class PaymentController extends CI_Controller {
                     $b_typeid = isset($array_booking[$i]['room_typeid']) ? $array_booking[$i]['room_typeid'] : 0;
                     $p_typeid = isset($array_promotion[$j]['m_room_type_id']) ? $array_promotion[$j]['m_room_type_id'] : 0;
                     if($b_typeid == $p_typeid){
-                        $pormotion_id = isset($array_promotion[$j]['id']) ? $array_promotion[$j]['id'] : "";
+                        // $pormotion_id = isset($array_promotion[$j]['id']) ? $array_promotion[$j]['id'] : "";
                         $discount = isset($array_promotion[$j]['discount']) ? $array_promotion[$j]['discount'] : 0;
                     }else{
-                        $pormotion_id = 0;
+                        // $pormotion_id = 0;
                         $discount = 0;
                     }
                     $data[$i] = array(
@@ -124,23 +122,34 @@ class PaymentController extends CI_Controller {
                         'room_typeid' => isset($array_booking[$i]['room_typeid']) ? $array_booking[$i]['room_typeid'] : "",
                         'room_type' => isset($array_booking[$i]['room_type']) ? $array_booking[$i]['room_type'] : "",
                         'room_price' => isset($array_booking[$i]['room_price']) ? $array_booking[$i]['room_price'] : "",
-                        'promotion_id' => $pormotion_id,
+                        'promotion_id' => isset($array_promotion[$j]['id']) ? $array_promotion[$j]['id'] : "",
                         'discount'  => $discount,
                         'sum' => (isset($array_booking[$i]['room_price']) ? $array_booking[$i]['room_price'] : 0) - $discount
                     );
                 }   
             }
         }
-        // debug($data, true);
+        
         $json_data = json_encode($data);
         echo $json_data;
     }
 
     public function save_data(){
-        debug($_POST, true);
+        // debug($_POST, true);
         $_POST["user"] = $_COOKIE[$this->keyword."user"];
         $_POST["hotel_id"] = $_COOKIE[$this->keyword."hotel_id"];      
-        $json_data  = $this->sent_to_api( '/payment/save_data', $_POST );        
+        $json_data  = $this->sent_to_api( '/payment/save_data', $_POST );  
+
+        if ($aData->flag) {
+            $fodel    = "assets/upload/promotion_images/";
+            $aFN      = explode(".", $_POST["txtPromotionImages"]);            
+            $n_name   = $aFN[count($aFN)-1];            
+            $n_path   = $fodel.$aData->code.".".$n_name;
+            // debug($n_path, true);
+            if ( count( explode("temp", $_POST["txtPromotionImages"]) ) > 1 ) {
+                $this->copy_img($_POST["txtPromotionImages"], $n_path, $fodel);
+            }
+        }      
         echo $json_data;
     }
 }

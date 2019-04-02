@@ -125,8 +125,7 @@
 	<form id="form-manage" name="form-manage" method="post" action="" enctype="multipart/form-data">		
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<label class="" style="font-weight: bold;font-size: 16px;"><?php echo $this->lang->line('data_promotion'); ?></label>
-				
+				<label class="" style="font-weight: bold;font-size: 16px;"><?php echo $this->lang->line('data_promotion'); ?></label>				
 			</div>
 		</div>
 		<div class="row">

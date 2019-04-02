@@ -3,6 +3,7 @@
 	$path_host  = $this->config->config['base_url'];
 	$keyword    = $this->config->config['keyword'];
 ?>
+
 <style type="text/css">
 	.row{ margin-top: 5px; }
 	#box-manage{
@@ -66,7 +67,7 @@
 		<h3 class="lang_manage_employee_data" style="font-weight: bold;"><?php echo $title;?></h3>
 	</div>
 	<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 text-right">
-		<button type="button" class="btn btn-secondary" onclick="to_add_data( '0', '0' )" id="btn-toadd_data" style="margin-top: 10px; width: 100px;"><?php echo $this->lang->line('add'); ?></button>
+		<button type="button" class="btn btn-secondary" onclick="to_add_data( '0' )" id="btn-toadd_data" style="margin-top: 10px; width: 100px;"><?php echo $this->lang->line('add'); ?></button>
 		<button type="button" class="btn btn-warning" onclick="to_manage_data()" id="btn-tomanage_data" style="margin-top: 10px; width: 100px; display: none;"><?php echo $this->lang->line('cancel'); ?></button>
 	</div>
 </div>
@@ -74,7 +75,7 @@
 <div id="box-show-search">
 	<div class="box-search">
 		<div class="row">
-			<?php // debug($division); ?>
+			<?php //  debug($bank); ?>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
 				<span class="lang_employee_code"><?php echo $this->lang->line('payment_time'); ?> : </span>
 			</div>
@@ -97,7 +98,7 @@
 		</div>
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span class="lang_name"><?php echo $this->lang->line('bank_transfer_form'); ?> : </span>
+				<span class="lang_name">ประเภทการชำระเงิน : </span>
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<select id="slPaymentType" name="slPaymentType" class="form-control">
@@ -150,7 +151,7 @@
 						<th class="text-center"><?php echo $this->lang->line('total'); ?></th>
 						<th class="text-center"><?php echo $this->lang->line('pay_amount'); ?></th>
 						<th class="text-center"><?php echo $this->lang->line('pay_type'); ?></th>
-						<th class="text-center"><?php echo $this->lang->line('transfer_to_bank'); ?></th>
+						<th class="text-center">remark</th>
 						<th class="text-center"><?php echo $this->lang->line('status'); ?></th>
 						<th class="text-center"><?php echo $this->lang->line('action'); ?></th>
 					</tr>
@@ -276,19 +277,21 @@
 			</div>
 			<div class="col-lg-6 col-md-6 col-sm-9 col-xs-5">
 				<table class="table" id="tb-room-list">
-				<thead>
-					<tr>
-						<th class="text-center"><?php echo $this->lang->line('no'); ?></th>
-						<th class="text-center">เลขห้อง</th>
-						<th class="text-center">ชื่อห้อง</th>
-						<th class="text-center">ประเภทห้อง</th>
-						<th class="text-center">ส่วนลด</th>
-						<th class="text-center">ราคา</th>
-						<th class="text-center">ราคารวม</th>
-					</tr>
-				</thead>
-				<tbody></tbody>
-			</table>
+					<thead>
+						<tr>
+							<th class="text-center"><?php echo $this->lang->line('no'); ?></th>
+							<th class="text-center">เลขห้อง</th>
+							<th class="text-center">ชื่อห้อง</th>
+							<th class="text-center">ประเภทห้อง</th>
+							<th class="text-center">ส่วนลด</th>
+							<th class="text-center">ราคา</th>
+							<th class="text-center">ราคารวม</th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+				</table>
+				<div class="dash" id="dash"></div>
+				<input type='text' id='osdPay' name='osdPay'>
 			</div>
 		</div>
 		<hr>
@@ -315,7 +318,9 @@
 			</div>
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5">
 				<input type="text" id="etxtPayment_totalx" class="form-control" name="etxtPayment_totalx" readonly style="display: block;">
-				<input type="text" id="etxtPayment_total" class="form-control" name="etxtPayment_total" readonly style="display: none;">
+				<input type="text" id="etxtPayment_total" class="form-control" name="etxtPayment_total" readonly style="display: block;">
+				<input type="text" id="etxtPayment_discount" class="form-control" name="etxtPayment_discount" readonly style="display: block;">
+				<input type="text" id="etxtPayment_totroomprice" class="form-control" name="etxtPayment_totroomprice" readonly style="display: block;">
             </div>
 		</div>		
 
@@ -329,11 +334,13 @@
 						<label for="eslPaymentType"><?php echo $this->lang->line('bank_transfer_form'); ?> : </label>
 						<select id="eslPaymentType" name="eslPaymentType" class="form-control">
 							<option value=""> <?php echo $this->lang->line('sl_select'); ?> </option>
-							<?php  
-								foreach ($payment_type as $key => $value) {
-										echo '<option value="'.$value->id.'">'.$this->lang->line( $value->name ).'</option>';
-									}
-								?>
+							<?php 
+								$bname = "";
+								foreach ($bank as $key => $value) {
+									$bname = "name_".$this->lang->line('select_lang');
+									echo '<option value="'.$value->id.'">'.$value->$bname.'</option>';
+								}
+							?>
 						</select>
 					</div>
 					<div class="col-lg-12" style="margin-top: 10px">
@@ -355,6 +362,34 @@
 		            <div class="col-lg-12" style="margin-top: 10px">
 		            	<img id="img" width="250px" style="margin-bottom: 10px;">
 		            </div>
+					<div class="col-lg-6" style="margin-top: 10px">
+						<label for="txtPaymentDateTime">วันที่ : </label>
+						<input type="text" id="txtPaymentDateTime" class="form-control check_in" name="txtPaymentDateTime" placeholder="<?php echo $this->lang->line('select_datetime'); ?>">
+					</div>
+					<div class="col-lg-3" style="margin-top: 10px">
+						<label for="timeHour">เวลา : </label>
+						<select class="form-control" name="timeHour" id="timeHour">
+							<option value=""> เลือกชั่วโมง </option>
+					        <?php 
+					        for ($i=1; $i <= 24; $i++) { 
+					        	if($i < 10){$str = 0;}else{$str = "";}
+					        	echo "<option value='".$str.$i."'>".$str.$i."</option>";
+					        }
+					        ?>
+					    </select>
+					</div>
+					<div class="col-lg-3" style="margin-top: 10px">
+						<label for="timeMinute">นาที : </label>
+						<select class="form-control" name="timeMinute" id="timeMinute">
+							<option value=""> เลือกนาที </option>
+					        <?php 
+					        for ($i=1; $i <= 60; $i++) { 
+					        	if($i < 10){$str = 0;}else{$str = "";}
+					        	echo "<option value='".$str.$i."'>".$str.$i."</option>";
+					        }
+					        ?>
+					    </select>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -403,25 +438,35 @@
 			</div>
 		</div>
 
-		<div class="row">
+		<div class="row" id="pay_cash">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<span><?php echo $this->lang->line('description'); ?> : </span>
+				<span>จำนวนเงินที่จ่าย : </span>
 			</div>
 			<div class="col-lg-6 col-md-6 col-sm-9 col-xs-5">
-				<textarea id="etxtPromotionDescription" name="etxtPromotionDescription" class="form-control" rows="5"></textarea>
+				<input class="form-control input-lg" placeholder="คลิกเพื่อแสดงยอด" id="etxtPaymentAmount" name="etxtPaymentAmount" type="text" style="background: lemonchiffon" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" onclick="showMoneyPay();" >
 			</div>
 		</div>
 
 		<div class="row">
 			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
-				<div style="display: none;">
-					<!-- <input type="text" id="txtPosition_id" name="txtPosition_id" value="0">
-					<input type="text" id="txtPosition_status" name="txtPosition_status" value="0"> -->
+				<span><?php echo $this->lang->line('description'); ?> : </span>
+			</div>
+			<div class="col-lg-6 col-md-6 col-sm-9 col-xs-5">
+				<textarea id="etxtPaymentDescription" name="etxtPaymentDescription" class="form-control" rows="5"></textarea>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-lg-2 col-md-2 col-sm-3 col-xs-5 text-right">
+				<div style="display: block;">
+					<input type="text" id="txtPayment_id" name="txtPayment_id" value="0">
+					<input type="text" id="txtPayment_status" name="txtPayment_status" value="0">
 
 					<input type="text" id="etxtPayment_booking_id" class="form-control" name="etxtPayment_booking_id">
 					<input type="text" id="etxtPayment_m_customer_id_book" class="form-control" name="etxtPayment_m_customer_id_book">
 					<input type="text" id="etxtPayment_m_customer_id_guest" class="form-control" name="etxtPayment_m_customer_id_guest">
 					<input type="text" id="etxtPayment_promotion_id" class="form-control" name="etxtPayment_promotion_id">
+					<input type="text" id="txtImages" name="txtImages" value="0">
 				</div>
 			</div>
 			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
@@ -460,17 +505,6 @@
 		set_datepicker();
 		get_data_list();
 		popover();
-		// $.ajax({
-  //           url:  "book/book_now",
-  //           type: 'POST',
-  //           dataType: 'json',
-  //           success: function (response) {
-  //              $("#md-manage-detail").html(response.temp);
-  //           },
-  //           error: function (response) {
-  //               console.log(response);
-  //           }
-  //       });
 	});
 
 	function popover(){
@@ -491,15 +525,19 @@
 			document.getElementById("eslPaytype").selectedIndex = 0;
 			return false; 
 		}
+		$("#etxtPaymentAmount").val("");
 		document.getElementById("etxtPayment_totalx").style.display = "none";
 		document.getElementById("etxtPayment_total").style.display = "block";
 		document.getElementById("transfer_money").style.display = "none";
 		document.getElementById("visa").style.display = "none";
 		document.getElementById("wallet").style.display = "none";
+		// document.getElementById("pay_cash").style.display = "none";
 		switch (pvalue){
 			case "pay_cash":
 				document.getElementById("etxtPayment_totalx").style.display = "none";
 				document.getElementById("etxtPayment_total").style.display = "block";
+				// document.getElementById("pay_cash").style.display = "block";
+				
 				break;
 			case "transfer_money":
 				document.getElementById("transfer_money").style.display = "block";
@@ -515,6 +553,13 @@
 				document.getElementById("etxtPayment_totalx").style.display = "block";
 		}
 		
+	}
+
+	function showMoneyPay(){		
+		if($("#eslPaytype").val() != ""){
+			ofprice = $("#etxtPayment_total").val();
+			$("#etxtPaymentAmount").val(ofprice);
+		}
 	}
 
 	function search_promotion(){
@@ -540,10 +585,10 @@
 		$.get("payment/search_promotion_codeanddate", option,function( aData ){
 			aData = jQuery.parseJSON( aData );
 			// console.log(Object.keys(aData).length);
+			// $("#dash").empty();
 			if ( Object.keys(aData).length > 0) {
+				var str_html  = "";var ssum = 0; var dsum = 0; var pid = ""; var osdPay = 0;
 				console.log(aData);
-
-				var str_html  = "";var ssum = 0; var dsum = 0;
 				$.each(aData, function(k , v){
 					// if (v.room_code != "") {
 						str_html += "<tr>"; 
@@ -555,7 +600,11 @@
 						str_html += " <td class='text-right'>"+v.room_price+"</td>"; 
 						str_html += " <td class='text-right'>"+v.sum+"</td>"; 
 						str_html += "</tr>";
-						ssum = ssum + v.sum;
+						ssum = ssum + parseInt(v.sum);
+						dsum = dsum + parseInt(v.discount);
+						pid = v.promotion_id;
+						// console.log(v.promotion_id)
+						// rprice = rprice + v.room_price;
 					// }					
 				});
 				if (ssum != 0) {
@@ -565,8 +614,17 @@
 					str_html += " <td class='text-right'>"+ssum+"</td>";  
 					str_html += "</tr>";
 				}				
+				osdPay = $("#osdPay").val();
 				$("#tb-room-list tbody").html( str_html );
-				$("#etxtPayment_total").val(ssum);
+				$("#etxtPayment_discount").val(dsum);
+				$("#etxtPayment_promotion_id").val(aData[0]['promotion_id']);
+
+				// if(osdPay != 0){					
+					$("#etxtPayment_total").val(ssum - osdPay);
+				// }else{
+				// 	$("#etxtPayment_total").val(ssum);
+				// }			
+				
 			} else {
 				// $("#tb-room-list tbody").empty();
 				// $("#etxtPayment_total").val("");
@@ -582,8 +640,15 @@
 		// $("#txtPaymentTime").val( moment().format('D-MM-YYYY') );
 		$("#txtCheckOut").val( d.format('D-MM-YYYY') );
 
-		$("#txtPaymentTime").datepicker({format: 'dd-mm-yyyy',autoclose: true});
+		$("#txtPaymentTime").datepicker({
+			format: 'dd-mm-yyyy',
+			autoclose: true
+		});
 
+		$("#txtPaymentDateTime").datepicker({
+			format: 'dd-mm-yyyy',
+			autoclose: true
+		});
 	}
 
 	function get_data_list(){
@@ -626,6 +691,9 @@
 						case 'visa' : 
 							paytype = '<?php echo $this->lang->line('visa'); ?>';
 							break;
+						case 'wallet' : 
+							paytype = 'wallet';
+							break;
 					}
 
 					str_html += "<tr>"; 
@@ -637,7 +705,7 @@
 					str_html += " <td class='text-right'>"+v.total+"</td>";  
 					str_html += " <td class='text-right'>"+v.pay_amount+"</td>";  
 					str_html += " <td>"+paytype+"</td>";
-					str_html += (v.m_bank_number_list_id != undefined)?" <td>"+v.bank_name+"("+v.account_number+")</td>" : "<td></td>"; 
+					str_html += " <td>"+v.remark+"</td>"; 
 					str_html += " <td>"+status+"</td>";  
 					str_html += (v.status == "wait_confirm") ? "<td><i class='fa' style='color:blue;' onclick='chang_status(\""+'already_paid'+"\","+v.booking_id+","+v.id+")'> "+languages['confirm']+"</i></td>" : "<td></td>";
 					// str_html += " 	<i class='fa fa-exchange' style='font-size:20px' onclick='open_chang_status("+v.id+","+v.m_status_employee_id+",\""+v.code+" "+v.prefix+v.name+" "+v.last_name+"\")' title='<?php echo $this->lang->line('change_status'); ?>'></i>";
@@ -668,6 +736,7 @@
 				booking_id 	: booking_id,
 				is_waitpayment	: ''
 			}
+
 			$.get("payment/search_booking_cusprofile", option,function( aData ){				
 				aData = jQuery.parseJSON( aData );
 				if ( Object.keys(aData).length > 0) {
@@ -771,6 +840,9 @@
 		$("textarea").val("");
 		set_datepicker();
 		$("#tb-room-list tbody").empty();
+		$("#dash").empty();
+		$("#txtPayment_id").val(0);
+		$("#txtPayment_status").val(0);
 	}
 
 	function to_manage_data(){ //หน้า listdata
@@ -781,18 +853,17 @@
 		$("#box-manage").css("width","0");
 	}
 
-	function to_add_data( posision_id = 0, posision_status ){ // เพิ่ม แก้ไข		
-		$("#txtPosition_id").val( posision_id );
-		$("#txtPosition_status").val( posision_status );
+	function to_add_data( payment_id = 0 ){ // เพิ่ม แก้ไข		
+		$("#txtPayment_id").val( payment_id );
 		$("#box-manage").show();
 		$("#box-show-search").hide();
 		$("#btn-toadd_data").hide();
 		$("#btn-tomanage_data").show();
 		$("#box-manage").css("width","100%");
 
-		if (posision_id != 0) {			
+		if (payment_id != 0) {			
 			var option = {
-				posision_id 	: posision_id
+				payment_id 	: payment_id
 			}
 			$.get("position/search_position", option,function( aData ){
 				aData = jQuery.parseJSON( aData );
@@ -812,22 +883,23 @@
 			var option = {}
 			$.get("payment/search_booking_cusprofile", option,function( aData ){
 				aData = jQuery.parseJSON( aData );
-				// console.log(aData);
 				var str_html  = ""; 
 				if ( Object.keys(aData).length > 1) {
+					console.log(aData);
 					$.each(aData, function(k , v){
 						// console.log(k);
 						if(v.m_customer_id_book > 0){
 							var xactive = "";
 							var ci = "";ci = "chip"+v.id;
-							var ximg = "";
+							var ximg = ""; var xstyle = "";
 							if(k == 0){xactive = "active";}
 							if(v.profile_img == ""){
 								ximg = "assets/upload/customer_profile/cus-noimage.png";
 							}else{
 								ximg = v.profile_img;
 							}
-							str_html += "<div class='chip' id='"+ci+"' onclick='add_payment_frombooking("+v.id+")' style='margin-left:10px; margin-top:10px'>";						
+							if(v.status == 'outstanding'){ xstyle = "background-color:darkseagreen"; }
+							str_html += "<div class='chip' id='"+ci+"' onclick='add_payment_frombooking("+v.id+")' style='margin-left:10px; margin-top:10px; "+xstyle+" '>";						
 							str_html += "<img src='"+ximg+"' alt='customer' width='96' height='96'>";
 							str_html += v.name_book+" "+v.lastname_book+" ("+v.summary+")";
 							str_html += "</div>";
@@ -867,7 +939,7 @@
 			aData = jQuery.parseJSON( aData );
 			if ( Object.keys(aData).length > 0) {
 				aval = aData[0];
-				// console.log(aData);
+				// console.log(aval);
 				$("#etxtPayment_check_in").val(moment(aval.check_in).format('YYYY-MM-D'));
 				$("#etxtPayment_check_out").val(moment(aval.check_out).format('YYYY-MM-D'));
 				$("#etxtPayment_name_book").val(aval.name_book);
@@ -881,7 +953,7 @@
 				$("#etxtPayment_m_customer_id_book").val(aval.m_customer_id_book);
 				$("#etxtPayment_m_customer_id_guest").val(aval.m_customer_id_guest);
 
-				var str_html  = "";
+				var str_html  = ""; var rprice = 0;
 				$.each(aData, function(k , v){
 					str_html += "<tr>"; 
 					str_html += " <td>"+( parseInt(k)+1 )+"</td>"; 
@@ -892,6 +964,7 @@
 					str_html += " <td class='text-right'>"+v.room_price+"</td>";
 					str_html += " <td class='text-right'>"+v.room_price+"</td>";  
 					str_html += "</tr>";
+					// rprice = rprice + v.room_price;
 				});
 				str_html += "<tr>"; 
 				str_html += " <td colspan='5'></td>";  
@@ -899,7 +972,56 @@
 				str_html += " <td class='text-right'>"+aval.summary+"</td>";  
 				str_html += "</tr>";
 				$("#tb-room-list tbody").html( str_html );
+				$("#etxtPayment_totroomprice").val(aval.summary);
 
+				if(aval.status == "outstanding"){
+					var option = {
+							booking_id 		: aval.id
+						}
+					
+					$.get("payment/search_payment", option,function( bData ){
+						bData = jQuery.parseJSON( bData );
+						var osd_html = ""; var osd = 0;
+						if ( Object.keys(bData).length > 0) {
+							pay = bData[0];
+							osd_html += "<hr>";
+							osd_html += "<b>ยอดค้างชำระ</b>";
+							osd_html += "<br>";
+							osd_html += "<table class='table table-striped'>";
+							osd_html += "<thead>";
+							osd_html += "<tr>";
+							osd_html += "<th>ลำดับ</th>";
+							osd_html += "<th>รายการ</th>";
+							osd_html += "<th>วันที่ชำระ</th>";
+							osd_html += "<th>ยอดรวม</th>";
+							osd_html += "<th>ยอดชำระ</th>";
+							osd_html += "<th>ยอดค้างชำระ</th>";
+							osd_html += "</tr>";
+							osd_html += "</thead>";
+							osd_html += "<tbody>";
+							osd_html += "<tr>";
+							osd_html += "<td>1</td>";
+							osd_html += "<td>ชำระครั้งที่ 1</td>";
+							osd_html += "<td class='text-right'>"+moment(pay.pay_time).format('YYYY-MM-D')+"</td>";
+							osd_html += "<td class='text-right'>"+pay.total+"</td>";
+							osd_html += "<td class='text-right'>"+pay.pay_amount+"</td>";
+							osd_html += "<td class='text-right'>"+parseInt(pay.total - pay.pay_amount)+"</td>";
+							osd_html += "</tr>";
+							osd_html += "</tbody>";	
+							osd_html += "</table>";
+
+							if(pay.promotion_id != 0){
+								document.getElementById("etxtPayment_promotion_code").readOnly = true;
+							}
+							document.getElementById("etxtPaymentAmount").readOnly = true;
+							$("#etxtPaymentAmount").val(parseInt(pay.total - pay.pay_amount));
+							$("#etxtPayment_total").val(parseInt(pay.total - pay.pay_amount));
+							osd = parseInt(pay.total - pay.pay_amount);
+						}					
+						$("#dash").html(osd_html);	
+						$("#osdPay").val(osd);
+					});
+				}
 			} else {
 				alert( "no data" );
 			}
@@ -920,7 +1042,7 @@
 
 	function change_img(){
         var fd = new FormData();
-        var files = $('#fProfile')[0].files[0];
+        var files = $('#fPromotion')[0].files[0];
         fd.append('file',files);
 
         $.ajax({
@@ -932,7 +1054,11 @@
             success: function(response){
                 if(response != 0){
                     $("#img").attr("src",response); 
-                    $("#txtEmployeeProfile").val( response );
+                    $("#txtImages").val( response );
+                    
+     //                var str = aData.promotion_img;
+					// $("#oldPromotionImages").val(str.substr(14));
+                    // newPromotionImages
                     // $(".preview img").show(); // Display image element
                 }else{
                     alert('file not uploaded');
@@ -942,9 +1068,13 @@
 	}
 
 	function save_data(){
+		if($("#eslPaytype").val() == ""){alert(); return false}
+		if($("#etxtPaymentAmount").val() > $("#etxtPayment_total").val()){alert("Amonut > total"); return false}
 		var aData = JSON.stringify( $("#form-manage").serializeArray() );
 			aData = jQuery.parseJSON( aData );
-		if (validate(aData)) {
+			// console.log(aData[7]['value']);
+			// return false;
+		if (validate(aData, aData[7]['value'])) {
 			$.post("payment/save_data",  aData  ,function( res ){
 				res = jQuery.parseJSON( res ); 
 				if (res.flag) {
@@ -959,38 +1089,68 @@
 		}
 	}
 
-	// <input type="text" id="etxtPayment_booking_id" class="form-control" name="etxtPayment_booking_id">
-	// 				<input type="text" id="etxtPayment_m_customer_id_book" class="form-control" name="etxtPayment_m_customer_id_book">
-	// 				<input type="text" id="etxtPayment_m_customer_id_guest" class="form-control" name="etxtPayment_m_customer_id_guest">
-	// 				<input type="text" id="etxtPayment_promotion_id" class="form-control" name="etxtPayment_promotion_id">
-
-	function validate(aData){ 
+	function validate(aData, pstatus){ 
 		var status = true;
-		console.log(aData);
-		$.each(aData,function(k,v){
-			if (v.name != "etxtPayment_booking_id" && v.name != "etxtPayment_m_customer_id_book" && v.name != "etxtPayment_m_customer_id_guest" && v.name != "etxtPayment_m_customer_id_guest" && v.name != "etxtPayment_promotion_id") {
-				var obj = $("#"+v.name);
-				if (obj.val() == "") {
-					obj.addClass("error-form");
-					obj.focus();
-					status = false;			
-				}else{
-					obj.removeClass("error-form");
-				}
-			}
-		});
+		// console.log(pstatus);
+		if(pstatus == ""){alert("Select paytype ?"); return false;}
 
-		if ($("#txtPassWord").val() != $("#txtRePassWord").val()) {
-			$("#txtPassWord").addClass("error-form");
-			$("#txtRePassWord").addClass("error-form");
-			$("#txtPassWord").focus();
-			alert("!Password Not Match");
-			status = false;
-		}else{
-			if ($("#txtPassWord").val() != "") {
-				$("#txtPassWord").removeClass("error-form");
-				$("#txtRePassWord").removeClass("error-form");
-			}
+		switch(pstatus){
+			case "pay_cash":
+				$.each(aData,function(k,v){
+					if (v.name != "etxtPayment_booking_id" && v.name != "etxtPayment_m_customer_id_book" && v.name != "etxtPayment_m_customer_id_guest" && v.name != "etxtPayment_promotion_id" && v.name != "etxtPayment_promotion_code" && v.name != "etxtPayment_totalx" && v.name != "txtPayment_id" && v.name != "txtPayment_status" && v.name != "etxtPaymentDescription" && v.name != "osdPay"		 && v.name != "eslPaymentType" && v.name != "eslBankTransferTo" && v.name != "fPromotion" && v.name != "etxtPayment_cardcode" && v.name != "etxtPayment_discount" && v.name != "etxtPayment_cardname" && v.name != "etxtPayment_cardexpireddate" && v.name != "etxtPayment_cardevv" && v.name != "etxtPayment_totroomprice" && v.name != "txtPaymentDateTime" && v.name != "timeHour" && v.name != "timeMinute") {				
+						var obj = $("#"+v.name);
+						if (obj.val() == "") {
+							obj.addClass("error-form");
+							obj.focus();
+							status = false;			
+						}else{
+							obj.removeClass("error-form");
+						}
+					}
+				});
+				break;
+			case "transfer_money":
+				$.each(aData,function(k,v){
+					if (v.name != "etxtPayment_booking_id" && v.name != "etxtPayment_m_customer_id_book" && v.name != "etxtPayment_m_customer_id_guest" && v.name != "etxtPayment_promotion_id" && v.name != "etxtPayment_promotion_code" && v.name != "etxtPayment_totalx" && v.name != "txtPayment_id" && v.name != "txtPayment_status" && v.name != "etxtPaymentDescription" && v.name != "osdPay" && v.name != "etxtPayment_discount" && v.name != "etxtPayment_totroomprice") {				
+						var obj = $("#"+v.name);
+						if (obj.val() == "") {
+							obj.addClass("error-form");
+							obj.focus();
+							status = false;			
+						}else{
+							obj.removeClass("error-form");
+						}
+					}
+				});
+				break;
+			case "visa":
+				// $.each(aData,function(k,v){
+				// 	if (v.name != "etxtPayment_booking_id" && v.name != "etxtPayment_m_customer_id_book" && v.name != "etxtPayment_m_customer_id_guest" && v.name != "etxtPayment_promotion_id" && v.name != "etxtPayment_promotion_code" && v.name != "etxtPayment_totalx"  && v.name != "txtPayment_id" && v.name != "etxtPaymentDescription") {				
+				// 		var obj = $("#"+v.name);
+				// 		if (obj.val() == "") {
+				// 			obj.addClass("error-form");
+				// 			obj.focus();
+				// 			status = false;			
+				// 		}else{
+				// 			obj.removeClass("error-form");
+				// 		}
+				// 	}
+				// });
+				break;
+			case "wallet":
+				// $.each(aData,function(k,v){
+				// 	if (v.name != "etxtPayment_booking_id" && v.name != "etxtPayment_m_customer_id_book" && v.name != "etxtPayment_m_customer_id_guest" && v.name != "etxtPayment_promotion_id" && v.name != "etxtPayment_promotion_code" && v.name != "etxtPayment_totalx" && v.name != "etxtPaymentDescription") {				
+				// 		var obj = $("#"+v.name);
+				// 		if (obj.val() == "") {
+				// 			obj.addClass("error-form");
+				// 			obj.focus();
+				// 			status = false;			
+				// 		}else{
+				// 			obj.removeClass("error-form");
+				// 		}
+				// 	}
+				// });
+				break;
 		}
 
 		return status;
@@ -1073,7 +1233,7 @@
                 $("#md-manage").modal("show");
             },
             error: function (response) {
-                console.log(response);
+                // console.log(response);
             }
         });
 		
@@ -1110,4 +1270,6 @@
 			});
 		}
 	}
+
+
 </script>
