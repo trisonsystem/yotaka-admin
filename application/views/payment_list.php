@@ -291,7 +291,7 @@
 					<tbody></tbody>
 				</table>
 				<div class="dash" id="dash"></div>
-				<input type='text' id='osdPay' name='osdPay'>
+				<input type='text' id='osdPay' name='osdPay' style="display: none;">
 			</div>
 		</div>
 		<hr>
@@ -383,7 +383,7 @@
 						<select class="form-control" name="timeMinute" id="timeMinute">
 							<option value=""> เลือกนาที </option>
 					        <?php 
-					        for ($i=1; $i <= 60; $i++) { 
+					        for ($i=0; $i <= 60; $i++) { 
 					        	if($i < 10){$str = 0;}else{$str = "";}
 					        	echo "<option value='".$str.$i."'>".$str.$i."</option>";
 					        }
@@ -467,6 +467,7 @@
 					<input type="text" id="etxtPayment_m_customer_id_guest" class="form-control" name="etxtPayment_m_customer_id_guest">
 					<input type="text" id="etxtPayment_promotion_id" class="form-control" name="etxtPayment_promotion_id">
 					<input type="text" id="txtImages" name="txtImages" value="0">
+					<input type="text" id="oldImages" name="oldImages" value="">					
 				</div>
 			</div>
 			<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
@@ -476,6 +477,7 @@
 		</div>		
 	</form>
 </div>
+
 
 <!-- ###################################### Manage  ######################################-->
 
@@ -536,7 +538,7 @@
 			case "pay_cash":
 				document.getElementById("etxtPayment_totalx").style.display = "none";
 				document.getElementById("etxtPayment_total").style.display = "block";
-				// document.getElementById("pay_cash").style.display = "block";
+				document.getElementById("pay_cash").style.display = "block";
 				
 				break;
 			case "transfer_money":
@@ -588,7 +590,7 @@
 			// $("#dash").empty();
 			if ( Object.keys(aData).length > 0) {
 				var str_html  = "";var ssum = 0; var dsum = 0; var pid = ""; var osdPay = 0;
-				console.log(aData);
+				// console.log(aData);
 				$.each(aData, function(k , v){
 					// if (v.room_code != "") {
 						str_html += "<tr>"; 
@@ -682,7 +684,7 @@
 
 					var paytype = "";
 					switch (v.pay_type) {
-						case 'transfer' : 
+						case 'transfer_money' : 
 							paytype = '<?php echo $this->lang->line('transfer'); ?>';
 							break;
 						case 'pay_cash' : 
@@ -693,6 +695,9 @@
 							break;
 						case 'wallet' : 
 							paytype = 'wallet';
+							break;
+						default:
+							paytype = 'xxxxx';
 							break;
 					}
 
@@ -707,11 +712,11 @@
 					str_html += " <td>"+paytype+"</td>";
 					str_html += " <td>"+v.remark+"</td>"; 
 					str_html += " <td>"+status+"</td>";  
-					str_html += (v.status == "wait_confirm") ? "<td><i class='fa' style='color:blue;' onclick='chang_status(\""+'already_paid'+"\","+v.booking_id+","+v.id+")'> "+languages['confirm']+"</i></td>" : "<td></td>";
-					// str_html += " 	<i class='fa fa-exchange' style='font-size:20px' onclick='open_chang_status("+v.id+","+v.m_status_employee_id+",\""+v.code+" "+v.prefix+v.name+" "+v.last_name+"\")' title='<?php echo $this->lang->line('change_status'); ?>'></i>";
-					str_html += "</tr>"; 
-
-					
+					str_html += " <td align='center'>";
+					str_html += " 	<i class='fa fa-edit' style='font-size:20px' onclick='to_add_data("+v.id+","+v.booking_id+")'></i>";
+					str_html += " 	<i class='fa fa-exchange' style='font-size:20px' onclick='open_chang_status("+v.id+","+v.status+",\""+v.title+"\")' title='<?php echo $this->lang->line('status'); ?>'></i>";
+					str_html += " </td>";
+					str_html += "</tr>"; 				
 					
 				});
 
@@ -737,8 +742,9 @@
 				is_waitpayment	: ''
 			}
 
-			$.get("payment/search_booking_cusprofile", option,function( aData ){				
+			$.get("payment/search_booking_cusprofile_notin", option,function( aData ){				
 				aData = jQuery.parseJSON( aData );
+				
 				if ( Object.keys(aData).length > 0) {
 					aData = aData[0];
 					var str_title = "<h2 class='modal-title'>"+title+"</h2>";
@@ -853,7 +859,8 @@
 		$("#box-manage").css("width","0");
 	}
 
-	function to_add_data( payment_id = 0 ){ // เพิ่ม แก้ไข		
+	function to_add_data( payment_id = 0, book_id ){ // เพิ่ม แก้ไข		
+		// console.log(payment_id);
 		$("#txtPayment_id").val( payment_id );
 		$("#box-manage").show();
 		$("#box-show-search").hide();
@@ -861,18 +868,35 @@
 		$("#btn-tomanage_data").show();
 		$("#box-manage").css("width","100%");
 
-		if (payment_id != 0) {			
+		if (payment_id != 0) {
+
 			var option = {
-				payment_id 	: payment_id
+				book_id 	: book_id
 			}
-			$.get("position/search_position", option,function( aData ){
+
+			$.get("payment/search_booking_cusprofile", option,function( aData ){
 				aData = jQuery.parseJSON( aData );
-				if ( Object.keys(aData).length > 1) {
+				if ( Object.keys(aData).length > 0) {
 					aData = aData[0];
-					$("#etxtPositionCode").val(aData.code);
-					$("#etxtPositionName").val(aData.name);
-					$("#eslPositionDivision option[value='"+aData.m_division_id+"']").prop('selected', true);
-					$("#eslPositionDepartment option[value='"+aData.m_department_id+"']").prop('selected', true);
+					// var xactive = "";
+					// var ci = "";ci = "chip"+v.id; 
+					// $("#tb-room-list tbody").empty();
+					// 	$("#dash").empty();
+					var xstyle = ""; var str_html  = "";
+					var ximg = ""; var ci = "";ci = "chip"+aData.id;
+					if(aData.profile_img == ""){
+						ximg = "assets/upload/customer_profile/cus-noimage.png";
+					}else{
+						ximg = aData.profile_img;
+					}
+					if(aData.status == 'outstanding'){ xstyle = "background-color:darkseagreen"; }
+					str_html += "<div class='chip' id='"+ci+"' style='margin-left:10px; margin-top:10px; "+xstyle+" '>";	
+					str_html += "<img src='"+ximg+"' alt='customer' width='96' height='96'>";
+					str_html += aData.name_book+" "+aData.lastname_book;
+					str_html += "</div>";
+					$("#bok_status_waitpayment").html( str_html );
+					
+					add_payment_frombooking(aData.id);
 				} else {
 					alert( "no data" );
 				}
@@ -883,33 +907,24 @@
 			var option = {}
 			$.get("payment/search_booking_cusprofile", option,function( aData ){
 				aData = jQuery.parseJSON( aData );
-				var str_html  = ""; 
-				if ( Object.keys(aData).length > 1) {
-					console.log(aData);
-					$.each(aData, function(k , v){
-						// console.log(k);
-						if(v.m_customer_id_book > 0){
-							var xactive = "";
-							var ci = "";ci = "chip"+v.id;
-							var ximg = ""; var xstyle = "";
-							if(k == 0){xactive = "active";}
-							if(v.profile_img == ""){
-								ximg = "assets/upload/customer_profile/cus-noimage.png";
-							}else{
-								ximg = v.profile_img;
-							}
-							if(v.status == 'outstanding'){ xstyle = "background-color:darkseagreen"; }
-							str_html += "<div class='chip' id='"+ci+"' onclick='add_payment_frombooking("+v.id+")' style='margin-left:10px; margin-top:10px; "+xstyle+" '>";						
-							str_html += "<img src='"+ximg+"' alt='customer' width='96' height='96'>";
-							str_html += v.name_book+" "+v.lastname_book+" ("+v.summary+")";
-							str_html += "</div>";
-							
-						}	
-					});
-					$("#bok_status_waitpayment").html( str_html );
-				}else{
-					alert( "no data" );
-				}
+				var str_html  = "";
+				$.each(aData, function(k , v){
+					var xactive = "";
+					var ci = "";ci = "chip"+v.id;
+					var ximg = ""; var xstyle = "";
+					if(k == 0){xactive = "active";}
+					if(v.profile_img == ""){
+						ximg = "assets/upload/customer_profile/cus-noimage.png";
+					}else{
+						ximg = v.profile_img;
+					}
+					if(v.status == 'outstanding'){ xstyle = "background-color:darkseagreen"; }
+					str_html += "<div class='chip' id='"+ci+"' onclick='add_payment_frombooking("+v.id+")' style='margin-left:10px; margin-top:10px; "+xstyle+" '>";						
+					str_html += "<img src='"+ximg+"' alt='customer' width='96' height='96'>";
+					str_html += v.name_book+" "+v.lastname_book+" ("+v.summary+")";
+					str_html += "</div>";
+				});
+				$("#bok_status_waitpayment").html( str_html );
 			});
 			
 			$("#txtPosition_id").val("0");
@@ -929,7 +944,8 @@
 			}			
 		}
 		document.getElementById(d).classList.add("xactive");
-		clear_data();
+		// clear_data();
+
 		var option = {
 			booking_id 	: id,
 			is_waitpayment	: ''
@@ -1022,10 +1038,78 @@
 						$("#osdPay").val(osd);
 					});
 				}
+				
+				if ($("#txtPayment_id").val() != 0) {
+					// console.log(aval);
+					var coption = {
+							payment_id 		: $("#txtPayment_id").val()
+						}
+						// console.log(coption);
+					$.get("payment/search_payment", coption ,function( cData ){
+						cData = jQuery.parseJSON( cData );
+						// console.log(cData);
+						pay = cData[0];
+
+						$("#eslPaytype option[value='"+pay.pay_type+"']").prop('selected', true);
+						// $("#etxtPositionCode").val(aData.code);
+						// console.log(pay.pay_type);
+						// return false;
+						paytype(pay.pay_type);
+						switch (pay.pay_type){
+							case "pay_cash":
+																
+								break;
+							case "transfer_money":
+								var str = aval.profile_img;			
+								var str2 = str.substr(31);
+								$("#eslPaymentType option[value='"+pay.m_bank_id_transfer+"']").prop('selected', true);
+								$("#etxtPayment_discount").val(pay.discount);
+								$("#etxtPayment_totroomprice").val(pay.total);
+								$("#eslBankTransferTo option[value='"+pay.m_bank_number_list_id+"']").prop('selected', true);
+								$("#txtPaymentDateTime").val(pay.transfer_date);
+								
+								var get_time = pay.transfer_time;
+								var arr_time = get_time.split(":");
+								$("#timeHour option[value='"+arr_time[0]+"']").prop('selected', true);
+								$("#timeMinute option[value='"+arr_time[1]+"']").prop('selected', true);
+								// $("#etxtPaymentAmount").val(pay.pay_amount);
+								console.log(pay.pay_amount);
+								$("#etxtPaymentDescription").val(pay.remark);
+								$("#txtImages").val(aval.profile_img);
+								$("#oldImages").val(str2.substring(0, str2.length-4));
+								$("#img").attr("src", aval.profile_img);
+								break;
+							case "visa":
+								
+								break;
+							case "wallet":
+								
+								break;
+							default:
+								
+						}
+						// 	// $("#etxtPositionCode").val(aData.code);
+						// 	// $("#etxtPositionName").val(aData.name);
+						// 	// $("#eslPositionDivision option[value='"+aData.m_division_id+"']").prop('selected', true);
+						// 	// $("#eslPositionDepartment option[value='"+aData.m_department_id+"']").prop('selected', true);
+						// 	// $("#txtPromotionImages").val(aData.promotion_img);					
+						// 	// $("#oldPromotionImages").val(str2.substring(0, str2.length-4));
+						// 	// $("#img").attr("src", aData.promotion_img);	
+					});					
+				}
 			} else {
 				alert( "no data" );
 			}
 		});
+	}
+
+	function clear_data_onpay(){
+		//transfer_money status
+		document.getElementById("eslPaymentType").selectedIndex = 0;
+		document.getElementById("eslBankTransferTo").selectedIndex = 0;
+		$("#txtPaymentDateTime").val("");
+		document.getElementById("timeHour").selectedIndex = 0;
+		document.getElementById("timeMinute").selectedIndex = 0;
 	}
 
 	function select_photo(){
@@ -1068,13 +1152,14 @@
 	}
 
 	function save_data(){
-		if($("#eslPaytype").val() == ""){alert(); return false}
+		// if($("#eslPaytype").val() == ""){alert(); return false}
 		if($("#etxtPaymentAmount").val() > $("#etxtPayment_total").val()){alert("Amonut > total"); return false}
 		var aData = JSON.stringify( $("#form-manage").serializeArray() );
 			aData = jQuery.parseJSON( aData );
-			// console.log(aData[7]['value']);
+			// console.log(aData);
+			// console.log(aData[8]['value']);
 			// return false;
-		if (validate(aData, aData[7]['value'])) {
+		if (validate(aData, aData[8]['value'])) {
 			$.post("payment/save_data",  aData  ,function( res ){
 				res = jQuery.parseJSON( res ); 
 				if (res.flag) {
@@ -1091,13 +1176,12 @@
 
 	function validate(aData, pstatus){ 
 		var status = true;
-		// console.log(pstatus);
 		if(pstatus == ""){alert("Select paytype ?"); return false;}
 
 		switch(pstatus){
 			case "pay_cash":
 				$.each(aData,function(k,v){
-					if (v.name != "etxtPayment_booking_id" && v.name != "etxtPayment_m_customer_id_book" && v.name != "etxtPayment_m_customer_id_guest" && v.name != "etxtPayment_promotion_id" && v.name != "etxtPayment_promotion_code" && v.name != "etxtPayment_totalx" && v.name != "txtPayment_id" && v.name != "txtPayment_status" && v.name != "etxtPaymentDescription" && v.name != "osdPay"		 && v.name != "eslPaymentType" && v.name != "eslBankTransferTo" && v.name != "fPromotion" && v.name != "etxtPayment_cardcode" && v.name != "etxtPayment_discount" && v.name != "etxtPayment_cardname" && v.name != "etxtPayment_cardexpireddate" && v.name != "etxtPayment_cardevv" && v.name != "etxtPayment_totroomprice" && v.name != "txtPaymentDateTime" && v.name != "timeHour" && v.name != "timeMinute") {				
+					if (v.name != "etxtPayment_booking_id" && v.name != "etxtPayment_m_customer_id_book" && v.name != "etxtPayment_m_customer_id_guest" && v.name != "etxtPayment_promotion_id" && v.name != "etxtPayment_promotion_code" && v.name != "etxtPayment_totalx" && v.name != "txtPayment_id" && v.name != "txtPayment_status" && v.name != "etxtPaymentDescription" && v.name != "osdPay" && v.name != "txtImages" && v.name != "oldImages"		 && v.name != "eslPaymentType" && v.name != "eslBankTransferTo" && v.name != "fPromotion" && v.name != "etxtPayment_cardcode" && v.name != "etxtPayment_discount" && v.name != "etxtPayment_cardname" && v.name != "etxtPayment_cardexpireddate" && v.name != "etxtPayment_cardevv" && v.name != "etxtPayment_totroomprice" && v.name != "txtPaymentDateTime" && v.name != "timeHour" && v.name != "timeMinute") {				
 						var obj = $("#"+v.name);
 						if (obj.val() == "") {
 							obj.addClass("error-form");
@@ -1111,9 +1195,10 @@
 				break;
 			case "transfer_money":
 				$.each(aData,function(k,v){
-					if (v.name != "etxtPayment_booking_id" && v.name != "etxtPayment_m_customer_id_book" && v.name != "etxtPayment_m_customer_id_guest" && v.name != "etxtPayment_promotion_id" && v.name != "etxtPayment_promotion_code" && v.name != "etxtPayment_totalx" && v.name != "txtPayment_id" && v.name != "txtPayment_status" && v.name != "etxtPaymentDescription" && v.name != "osdPay" && v.name != "etxtPayment_discount" && v.name != "etxtPayment_totroomprice") {				
+					if (v.name != "etxtPayment_booking_id" && v.name != "etxtPayment_m_customer_id_book" && v.name != "etxtPayment_m_customer_id_guest" && v.name != "etxtPayment_promotion_id" && v.name != "etxtPayment_promotion_code" && v.name != "etxtPayment_totalx" && v.name != "txtPayment_id" && v.name != "txtPayment_status" && v.name != "etxtPaymentDescription" && v.name != "osdPay" && v.name != "txtImages" && v.name != "oldImages" && v.name != "etxtPayment_discount" && v.name != "etxtPayment_totroomprice" && v.name != "etxtPayment_cardcode" && v.name != "etxtPayment_cardname" && v.name != "etxtPayment_cardexpireddate" && v.name != "etxtPayment_cardevv") {				
 						var obj = $("#"+v.name);
 						if (obj.val() == "") {
+							// console.log(obj);
 							obj.addClass("error-form");
 							obj.focus();
 							status = false;			

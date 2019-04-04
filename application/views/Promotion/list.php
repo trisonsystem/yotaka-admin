@@ -449,7 +449,7 @@
 				aData = jQuery.parseJSON( aData );
 				if ( Object.keys(aData).length > 1) {
 					aData = aData[0];
-					console.log(aData);
+					// console.log(aData);
 					var str = aData.promotion_img;					
 					var str2 = str.substr(31);
 					$("#etxtPromotionTitle").val(aData.title);

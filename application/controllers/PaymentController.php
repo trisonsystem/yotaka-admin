@@ -42,7 +42,8 @@ class PaymentController extends CI_Controller {
     }
 
     public function search_payment( $aData = "" ){
-    	$aData      = ( isset($_GET['bank_id']) ) ? $_GET : $aData ;
+        // debug($_GET, true);
+    	$aData      = ( isset($_GET['payment_id']) ) ? $_GET : $aData ;
         $json_data  = $this->sent_to_api( '/payment/search_payment', $aData );
        	echo $json_data;
     }
@@ -82,6 +83,11 @@ class PaymentController extends CI_Controller {
 
     public function search_booking_cusprofile(){
         $json_data  = $this->sent_to_api( '/payment/search_booking_cusprofile', $_GET );
+        echo $json_data;
+    }
+
+    public function search_booking_cusprofile_notin(){
+        $json_data  = $this->sent_to_api( '/payment/search_booking_cusprofile_notin', $_GET );
         echo $json_data;
     }
 
@@ -139,17 +145,32 @@ class PaymentController extends CI_Controller {
         $_POST["user"] = $_COOKIE[$this->keyword."user"];
         $_POST["hotel_id"] = $_COOKIE[$this->keyword."hotel_id"];      
         $json_data  = $this->sent_to_api( '/payment/save_data', $_POST );  
-
+        $aData      = json_decode($json_data);
+       // debug($_POST["txtImages"], true);
         if ($aData->flag) {
-            $fodel    = "assets/upload/promotion_images/";
-            $aFN      = explode(".", $_POST["txtPromotionImages"]);            
+            $fodel    = "assets/upload/payment_images/";
+            $aFN      = explode(".", $_POST["txtImages"]);            
             $n_name   = $aFN[count($aFN)-1];            
             $n_path   = $fodel.$aData->code.".".$n_name;
-            // debug($n_path, true);
-            if ( count( explode("temp", $_POST["txtPromotionImages"]) ) > 1 ) {
-                $this->copy_img($_POST["txtPromotionImages"], $n_path, $fodel);
+            
+            if ( count( explode("temp", $_POST["txtImages"]) ) > 1 ) {
+                $this->copy_img($_POST["txtImages"], $n_path, $fodel);
             }
         }      
         echo $json_data;
+    }
+
+    public function copy_img( $file_name,  $n_path , $n_foder){
+        if ( !file_exists($n_foder) ) {
+             mkdir ($n_foder, 0755);
+        }
+        
+       if(copy($file_name, $n_path)){ 
+          unlink($file_name);
+          return 1;
+       }else{
+          return 0;
+       }
+      
     }
 }
