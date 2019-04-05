@@ -144,6 +144,8 @@
 				<thead>
 					<tr>
 						<th class="text-center"><?php echo $this->lang->line('no'); ?></th>
+						<th class="text-center">เลขที่การจอง</th>
+						<th class="text-center">สถานะการจอง</th>
 						<th class="text-center"><?php echo $this->lang->line('payment_time'); ?></th>
 						<th class="text-center"><?php echo $this->lang->line('book_data'); ?></th>
 						<th class="text-center"><?php echo $this->lang->line('price'); ?></th>
@@ -668,14 +670,18 @@
 			var str_html  = ""; 
 			if ( Object.keys(aData).length > 1) {
 				$.each(aData, function(k , v){
+					console.log(v.status);
 					if (k=="limit") { return; }
-					var status = v.status;
+					var status = "";
 					switch (v.status) {
 						case 'wait_confirm'	: 
 							status = '<span style="color:#000;"><?php echo $this->lang->line('wait_confirm'); ?></span>';
 							break;
 						case 'already_paid'	: 
 							status = '<span style="color:blue;"><?php echo $this->lang->line('already_paid'); ?></span>';
+							break;
+						case 'outstanding'	:
+							status = '<span style="color:red;"><?php echo $this->lang->line('s_outstanding'); ?></span>';
 							break;
 						case 'cancel'		: 
 							status = '<span style="color:red;"><?php echo $this->lang->line('cancel'); ?></span>';
@@ -701,8 +707,20 @@
 							break;
 					}
 
+					var bokstatus = "";
+					switch (v.bok_status){
+						case 'outstanding' :
+							bokstatus = "<?php echo $this->lang->line('s_outstanding'); ?>";
+						break;
+						case 'already_paid' :
+							bokstatus = "<?php echo $this->lang->line('already_paid'); ?>";
+						break;
+					}
+
 					str_html += "<tr>"; 
 					str_html += " <td>"+( parseInt(k)+1 )+"</td>"; 
+					str_html += " <td>"+v.booking_id+"</td>";
+					str_html += " <td>"+bokstatus+"</td>"; 
 					str_html += " <td>"+moment(v.pay_time).format('YYYY-MM-D')+"</td>";
 					str_html += " <td><a href='#' onclick='show_booking_data(\""+v.bok_name_book+"  "+v.bok_lastname_book+"\","+v.booking_id+")'>"+v.bok_name_book+"  "+v.bok_lastname_book+"</a></td>";
 					str_html += " <td class='text-right'>"+v.summary+"</td>";  
@@ -713,8 +731,12 @@
 					str_html += " <td>"+v.remark+"</td>"; 
 					str_html += " <td>"+status+"</td>";  
 					str_html += " <td align='center'>";
-					str_html += " 	<i class='fa fa-edit' style='font-size:20px' onclick='to_add_data("+v.id+","+v.booking_id+")'></i>";
-					str_html += " 	<i class='fa fa-exchange' style='font-size:20px' onclick='open_chang_status("+v.id+","+v.status+",\""+v.title+"\")' title='<?php echo $this->lang->line('status'); ?>'></i>";
+
+					if(v.bok_status != "already_paid"){
+						str_html += " 	<i class='fa fa-edit' style='font-size:20px' onclick='to_add_data("+v.id+","+v.booking_id+")'></i>";
+					}
+
+					// str_html += " 	<i class='fa fa-exchange' style='font-size:20px' onclick='open_chang_status("+v.id+","+v.status+",\""+v.title+"\")' title='<?php echo $this->lang->line('status'); ?>'></i>";
 					str_html += " </td>";
 					str_html += "</tr>"; 				
 					
@@ -847,8 +869,8 @@
 		set_datepicker();
 		$("#tb-room-list tbody").empty();
 		$("#dash").empty();
-		$("#txtPayment_id").val(0);
-		$("#txtPayment_status").val(0);
+		// $("#txtPayment_id").val(0);
+		// $("#txtPayment_status").val(0);
 	}
 
 	function to_manage_data(){ //หน้า listdata
@@ -860,14 +882,14 @@
 	}
 
 	function to_add_data( payment_id = 0, book_id ){ // เพิ่ม แก้ไข		
-		// console.log(payment_id);
+		clear_data();
 		$("#txtPayment_id").val( payment_id );
 		$("#box-manage").show();
 		$("#box-show-search").hide();
 		$("#btn-toadd_data").hide();
 		$("#btn-tomanage_data").show();
 		$("#box-manage").css("width","100%");
-
+		
 		if (payment_id != 0) {
 
 			var option = {
@@ -876,12 +898,9 @@
 
 			$.get("payment/search_booking_cusprofile", option,function( aData ){
 				aData = jQuery.parseJSON( aData );
+				console.log(aData);
 				if ( Object.keys(aData).length > 0) {
 					aData = aData[0];
-					// var xactive = "";
-					// var ci = "";ci = "chip"+v.id; 
-					// $("#tb-room-list tbody").empty();
-					// 	$("#dash").empty();
 					var xstyle = ""; var str_html  = "";
 					var ximg = ""; var ci = "";ci = "chip"+aData.id;
 					if(aData.profile_img == ""){
@@ -898,11 +917,12 @@
 					
 					add_payment_frombooking(aData.id);
 				} else {
-					alert( "no data" );
+					alert( "Payment is success." );
+					to_manage_data();
 				}
 			});
 		}else{
-			clear_data();
+			// clear_data();
 
 			var option = {}
 			$.get("payment/search_booking_cusprofile", option,function( aData ){
@@ -950,7 +970,8 @@
 			booking_id 	: id,
 			is_waitpayment	: ''
 		}
-		// console.log(id);
+		$("#tb-room-list tbody").empty();
+		$("#dash").empty();
 		$.get("payment/search_booking", option,function( aData ){				
 			aData = jQuery.parseJSON( aData );
 			if ( Object.keys(aData).length > 0) {
@@ -1047,34 +1068,36 @@
 						// console.log(coption);
 					$.get("payment/search_payment", coption ,function( cData ){
 						cData = jQuery.parseJSON( cData );
-						// console.log(cData);
-						pay = cData[0];
+						
+						cpay = cData[0];
+						console.log(cpay);
 
-						$("#eslPaytype option[value='"+pay.pay_type+"']").prop('selected', true);
-						// $("#etxtPositionCode").val(aData.code);
-						// console.log(pay.pay_type);
-						// return false;
-						paytype(pay.pay_type);
-						switch (pay.pay_type){
+						$("#eslPaytype option[value='"+cpay.pay_type+"']").prop('selected', true);
+						$("#etxtPayment_discount").val(cpay.discount);
+						$("#etxtPayment_totroomprice").val(cpay.total);
+						if(parseInt(cpay.total - cpay.pay_amount) == 0){
+							$("#etxtPaymentAmount").val(parseInt(cpay.pay_amount));
+						}else{
+							$("#etxtPaymentAmount").val(parseInt(cpay.total - cpay.pay_amount));
+						}
+						$("#etxtPaymentDescription").val(cpay.remark);
+						console.log(cpay.pay_type);
+						// paytype(pay.pay_type);
+						switch (cpay.pay_type){
 							case "pay_cash":
 																
 								break;
 							case "transfer_money":
 								var str = aval.profile_img;			
 								var str2 = str.substr(31);
-								$("#eslPaymentType option[value='"+pay.m_bank_id_transfer+"']").prop('selected', true);
-								$("#etxtPayment_discount").val(pay.discount);
-								$("#etxtPayment_totroomprice").val(pay.total);
-								$("#eslBankTransferTo option[value='"+pay.m_bank_number_list_id+"']").prop('selected', true);
-								$("#txtPaymentDateTime").val(pay.transfer_date);
+								$("#eslPaymentType option[value='"+cpay.m_bank_id_transfer+"']").prop('selected', true);
+								$("#eslBankTransferTo option[value='"+cpay.m_bank_number_list_id+"']").prop('selected', true);
+								$("#txtPaymentDateTime").val(cpay.transfer_date);
 								
-								var get_time = pay.transfer_time;
+								var get_time = cpay.transfer_time;
 								var arr_time = get_time.split(":");
 								$("#timeHour option[value='"+arr_time[0]+"']").prop('selected', true);
 								$("#timeMinute option[value='"+arr_time[1]+"']").prop('selected', true);
-								// $("#etxtPaymentAmount").val(pay.pay_amount);
-								console.log(pay.pay_amount);
-								$("#etxtPaymentDescription").val(pay.remark);
 								$("#txtImages").val(aval.profile_img);
 								$("#oldImages").val(str2.substring(0, str2.length-4));
 								$("#img").attr("src", aval.profile_img);
